@@ -63,32 +63,58 @@
             transition: width 0.5s var(--transition);
         }
 
-        /* --- Quantity Selector Styles --- */
+       /* --- Improved Quantity Selector --- */
         .qty-selector {
             display: flex;
-            align-items: center;
+            align-items: center; /* Vertically centers the - and + with the number */
+            justify-content: center;
             background: #111;
             border: 1px solid #333;
             width: fit-content;
-            border-radius: 4px;
+            border-radius: 10% / 22%;
             margin: 15px 0;
+            overflow: hidden; /* Keeps the buttons from "bleeding" over the corners */
         }
+
         .qty-btn {
             background: none;
             border: none;
             color: white;
-            padding: 10px 15px;
+            padding: 0 15px;
+            height: 40px; /* Explicit height */
             cursor: pointer;
             font-weight: bold;
+            display: flex;
+            align-items: center; /* Centers the '+' and '-' symbols */
+            transition: background 0.2s;
         }
-        .qty-btn:hover { color: var(--accent); }
+
+        .qty-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+        }
+
         .qty-input {
-            width: 40px;
+            width: 45px;
+            height: 40px; /* Must match the button height */
             text-align: center;
             background: none;
-            border: none;
+            border-left: 1px solid #333; /* Visual separators */
+            border-right: 1px solid #333;
+            border-top: none;
+            border-bottom: none;
             color: white;
             font-family: inherit;
+            font-size: 0.9rem;
+            margin: 0; /* Removes default browser margins */
+            -moz-appearance: textfield; /* Removes spin buttons in Firefox */
+        }
+
+        /* Removes spin buttons (the tiny arrows) in Chrome/Safari */
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         @keyframes pulse {
@@ -130,7 +156,43 @@
         .card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; filter: grayscale(30%); transition: transform 0.6s var(--transition), filter 0.5s; display: block; }
         .card:hover img { filter: grayscale(0%); transform: scale(1.08); }
 
-        .quick-add { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: var(--accent); color: var(--dark-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; opacity: 0; transform: translateY(10px); transition: 0.3s var(--transition); z-index: 10; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .quick-add {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: var(--dark-bg);
+            border-radius: 50%;
+            
+            /* Perfect Centering Logic */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;      /* Resets font-box height */
+            padding: 0;          /* Removes browser defaults */
+            padding-bottom: 2px; /* Optical adjustment: pushes the '+' down slightly */
+            
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.3s var(--transition);
+            z-index: 10;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Ensure it stays visible and centered when tapped on mobile */
+        @media (max-width: 768px) {
+            .quick-add {
+                opacity: 1;      /* Always show on mobile since there is no 'hover' */
+                transform: translateY(0);
+                width: 44px;     /* Slightly larger for easier tapping */
+                height: 44px;
+            }
+        }
         .card:hover .quick-add { opacity: 1; transform: translateY(0); }
         .card-info { padding: 20px; }
 
@@ -144,7 +206,7 @@
         .product-view { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 40px; }
         .price { font-size: 1.5rem; color: var(--accent); margin-bottom: 2rem; }
         .variant-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; color: var(--text-dim); }
-        .option-btn { border: 1px solid #333; background: none; color: white; padding: 8px 15px; cursor: pointer; margin-right: 10px; font-size: 0.8rem; }
+        .option-btn { border: 1px solid #333; background: none; color: white; padding: 8px 15px; cursor: pointer; margin-right: 10px; font-size: 0.8rem; border-radius: 15%/30%;}
         .option-btn.active { border-color: var(--accent); background: rgba(163, 186, 195, 0.1); }
         
         .btn-large { width: 100%; padding: 18px; background: var(--text); color: var(--dark-bg); border: none; font-weight: 700; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; margin-top: 20px; transition: all 0.3s var(--transition); }
@@ -167,6 +229,57 @@
         @keyframes fadeSlide { from { opacity: 0; transform: translateX(15px); } to { opacity: 1; transform: translateX(0); } }
         .page-animate { animation: fadeSlide 0.5s var(--transition) forwards; }
         .card:hover { transform: translateY(-10px); border-color: rgba(163, 186, 195, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+        @media (max-width: 768px) {
+            /* 1. Adjust Hero Text */
+            .hero h1 {
+                font-size: 1.8rem;
+                letter-spacing: 8px;
+            }
+
+            /* 2. Stack the Grid to 1 Column */
+            .grid {
+                grid-template-columns: 1fr; /* One product per row */
+                gap: 20px;
+                padding: 0 10px;
+            }
+
+            /* 3. Product Detail Page Fix */
+            .product-view {
+                grid-template-columns: 1fr; /* Stack image on top of text */
+                gap: 30px;
+            }
+
+            /* 4. Checkout Grid Fix */
+            .checkout-grid {
+                grid-template-columns: 1fr; /* Stack form on top of summary */
+            }
+
+            /* 5. Header Adjustments */
+            header {
+                padding: 1rem 3%;
+            }
+            .logo-text {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+            }
+            .nav-link {
+                margin-left: 15px;
+                font-size: 0.7rem;
+            }
+
+            /* 6. Make Buttons Easier to Tap */
+            .btn-large {
+                padding: 20px;
+                font-size: 0.9rem;
+            }
+
+            /* 7. Summary Box Padding */
+            .summary-box {
+                padding: 20px;
+                margin-top: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -243,10 +356,22 @@
         </div>
     </div>
 
-    <div id="success-page" class="container hidden" style="text-align: center; padding: 100px 0;">
-        <h1 style="font-weight: 300; letter-spacing: 10px; color: var(--accent);">ORDER CONFIRMED</h1>
-        <h2 id="order-number" style="letter-spacing: 5px; margin: 20px 0;">#NS-00000</h2>
-        <button class="btn-large" style="width: auto; padding: 15px 50px;" onclick="showPage('shop')">Return Home</button>
+    <div id="success-page" class="container hidden" style="text-align: center; padding: 60px 0;">
+      <h1 style="font-weight: 300; letter-spacing: 10px; color: var(--accent);">ORDER CONFIRMED</h1>
+      <p style="color: var(--text-dim); font-size: 0.8rem; letter-spacing: 2px;">WE HAVE RECEIVED YOUR DEPLOYMENT REQUEST</p>
+      
+      <div id="success-summary" style="max-width: 500px; margin: 40px auto; background: var(--surface); padding: 30px; border: 1px solid rgba(255,255,255,0.05); border-radius: 15px; text-align: left;">
+          <h3 id="order-number" style="letter-spacing: 3px; margin-top: 0; color: var(--accent); border-bottom: 1px solid #222; padding-bottom: 15px;">#NS-00000</h3>
+          <div id="success-item-list" style="margin: 20px 0;">
+              </div>
+          <div style="border-top: 1px solid #222; padding-top: 15px; display: flex; justify-content: space-between; font-weight: 700;">
+              <span>TOTAL PAID</span>
+              <span id="success-total-amount">0 kr</span>
+          </div>
+      </div>
+  
+      <p style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 30px;">A confirmation has been sent to your email.</p>
+      <button class="btn-large" style="width: auto; padding: 15px 50px;" onclick="showPage('shop')">Return to Collection</button>
     </div>
 
     <script>
@@ -409,8 +534,27 @@
 
             emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
                 .then(() => {
+                    // 1. Set the Order Number
                     document.getElementById('order-number').innerText = `#${orderNum}`;
-                    showPage('success'); cart = []; updateCartCount();
+
+                    // 2. Generate the Item List for the success page
+                    const successList = document.getElementById('success-item-list');
+                    successList.innerHTML = cart.map(i => `
+                        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:8px;">
+                            <span style="color:var(--text-dim);">${i.quantity}x ${i.name}</span>
+                            <span>${i.price * i.quantity} kr</span>
+                        </div>
+                    `).join('');
+
+                    // 3. Set the Total Amount
+                    const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                    const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
+                    document.getElementById('success-total-amount').innerText = (subtotal + shipping) + " kr";
+
+                    // 4. Show the page and clear cart
+                    showPage('success');
+                    cart = [];
+                    updateCartCount();
                 })
                 .catch(() => showError("Transmission Failed: Check Connection"));
         }
@@ -418,5 +562,4 @@
         renderShop();
     </script>
 </body>
-
 </html>
