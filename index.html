@@ -394,7 +394,7 @@
             if (name.length < 2) { showError("Identity Required: Enter Full Name"); return; }
             if (phone.length < 5) { showError("Invalid Contact: Check Phone Number"); return; }
             if (address1.length < 5) { showError("Incomplete Deployment Address"); return; }
-            const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            const gmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!gmailRegex.test(email)) { showError("Gmail Authentication Required"); return; }
 
             const orderNum = `NS-${Date.now().toString().slice(-5)}`;
@@ -418,4 +418,5 @@
         renderShop();
     </script>
 </body>
+
 </html>
