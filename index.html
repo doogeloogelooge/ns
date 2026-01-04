@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Northern Stingers</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.jpg" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+          emailjs.init("SNHMq5OA-QeKnbrNJ");
+      })();
+    </script>
+    <style>
+        :root {
+            --dark-bg: #0a0b0d;
+            --accent: #a3bac3;
+            --surface: #14161a;
+            --text: #ffffff;
+            --text-dim: #888;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; }
+        body { background-color: var(--dark-bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+
+        .shipping-banner {
+            background: var(--accent);
+            color: var(--dark-bg);
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: pulse 3s infinite;
+        }
+
+        /* --- Progress Bar Styles --- */
+        .progress-container {
+            background: #222;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .progress-text {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .progress-bar-bg {
+            background: #111;
+            height: 6px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s var(--transition);
+        }
+
+        /* --- Quantity Selector Styles --- */
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            background: #111;
+            border: 1px solid #333;
+            width: fit-content;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .qty-btn {
+            background: none;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .qty-btn:hover { color: var(--accent); }
+        .qty-input {
+            width: 40px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: white;
+            font-family: inherit;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        header {
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 11, 13, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+        }
+
+        .brand-container { display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none; color: var(--text); }
+        .logo-placeholder { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .logo-placeholder img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-text { font-size: 1rem; font-weight: 700; letter-spacing: 5px; }
+
+        .nav-link { background: none; border: none; color: var(--text); margin-left: 30px; cursor: pointer; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; }
+        .nav-link:hover { color: var(--accent); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 5%; }
+        .hidden { display: none; }
+
+        .hero { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle at center, #1a1c20 0%, var(--dark-bg) 100%); text-align: center; }
+        .hero h1 { font-weight: 300; letter-spacing: 15px; font-size: 3rem; margin: 0; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; margin-top: 50px; }
+        
+        .card { background: var(--surface); cursor: pointer; transition: all 0.5s var(--transition); border: 1px solid rgba(255,255,255,0.03); position: relative; border-radius: 15px; overflow: hidden; animation: reveal 0.8s var(--transition) both; }
+        .card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; filter: grayscale(30%); transition: transform 0.6s var(--transition), filter 0.5s; display: block; }
+        .card:hover img { filter: grayscale(0%); transform: scale(1.08); }
+
+        .quick-add { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: var(--accent); color: var(--dark-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; opacity: 0; transform: translateY(10px); transition: 0.3s var(--transition); z-index: 10; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .card:hover .quick-add { opacity: 1; transform: translateY(0); }
+        .card-info { padding: 20px; }
+
+        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent); color: var(--dark-bg); padding: 12px 25px; border-radius: 50px; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; transition: transform 0.4s var(--transition); z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #toast.visible { transform: translateX(-50%) translateY(0); }
+
+        /* Clean Error Toast */
+        .error-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #ff4444; color: white; padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; letter-spacing: 1px; z-index: 10001; box-shadow: 0 10px 30px rgba(255, 68, 68, 0.3); transition: transform 0.4s var(--transition); text-transform: uppercase; }
+        .error-toast.visible { transform: translateX(-50%) translateY(0); }
+
+        .product-view { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 40px; }
+        .price { font-size: 1.5rem; color: var(--accent); margin-bottom: 2rem; }
+        .variant-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; color: var(--text-dim); }
+        .option-btn { border: 1px solid #333; background: none; color: white; padding: 8px 15px; cursor: pointer; margin-right: 10px; font-size: 0.8rem; }
+        .option-btn.active { border-color: var(--accent); background: rgba(163, 186, 195, 0.1); }
+        
+        .btn-large { width: 100%; padding: 18px; background: var(--text); color: var(--dark-bg); border: none; font-weight: 700; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; margin-top: 20px; transition: all 0.3s var(--transition); }
+        .btn-large:hover { background: var(--accent); transform: scale(1.02); letter-spacing: 3px; }
+
+        .checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.65rem; letter-spacing: 1.5px; margin-bottom: 8px; color: var(--text-dim); }
+        .form-group input { width: 100%; padding: 12px; background: #111; border: 1px solid #222; color: white; outline: none; font-family: inherit; }
+        .summary-box { background: var(--surface); padding: 30px; border: 1px solid rgba(255,255,255,0.05); height: fit-content; }
+
+        .swish-block { background: #111; padding: 25px; border: 1px solid #222; text-align: center; margin-top: 10px; }
+        .swish-logo-img { width: 120px; height: auto; margin-bottom: 15px; display: inline-block; filter: brightness(1.1); transition: transform 0.3s var(--transition); border-radius: 5%; }
+        .swish-logo-img:hover { transform: scale(1.05); }
+
+        .particle { position: fixed; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 10000; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .back-btn { background:none; border:none; color:var(--text-dim); cursor:pointer; margin-bottom: 20px; letter-spacing: 2px; font-size: 0.7rem; text-transform: uppercase; }
+        
+        @keyframes reveal { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateX(15px); } to { opacity: 1; transform: translateX(0); } }
+        .page-animate { animation: fadeSlide 0.5s var(--transition) forwards; }
+        .card:hover { transform: translateY(-10px); border-color: rgba(163, 186, 195, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    </style>
+</head>
+<body>
+
+    <div id="toast">Added item to cart!</div>
+    <div id="error-toast" class="error-toast">Error!</div>
+    <div class="shipping-banner">FREE SHIPPING ON ALL ORDERS OVER 299 KR</div>
+
+    <header>
+        <div class="brand-container" onclick="showPage('shop')">
+            <div class="logo-placeholder">
+                <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+            </div>
+            <div class="logo-text">NORTHERN STINGERS</div>
+        </div>
+        <nav>
+            <button class="nav-link" onclick="showPage('shop')">Collection</button>
+            <button class="nav-link" id="cart-btn" onclick="showPage('cart')">Cart [<span id="cart-count">0</span>]</button>
+        </nav>
+    </header>
+
+    <div id="shop-page">
+        <section class="hero">
+            <h1>NORTHERN STINGERS</h1>
+            <p style="color:var(--text-dim); font-size: 0.7rem; letter-spacing: 4px; margin-top: 20px;">EST. 2025 | ARCTIC DIVISION</p>
+        </section>
+        <div class="container">
+            <div class="grid" id="product-list"></div>
+        </div>
+    </div>
+
+    <div id="detail-page" class="container hidden">
+        <button onclick="showPage('shop')" class="back-btn">← BACK TO COLLECTION</button>
+        <div id="product-content"></div>
+    </div>
+
+    <div id="cart-page" class="container hidden">
+        <h2 style="font-weight: 300; letter-spacing: 5px; margin-bottom: 20px;">YOUR CART</h2>
+        <div id="cart-shipping-bar"></div>
+        <div id="cart-items"></div>
+        <div id="cart-summary" style="text-align: right; margin-top: 2rem;"></div>
+    </div>
+
+    <div id="checkout-page" class="container hidden">
+        <h2 style="font-weight: 300; letter-spacing: 5px; margin-bottom: 40px;">SECURE CHECKOUT</h2>
+        <div class="checkout-grid">
+            <div class="checkout-form">
+                <h3 style="font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 20px;">I. DEPLOYMENT INFO</h3>
+                <div class="form-group"><label>Full Name</label><input type="text" id="form-name" placeholder="Erik Vandermeer"></div>
+                <div class="form-group"><label>Phone Number</label>
+                    <div style="display: flex; gap: 10px;">
+                        <span style="background: #222; padding: 12px; border: 1px solid #333; color: var(--accent);">+46</span>
+                        <input type="tel" id="form-phone" placeholder="70 123 45 67" style="flex: 1;">
+                    </div>
+                </div>
+                <div class="form-group"><label>Main Address</label><input type="text" id="form-address-1" placeholder="Storgatan 1, Stockholm, 111 22"></div>
+                <div class="form-group"><label>Apartment / Floor (Optional)</label><input type="text" id="form-address-2" placeholder="Apt 4B"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="form-email" placeholder="erik@gmail.com"></div>
+                <div class="swish-block">
+                  <img src="swish.jpg" alt="Swish" class="swish-logo-img">
+                  <p>Number: <span style="color: var(--accent);">072 001 82 54</span></p>
+                </div>
+            </div>
+            <div class="summary-box">
+                <h3 style="font-size: 0.8rem; letter-spacing: 2px;">SUMMARY</h3>
+                <div id="checkout-list"></div>
+                <div style="margin-top: 20px; border-top: 1px solid #222; padding-top: 10px;">
+                    <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: var(--text-dim);"><span>Subtotal</span><span id="checkout-subtotal">0 kr</span></div>
+                    <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: var(--text-dim); margin: 5px 0;"><span>Shipping</span><span id="checkout-shipping">0 kr</span></div>
+                    <div style="display:flex; justify-content:space-between; font-weight: 700; font-size: 1.1rem; margin-top: 10px;"><span>TOTAL</span><span id="checkout-total">0 kr</span></div>
+                </div>
+                <button class="btn-large" onclick="processOrder()">Complete Order</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-page" class="container hidden" style="text-align: center; padding: 100px 0;">
+        <h1 style="font-weight: 300; letter-spacing: 10px; color: var(--accent);">ORDER CONFIRMED</h1>
+        <h2 id="order-number" style="letter-spacing: 5px; margin: 20px 0;">#NS-00000</h2>
+        <button class="btn-large" style="width: auto; padding: 15px 50px;" onclick="showPage('shop')">Return Home</button>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large.jpg", desc: "Premium oversized link chain for ultimate presence.", colors: ["Silver"] },
+            { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium.jpg", desc: "Balanced gauge chain for daily deployment.", colors: ["Silver"] },
+            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small.jpg", desc: "Low-profile precision chain for subtle detail.", colors: ["Silver"] }
+        ];
+
+        let cart = [];
+        const FREE_SHIPPING_THRESHOLD = 299;
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-toast');
+            errorEl.innerText = message;
+            errorEl.classList.add('visible');
+            setTimeout(() => errorEl.classList.remove('visible'), 4000);
+        }
+
+        function showPage(id) {
+            const pages = ['shop', 'detail', 'cart', 'checkout', 'success'];
+            pages.forEach(p => {
+                const el = document.getElementById(p + '-page');
+                if (el) { el.classList.add('hidden'); el.classList.remove('page-animate'); }
+            });
+            const activePage = document.getElementById(id + '-page');
+            activePage.classList.remove('hidden');
+            void activePage.offsetWidth;
+            activePage.classList.add('page-animate');
+            if (id === 'cart') renderCart();
+            if (id === 'shop') renderShop();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getProgressBarHTML() {
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
+            const percentage = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
+            const message = remaining > 0 ? `Add <span style="color:var(--accent)">${remaining} kr</span> more for FREE shipping` : `You've unlocked <strong>FREE SHIPPING</strong>!`;
+            return `<div class="progress-container"><div class="progress-text">${message}</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percentage}%"></div></div></div>`;
+        }
+
+        function renderShop() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = products.map(p => `<div class="card"><button class="quick-add" onclick="event.stopPropagation(); addToCart(event, ${p.id}, true)">+</button><div onclick="showProduct(${p.id})"><img src="${p.img}"><div class="card-info"><h3 style="font-size: 0.8rem; letter-spacing: 2px;">${p.name}</h3><p style="color: var(--accent);">${p.price} kr</p></div></div></div>`).join('');
+        }
+
+        function showProduct(id) {
+            const p = products.find(i => i.id === id);
+            document.getElementById('product-content').innerHTML = `
+                <div class="product-view">
+                    <div><img src="${p.img}" style="width:100%; border-radius:15px;"></div>
+                    <div>
+                        <h1 style="font-weight: 300; letter-spacing: 4px; font-size: 2.5rem; margin: 0;">${p.name}</h1>
+                        <p class="price">${p.price} kr</p>
+                        <p style="color:var(--text-dim); line-height: 1.8; font-size: 0.9rem;">${p.desc}</p>
+                        <div id="product-shipping-bar">${getProgressBarHTML()}</div>
+                        <div style="margin: 20px 0;"><span class="variant-label">Selection</span>${p.colors.map((c, i) => `<button class="option-btn ${i===0?'active':''}" onclick="selectVariant(this)">${c}</button>`).join('')}</div>
+                        <span class="variant-label">Quantity</span>
+                        <div class="qty-selector"><button class="qty-btn" onclick="updateDetailQty(-1)">-</button><input type="number" id="detail-qty" class="qty-input" value="1" min="1"><button class="qty-btn" onclick="updateDetailQty(1)">+</button></div>
+                        <button class="btn-large" onclick="addToCart(event, ${p.id})">Add to Cart</button>
+                    </div>
+                </div>`;
+            showPage('detail');
+        }
+
+        function updateDetailQty(change) {
+            const input = document.getElementById('detail-qty');
+            let val = parseInt(input.value) + change;
+            if (val < 1) val = 1;
+            input.value = val;
+        }
+
+        function selectVariant(btn) { btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+
+        function addToCart(e, id, isQuickAdd = false) {
+            const item = products.find(p => p.id === id);
+            let variant = "Silver"; let quantity = 1;
+            if (!isQuickAdd) {
+                const activeBtn = document.querySelector('.option-btn.active');
+                variant = activeBtn ? activeBtn.innerText : "Silver";
+                quantity = parseInt(document.getElementById('detail-qty').value);
+            }
+            const existing = cart.find(i => i.id === id && i.variant === variant);
+            if (existing) { existing.quantity += quantity; } else { cart.push({ ...item, variant, quantity }); }
+            showToast(); createParticle(e.clientX, e.clientY); updateCartCount();
+            const bar = document.getElementById('product-shipping-bar');
+            if(bar) bar.innerHTML = getProgressBarHTML();
+        }
+
+        function updateCartCount() {
+            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').innerText = totalQty;
+        }
+
+        function showToast() { const t = document.getElementById('toast'); t.classList.add('visible'); setTimeout(() => t.classList.remove('visible'), 2000); }
+
+        function renderCart() {
+            const items = document.getElementById('cart-items');
+            const bar = document.getElementById('cart-shipping-bar');
+            if (cart.length === 0) {
+                bar.innerHTML = ""; items.innerHTML = "<p style='color:var(--text-dim);'>Cart is empty.</p>"; document.getElementById('cart-summary').innerHTML = "";
+            } else {
+                bar.innerHTML = getProgressBarHTML();
+                items.innerHTML = cart.map((item, i) => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #222;">
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div class="qty-selector" style="margin:0;"><button class="qty-btn" onclick="changeCartQty(${i}, -1)">-</button><span style="width:20px; text-align:center;">${item.quantity}</span><button class="qty-btn" onclick="changeCartQty(${i}, 1)">+</button></div>
+                            <span>${item.name} (${item.variant})</span>
+                        </div>
+                        <span>${item.price * item.quantity} kr <button onclick="remove(${i})" style="color:red; background:none; border:none; cursor:pointer; margin-left:15px">✕</button></span>
+                    </div>`).join('');
+                const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
+                document.getElementById('cart-summary').innerHTML = `<p style="color:var(--text-dim);">Shipping: ${shipping === 0 ? 'FREE' : shipping + ' kr'}</p><h3>TOTAL: ${subtotal + shipping} kr</h3><button class="btn-large" onclick="goCheckout()" style="width:auto; padding:15px 50px;">CHECKOUT</button>`;
+            }
+        }
+
+        function changeCartQty(index, change) { cart[index].quantity += change; if (cart[index].quantity < 1) cart.splice(index, 1); renderCart(); updateCartCount(); }
+        function remove(i) { cart.splice(i, 1); renderCart(); updateCartCount(); }
+
+        function createParticle(x, y) {
+            const p = document.createElement('div'); p.className = 'particle'; p.style.left = x + 'px'; p.style.top = y + 'px'; document.body.appendChild(p);
+            const target = document.getElementById('cart-btn').getBoundingClientRect();
+            setTimeout(() => { p.style.left = (target.left + 15) + 'px'; p.style.top = (target.top + 15) + 'px'; p.style.opacity = '0'; p.style.transform = 'scale(0.1)'; }, 50);
+            setTimeout(() => p.remove(), 850);
+        }
+
+        function goCheckout() {
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
+            document.getElementById('checkout-list').innerHTML = cart.map(item => `<div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-top:8px;"><span>${item.quantity}x ${item.name}</span><span>${item.price * item.quantity} kr</span></div>`).join('');
+            document.getElementById('checkout-subtotal').innerText = subtotal + " kr";
+            document.getElementById('checkout-shipping').innerText = shipping === 0 ? "FREE" : shipping + " kr";
+            document.getElementById('checkout-total').innerText = (subtotal + shipping) + " kr";
+            showPage('checkout');
+        }
+
+        function processOrder() {
+            const name = document.getElementById('form-name').value.trim();
+            const phone = document.getElementById('form-phone').value.trim();
+            const address1 = document.getElementById('form-address-1').value.trim();
+            const email = document.getElementById('form-email').value.trim();
+            
+            if (name.length < 2) { showError("Identity Required: Enter Full Name"); return; }
+            if (phone.length < 5) { showError("Invalid Contact: Check Phone Number"); return; }
+            if (address1.length < 5) { showError("Incomplete Deployment Address"); return; }
+            const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            if (!gmailRegex.test(email)) { showError("Gmail Authentication Required"); return; }
+
+            const orderNum = `NS-${Date.now().toString().slice(-5)}`;
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
+
+            const templateParams = {
+                order_number: orderNum, customer_name: name, customer_email: email, customer_phone: "+46 " + phone,
+                delivery_address: address1, item_list: cart.map(i => `${i.quantity}x ${i.name}`).join(", "),
+                total_price: (subtotal + shipping) + " kr"
+            };
+
+            emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
+                .then(() => {
+                    document.getElementById('order-number').innerText = `#${orderNum}`;
+                    showPage('success'); cart = []; updateCartCount();
+                })
+                .catch(() => showError("Transmission Failed: Check Connection"));
+        }
+
+        renderShop();
+    </script>
+</body>
+</html>
