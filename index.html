@@ -193,6 +193,13 @@
                 height: 44px;
             }
         }
+
+        @media (max-width: 480px) {
+            #cart-items img {
+                width: 50px !important;
+                height: 50px !important;
+            }
+        }
         .card:hover .quick-add { opacity: 1; transform: translateY(0); }
         .card-info { padding: 20px; }
 
@@ -376,9 +383,9 @@
 
     <script>
         const products = [
-            { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large.jpg", desc: "Premium oversized link chain for ultimate presence.", colors: ["Silver"] },
-            { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium.jpg", desc: "Balanced gauge chain for daily deployment.", colors: ["Silver"] },
-            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small.jpg", desc: "Low-profile precision chain for subtle detail.", colors: ["Silver"] }
+            { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", desc: "Premium oversized link chain for ultimate presence.", colors: ["Silver"] },
+            { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium2.png", desc: "Balanced gauge chain for daily deployment.", colors: ["Silver"] },
+            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small2.png", desc: "Low-profile precision chain for subtle detail.", colors: ["Silver"] }
         ];
 
         let cart = [];
@@ -473,20 +480,39 @@
             const items = document.getElementById('cart-items');
             const bar = document.getElementById('cart-shipping-bar');
             if (cart.length === 0) {
-                bar.innerHTML = ""; items.innerHTML = "<p style='color:var(--text-dim);'>Cart is empty.</p>"; document.getElementById('cart-summary').innerHTML = "";
+                bar.innerHTML = ""; 
+                items.innerHTML = "<p style='color:var(--text-dim);'>Cart is empty.</p>"; 
+                document.getElementById('cart-summary').innerHTML = "";
             } else {
                 bar.innerHTML = getProgressBarHTML();
                 items.innerHTML = cart.map((item, i) => `
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #222;">
-                        <div style="display:flex; align-items:center; gap:15px;">
-                            <div class="qty-selector" style="margin:0;"><button class="qty-btn" onclick="changeCartQty(${i}, -1)">-</button><span style="width:20px; text-align:center;">${item.quantity}</span><button class="qty-btn" onclick="changeCartQty(${i}, 1)">+</button></div>
-                            <span>${item.name} (${item.variant})</span>
+                        <div style="display:flex; align-items:center; gap:20px;">
+                            <img src="${item.img}" style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #333;">
+                            
+                            <div style="display:flex; flex-direction:column; gap:5px;">
+                                <span style="font-size:0.9rem; font-weight:600;">${item.name}</span>
+                                <span style="font-size:0.7rem; color:var(--accent); letter-spacing:1px;">${item.variant}</span>
+                                <div class="qty-selector" style="margin:5px 0 0 0; height:30px;">
+                                    <button class="qty-btn" style="height:30px; padding:0 10px;" onclick="changeCartQty(${i}, -1)">-</button>
+                                    <span style="width:30px; text-align:center; font-size:0.8rem;">${item.quantity}</span>
+                                    <button class="qty-btn" style="height:30px; padding:0 10px;" onclick="changeCartQty(${i}, 1)">+</button>
+                                </div>
+                            </div>
                         </div>
-                        <span>${item.price * item.quantity} kr <button onclick="remove(${i})" style="color:red; background:none; border:none; cursor:pointer; margin-left:15px">✕</button></span>
+                        <div style="text-align:right;">
+                            <div style="font-weight:600;">${item.price * item.quantity} kr</div>
+                            <button onclick="remove(${i})" style="color:#ff4444; background:none; border:none; cursor:pointer; font-size:0.7rem; margin-top:8px; text-transform:uppercase; letter-spacing:1px;">Remove</button>
+                        </div>
                     </div>`).join('');
+                
                 const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
                 const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
-                document.getElementById('cart-summary').innerHTML = `<p style="color:var(--text-dim);">Shipping: ${shipping === 0 ? 'FREE' : shipping + ' kr'}</p><h3>TOTAL: ${subtotal + shipping} kr</h3><button class="btn-large" onclick="goCheckout()" style="width:auto; padding:15px 50px;">CHECKOUT</button>`;
+                document.getElementById('cart-summary').innerHTML = `
+                    <p style="color:var(--text-dim); font-size:0.8rem;">Subtotal: ${subtotal} kr</p>
+                    <p style="color:var(--text-dim); font-size:0.8rem;">Shipping: ${shipping === 0 ? 'FREE' : shipping + ' kr'}</p>
+                    <h3 style="letter-spacing:2px;">TOTAL: ${subtotal + shipping} kr</h3>
+                    <button class="btn-large" onclick="goCheckout()" style="width:auto; padding:15px 50px;">CHECKOUT</button>`;
             }
         }
 
@@ -563,3 +589,4 @@
     </script>
 </body>
 </html>
+
