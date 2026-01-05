@@ -304,7 +304,27 @@
         </div>
         <nav>
             <button class="nav-link" onclick="showPage('shop')">Collection</button>
-            <button class="nav-link" id="cart-btn" onclick="showPage('cart')">Cart [<span id="cart-count">0</span>]</button>
+            <button class="nav-link" id="cart-btn" onclick="showPage('cart')" style="position: relative; padding: 5px; display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span id="cart-count" style="
+                    position: absolute; 
+                    top: -2px; 
+                    right: -5px; 
+                    background: var(--accent); 
+                    color: var(--dark-bg); 
+                    font-size: 0.6rem; 
+                    font-weight: 800; 
+                    min-width: 16px; 
+                    height: 16px; 
+                    border-radius: 50%; 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center;
+                    border: 2px solid var(--dark-bg);
+                ">0</span>
+            </button>
         </nav>
     </header>
 
@@ -471,9 +491,12 @@
 
         function updateCartCount() {
             const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').innerText = totalQty;
+            const countEl = document.getElementById('cart-count');
+            countEl.innerText = totalQty;
+            
+            // Optional: Hide the badge if the cart is empty for a cleaner look
+            countEl.style.display = totalQty > 0 ? 'flex' : 'none';
         }
-
         function showToast() { const t = document.getElementById('toast'); t.classList.add('visible'); setTimeout(() => t.classList.remove('visible'), 2000); }
 
         function renderCart() {
@@ -520,9 +543,22 @@
         function remove(i) { cart.splice(i, 1); renderCart(); updateCartCount(); }
 
         function createParticle(x, y) {
-            const p = document.createElement('div'); p.className = 'particle'; p.style.left = x + 'px'; p.style.top = y + 'px'; document.body.appendChild(p);
+            const p = document.createElement('div'); 
+            p.className = 'particle'; 
+            p.style.left = x + 'px'; 
+            p.style.top = y + 'px'; 
+            document.body.appendChild(p);
+        
             const target = document.getElementById('cart-btn').getBoundingClientRect();
-            setTimeout(() => { p.style.left = (target.left + 15) + 'px'; p.style.top = (target.top + 15) + 'px'; p.style.opacity = '0'; p.style.transform = 'scale(0.1)'; }, 50);
+        
+            setTimeout(() => { 
+                // Aims for the center of the icon
+                p.style.left = (target.left + (target.width / 2)) + 'px'; 
+                p.style.top = (target.top + (target.height / 2)) + 'px'; 
+                p.style.opacity = '0'; 
+                p.style.transform = 'scale(0.1)'; 
+            }, 50);
+            
             setTimeout(() => p.remove(), 850);
         }
 
@@ -589,4 +625,5 @@
     </script>
 </body>
 </html>
+
 
