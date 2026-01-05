@@ -165,7 +165,23 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem 5%; }
         .hidden { display: none; }
 
-        .hero { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle at center, #1a1c20 0%, var(--dark-bg) 100%); text-align: center; }
+        .hero { 
+            height: 60vh; /* Increased height for better image display */
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            
+            /* The Background Image */
+            background: linear-gradient(rgba(10, 11, 13, 0.7), rgba(10, 11, 13, 0.7)), 
+                        url('hero-image.jpg'); /* Replace with your image file */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates a slight parallax effect */
+        }
         .hero h1 { font-weight: 300; letter-spacing: 15px; font-size: 3rem; margin: 0; }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; margin-top: 50px; }
@@ -650,6 +666,7 @@
     </script>
 </body>
 </html>
+
 
 
 
