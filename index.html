@@ -641,6 +641,10 @@
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function syncStorage() {
+            localStorage.setItem('northern_stingers_cart', JSON.stringify(cart));
+        }
         
         const products = [
             { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", desc: "Premium oversized link chain for ultimate presence.", colors: ["Silver"] },
@@ -662,7 +666,16 @@
             }
         ];
 
-        let cart = [];
+        // This looks for 'northern_stingers_cart' in the browser. 
+        // If it finds it, it turns the string back into an array using JSON.parse().
+        // If it's empty, it defaults to [].
+        let cart = JSON.parse(localStorage.getItem('northern_stingers_cart')) || [];
+        
+        // Trigger an initial count update so the header badge shows the saved items immediately
+        window.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+            renderShop(); // Ensure your shop renders on load
+        });
         const FREE_SHIPPING_THRESHOLD = 299;
 
         function showError(message) {
@@ -754,35 +767,30 @@
 
         function addToCart(e, id, isQuickAdd = false) {
             const item = products.find(p => p.id === id);
-            let variant = "Silver"; 
+            let variant = item.colors[0]; 
             let quantity = 1;
-            let currentPrice = item.price; // Default price
+            let finalPrice = item.price;
         
             if (!isQuickAdd) {
                 const activeBtn = document.querySelector('.option-btn.active');
-                variant = activeBtn ? activeBtn.innerText : (item.colors[0] || "Silver");
+                variant = activeBtn ? activeBtn.innerText : item.colors[0];
                 quantity = parseInt(document.getElementById('detail-qty').value);
-                
-                // Grab the price currently displayed on the detail page
-                const priceText = document.querySelector('.price').innerText;
-                currentPrice = parseInt(priceText.replace(' kr', ''));
+                finalPrice = parseInt(document.querySelector('.price').innerText);
             }
         
             const existing = cart.find(i => i.id === id && i.variant === variant);
-            
-            if (existing) { 
-                existing.quantity += quantity; 
-            } else { 
-                // Pass the currentPrice here so the cart remembers the variant price
-                cart.push({ ...item, variant, quantity, price: currentPrice }); 
+            if (existing) {
+                existing.quantity += quantity;
+            } else {
+                cart.push({ ...item, variant, quantity, price: finalPrice });
             }
         
-            showToast(); 
-            createParticle(e.clientX, e.clientY); 
+            showToast();
+            createParticle(e.clientX, e.clientY);
             updateCartCount();
             
-            const bar = document.getElementById('product-shipping-bar');
-            if(bar) bar.innerHTML = getProgressBarHTML();
+            // SAVE TO LOCALSTORAGE
+            syncStorage(); 
         }
 
         function updateCartCount() {
@@ -793,6 +801,7 @@
             // Optional: Hide the badge if the cart is empty for a cleaner look
             countEl.style.display = totalQty > 0 ? 'flex' : 'none';
         }
+        
         function showToast() { const t = document.getElementById('toast'); t.classList.add('visible'); setTimeout(() => t.classList.remove('visible'), 2000); }
 
         function renderCart() {
@@ -835,8 +844,22 @@
             }
         }
 
-        function changeCartQty(index, change) { cart[index].quantity += change; if (cart[index].quantity < 1) cart.splice(index, 1); renderCart(); updateCartCount(); }
-        function remove(i) { cart.splice(i, 1); renderCart(); updateCartCount(); }
+       function changeCartQty(index, change) { 
+            cart[index].quantity += change; 
+            if (cart[index].quantity < 1) cart.splice(index, 1); 
+            
+            renderCart(); 
+            updateCartCount(); 
+            syncStorage(); // SAVE AFTER QUANTITY CHANGE
+        }
+        
+        function remove(i) { 
+            cart.splice(i, 1); 
+            
+            renderCart(); 
+            updateCartCount(); 
+            syncStorage(); // SAVE AFTER REMOVAL
+        }
 
         function createParticle(x, y) {
             const p = document.createElement('div'); 
@@ -926,6 +949,7 @@
     </script>
 </body>
 </html>
+
 
 
 
