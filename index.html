@@ -60,6 +60,9 @@
             border-radius: 12px;
             margin-bottom: 25px;
         }
+
+
+        
         .progress-text {
             font-size: 0.75rem;
             letter-spacing: 1px;
@@ -77,6 +80,48 @@
             background: var(--accent);
             width: 0%;
             transition: width 0.5s var(--transition);
+        }
+
+        /* Styling the Success Page Swish Section */
+        .swish-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        /* Make the QR code pop against the dark background */
+        .qr-wrapper {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: inline-block;
+        }
+        
+        .qr-wrapper img {
+            display: block;
+            width: 180px;
+            height: 180px;
+        }
+        
+        /* Standard Swish Green for the Button */
+        .btn-swish {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            width: 100%;
+            max-width: 300px;
+            transition: transform 0.2s ease;
+        }
+        
+        .btn-swish:active {
+            transform: scale(0.98);
         }
 
        /* --- Improved Quantity Selector --- */
@@ -536,10 +581,6 @@
                 <div class="form-group"><label>Main Address</label><input type="text" id="form-address-1" placeholder="Storgatan 1, Stockholm, 111 22"></div>
                 <div class="form-group"><label>Apartment / Floor (Optional)</label><input type="text" id="form-address-2" placeholder="Apt 4B"></div>
                 <div class="form-group"><label>Email Address</label><input type="email" id="form-email" placeholder="erik@gmail.com"></div>
-                <div class="swish-block">
-                  <img src="swish.jpg" alt="Swish" class="swish-logo-img">
-                  <p>Number: <span style="color: var(--accent);">072 001 82 54</span></p>
-                </div>
             </div>
             <div class="summary-box">
                 <h3 style="font-size: 0.8rem; letter-spacing: 2px;">SUMMARY</h3>
@@ -555,17 +596,7 @@
     </div>
 
     <div id="success-page" class="container hidden" style="text-align: center; padding: 60px 0;">
-      <h1 style="font-weight: 300; letter-spacing: 10px; color: var(--accent);">ORDER CONFIRMED</h1>
-      <p style="color: var(--text-dim); font-size: 0.8rem; letter-spacing: 2px;">WE HAVE RECEIVED YOUR DEPLOYMENT REQUEST</p>
-      
-      <div id="success-summary" style="max-width: 500px; margin: 40px auto; background: var(--surface); padding: 30px; border: 1px solid rgba(255,255,255,0.05); border-radius: 15px; text-align: left;">
-          <h3 id="order-number" style="letter-spacing: 3px; margin-top: 0; color: var(--accent); border-bottom: 1px solid #222; padding-bottom: 15px;">#NS-00000</h3>
-          <div id="success-item-list" style="margin: 20px 0;">
-              </div>
-          <div style="border-top: 1px solid #222; padding-top: 15px; display: flex; justify-content: space-between; font-weight: 700;">
-              <span>TOTAL PAID</span>
-              <span id="success-total-amount">0 kr</span>
-          </div>
+     
       </div>
   
       <p style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 30px;">A confirmation will be sent to your email.</p>
@@ -1000,6 +1031,7 @@
     </script>
 </body>
 </html>
+
 
 
 
