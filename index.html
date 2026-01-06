@@ -925,6 +925,7 @@
         }
         
         // 3. Updated processOrder Function
+// 3. Updated processOrder Function
         function processOrder() {
             const orderID = generateOrderNumber(); // Create the ID first
             
@@ -935,7 +936,7 @@
         
             // Prepare parameters for EmailJS
             const templateParams = {
-                order_id: orderID, // Add this to your EmailJS template as {{order_id}}
+                order_id: orderID, // Use {{order_id}} in your EmailJS template
                 from_name: document.getElementById('form-name').value,
                 customer_email: document.getElementById('form-email').value,
                 order_details: cart.map(item => `${item.quantity}x ${item.name} (${item.variant})`).join('\n'),
@@ -943,7 +944,7 @@
             };
         
             emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-               .then(() => {
+                .then(() => {
                     const qrUrl = getSwishQRCode(total, orderID);
                     
                     // Generate the mobile-friendly deep link
@@ -982,12 +983,24 @@
                     `;
                     
                     showPage('success');
-                    // ... (rest of your cleanup code)
-
+                    
+                    // Cleanup: Clear the cart and sync with storage
+                    cart = [];
+                    if (typeof syncStorage === "function") syncStorage();
+                    updateCartCount();
+        
+                }, (error) => {
+                    console.error("Order failed:", error);
+                    alert("Something went wrong. Please try again.");
+                });
+        }
+        
+        // Ensure the shop renders when the script finishes loading
         renderShop();
     </script>
 </body>
 </html>
+
 
 
 
