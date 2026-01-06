@@ -487,7 +487,25 @@
         <div id="cart-items"></div>
         <div id="cart-summary" style="text-align: right; margin-top: 2rem;"></div>
     </div>
-
+    
+    <div id="legal-page" class="container hidden">
+        <button onclick="showPage('shop')" class="back-btn">← BACK TO SHOP</button>
+        <div class="legal-content" style="line-height: 1.6; color: var(--text-dim);">
+            <h1 style="color: var(--text); letter-spacing: 5px;">LEGAL & PRIVACY</h1>
+            <hr style="border: 0; border-top: 1px solid #222; margin: 20px 0;">
+            
+            <section id="terms">
+                <h2 style="color: var(--accent);">TERMS & CONDITIONS</h2>
+                <p>By purchasing from Northern Stingers, you agree to our shipping and returns policy. All orders are processed within 1-3 business days. Since these are fishing accessories, returns are only accepted for unused items in original packaging.</p>
+            </section>
+    
+            <section id="privacy" style="margin-top: 40px;">
+                <h2 style="color: var(--accent);">PRIVACY POLICY (GDPR)</h2>
+                <p>We only collect the data necessary to fulfill your order (Name, Address, Email). Your payment information is not stored by us. Under GDPR, you have the right to request your data be deleted at any time.</p>
+            </section>
+        </div>
+    </div>
+    
     <div id="checkout-page" class="container hidden">
         <h2 style="font-weight: 300; letter-spacing: 5px; margin-bottom: 40px;">SECURE CHECKOUT</h2>
         <div class="checkout-grid">
@@ -535,7 +553,7 @@
           </div>
       </div>
   
-      <p style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 30px;">A confirmation has been sent to your email.</p>
+      <p style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 30px;">A confirmation will be sent to your email.</p>
       <button class="btn-large" style="width: auto; padding: 15px 50px;" onclick="showPage('shop')">Return to Collection</button>
     </div>
 
@@ -552,6 +570,7 @@
                 <button onclick="/* Add function */">News</button>
                 <button onclick="/* Add function */">Contact Us</button>
                 <button onclick="/* Add function */">Our Team</button>
+                <button onclick="showPage('legal')">Terms & Privacy</button>
             </nav>
     
             <div class="footer-bottom">
@@ -560,7 +579,52 @@
         </div>
     </footer>
 
+    <div id="cookie-banner" style="
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        background: var(--surface);
+        border: 1px solid var(--accent);
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 10000;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        visibility: hidden;
+    ">
+        <p style="margin: 0; font-size: 0.8rem; color: var(--text-dim);">
+            Northern Stingers uses cookies to improve your shopping experience.
+        </p>
+        <button onclick="acceptCookies()" class="btn-large" style="margin: 0; padding: 10px 20px; width: auto; font-size: 0.7rem;">ACCEPT</button>
+    </div>
+
     <script>
+
+        // Run this when the site loads
+        window.onload = function() {
+            if (!localStorage.getItem('cookiesAccepted')) {
+                document.getElementById('cookie-banner').style.visibility = 'visible';
+            }
+        }
+        
+        function acceptCookies() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookie-banner').style.visibility = 'hidden';
+        }
+        
+        // Update your showPage function to include the legal page
+        function showPage(id) {
+            // Add 'legal' to this array
+            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal'];
+            pages.forEach(p => {
+                const el = document.getElementById(p + '-page');
+                if (el) { el.classList.add('hidden'); el.classList.remove('page-animate'); }
+            });
+            // ... (rest of your existing showPage code)
+        }
         const products = [
             { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", desc: "Premium oversized link chain for ultimate presence.", colors: ["Silver"] },
             { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium2.png", desc: "Balanced gauge chain for daily deployment.", colors: ["Silver"] },
@@ -589,21 +653,6 @@
             errorEl.innerText = message;
             errorEl.classList.add('visible');
             setTimeout(() => errorEl.classList.remove('visible'), 4000);
-        }
-
-        function showPage(id) {
-            const pages = ['shop', 'detail', 'cart', 'checkout', 'success'];
-            pages.forEach(p => {
-                const el = document.getElementById(p + '-page');
-                if (el) { el.classList.add('hidden'); el.classList.remove('page-animate'); }
-            });
-            const activePage = document.getElementById(id + '-page');
-            activePage.classList.remove('hidden');
-            void activePage.offsetWidth;
-            activePage.classList.add('page-animate');
-            if (id === 'cart') renderCart();
-            if (id === 'shop') renderShop();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function getProgressBarHTML() {
@@ -860,6 +909,7 @@
     </script>
 </body>
 </html>
+
 
 
 
