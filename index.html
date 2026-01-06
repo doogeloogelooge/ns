@@ -974,14 +974,14 @@
             };
         
             // Use your actual EmailJS IDs here
-            emailjs.send('SNHMq5OA-QeKnbrNJ', 'template_6e4wubp', templateParams)
+            emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
                 .then(() => {
                     const qrUrl = getSwishQRCode(total, orderID);
                     
                     // Generate the mobile deep link
                     const swishLink = `swish://payment?data=${encodeURIComponent(JSON.stringify({
                         version: 1,
-                        payee: { value: "07XXXXXXXX" }, // YOUR REAL NUMBER
+                        payee: { value: "0720018254" }, // YOUR REAL NUMBER
                         amount: { value: total },
                         message: { value: "Order " + orderID }
                     }))}`;
@@ -1027,6 +1027,7 @@
     </script>
 </body>
 </html>
+
 
 
 
