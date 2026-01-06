@@ -617,14 +617,31 @@
         
         // Update your showPage function to include the legal page
         function showPage(id) {
-            // Add 'legal' to this array
-            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal'];
+            // Make sure 'legal' is added to this list
+            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal']; 
+            
             pages.forEach(p => {
                 const el = document.getElementById(p + '-page');
-                if (el) { el.classList.add('hidden'); el.classList.remove('page-animate'); }
+                if (el) { 
+                    el.classList.add('hidden'); 
+                    el.classList.remove('page-animate'); 
+                }
             });
-            // ... (rest of your existing showPage code)
+        
+            const activePage = document.getElementById(id + '-page');
+            if (activePage) {
+                activePage.classList.remove('hidden');
+                void activePage.offsetWidth; // Trigger reflow for animation
+                activePage.classList.add('page-animate');
+            }
+        
+            // Existing logic for specific pages
+            if (id === 'cart') renderCart();
+            if (id === 'shop') renderShop();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        
         const products = [
             { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", desc: "Premium oversized link chain for ultimate presence.", colors: ["Silver"] },
             { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium2.png", desc: "Balanced gauge chain for daily deployment.", colors: ["Silver"] },
