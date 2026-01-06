@@ -938,17 +938,14 @@
         
         // 2. Helper to build the Swish QR Code URL
         function getSwishQRCode(amount, orderID) {
-            const swishNumber = "0720018254"; // <--- MAKE SURE THIS IS YOUR REAL NUMBER
-            const paymentData = {
-                version: 1,
-                payee: { value: swishNumber },
-                amount: { value: amount },
-                message: { value: "Order " + orderID },
-                editable: false
-            };
-            // The API expects the JSON string to be encoded
-            const encodedData = encodeURIComponent(JSON.stringify(paymentData));
-            return `https://mpay.swish.nu/swish-qr-code-generator/v1/payment?data=${encodedData}&size=300&format=png`;
+            const swishNumber = "0720018254"; // Your number from the error log
+            
+            // This is the standard "Swish Format" that the Swish app recognizes when scanned
+            // Format: C<swish-number>;<amount>;<message>;<lock-status>
+            const swishData = `C${swishNumber};${amount};Order ${orderID};0`;
+            
+            // We use the GoQR API to turn that text into a QR code image
+            return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(swishData)}`;
         }
         
         // 3. Updated processOrder Function
@@ -1028,6 +1025,7 @@
     </script>
 </body>
 </html>
+
 
 
 
