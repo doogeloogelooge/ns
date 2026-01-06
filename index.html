@@ -906,64 +906,89 @@
             showPage('checkout');
         }
 
-        function processOrder() {
-            const name = document.getElementById('form-name').value.trim();
-            const phone = document.getElementById('form-phone').value.trim();
-            const address1 = document.getElementById('form-address-1').value.trim();
-            const email = document.getElementById('form-email').value.trim();
-            
-            if (name.length < 2) { showError("Identity Required: Enter Full Name"); return; }
-            if (phone.length < 5) { showError("Invalid Contact: Check Phone Number"); return; }
-            if (address1.length < 5) { showError("Incomplete Deployment Address"); return; }
-            const gmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!gmailRegex.test(email)) { showError("Gmail Authentication Required"); return; }
-
-            const orderNum = `NS-${Date.now().toString().slice(-5)}`;
-            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
-
-            const templateParams = {
-                order_number: orderNum, customer_name: name, customer_email: email, customer_phone: "+46 " + phone,
-                delivery_address: address1,
-                item_list: cart.map(i => `${i.quantity}x ${i.name} (${i.variant})`).join(", "),
-                total_price: (subtotal + shipping) + " kr"
-            };
-
-            emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
-                .then(() => {
-                    // 1. Set the Order Number
-                    document.getElementById('order-number').innerText = `#${orderNum}`;
-
-                    // 2. Generate the Item List for the success page
-                    const successList = document.getElementById('success-item-list');
-                   // Further down in the .then() block of processOrder:
-
-                    successList.innerHTML = cart.map(i => `
-                        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:8px;">
-                            <span style="color:var(--text-dim);">
-                                ${i.quantity}x ${i.name} <small>(${i.variant})</small>
-                            </span>
-                            <span>${i.price * i.quantity} kr</span>
-                        </div>
-                    `).join('');
-
-                    // 3. Set the Total Amount
-                    const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-                    const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
-                    document.getElementById('success-total-amount').innerText = (subtotal + shipping) + " kr";
-
-                    // 4. Show the page and clear cart
-                    showPage('success');
-                    cart = [];
-                    updateCartCount();
-                })
-                .catch(() => showError("Transmission Failed: Check Connection"));
+       // 1. Helper to generate unique order IDs
+        function generateOrderNumber() {
+            return 'NS-' + Math.floor(1000 + Math.random() * 9000);
         }
+        
+        // 2. Helper to build the Swish QR Code URL
+        function getSwishQRCode(amount, orderID) {
+            const swishNumber = "07XXXXXXXX"; // REPLACE WITH YOUR NUMBER
+            const paymentData = {
+                pa: swishNumber,
+                am: amount,
+                cu: "SEK",
+                msg: "Order " + orderID
+            };
+            const encodedData = encodeURIComponent(JSON.stringify(paymentData));
+            return `https://mpay.swish.nu/swish-qr-code-generator/v1/payment?data=${encodedData}&size=300&format=png`;
+        }
+        
+        // 3. Updated processOrder Function
+        function processOrder() {
+            const orderID = generateOrderNumber(); // Create the ID first
+            
+            // Calculate totals
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const shipping = subtotal < 500 ? 59 : 0;
+            const total = subtotal + shipping;
+        
+            // Prepare parameters for EmailJS
+            const templateParams = {
+                order_id: orderID, // Add this to your EmailJS template as {{order_id}}
+                from_name: document.getElementById('form-name').value,
+                customer_email: document.getElementById('form-email').value,
+                order_details: cart.map(item => `${item.quantity}x ${item.name} (${item.variant})`).join('\n'),
+                total_price: total + " kr"
+            };
+        
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+               .then(() => {
+                    const qrUrl = getSwishQRCode(total, orderID);
+                    
+                    // Generate the mobile-friendly deep link
+                    const swishData = {
+                        pa: "07XXXXXXXX", // Your Swish number
+                        am: total,
+                        cu: "SEK",
+                        msg: "Order " + orderID
+                    };
+                    const swishLink = `swish://payment?data=${encodeURIComponent(JSON.stringify(swishData))}`;
+        
+                    document.getElementById('success-page').innerHTML = `
+                        <div class="container" style="text-align:center; padding-top: 50px;">
+                            <h1 style="color:var(--accent); letter-spacing:3px;">ORDER SENT!</h1>
+                            <p>Order Number: <strong>${orderID}</strong></p>
+                            <p>Total to pay: <strong>${total} kr</strong></p>
+                            
+                            <div style="margin: 20px 0;">
+                                <a href="${swishLink}" class="btn-large" style="background:#28a745; text-decoration:none; display:inline-block; width:100%; max-width:300px;">
+                                    OPEN SWISH APP & PAY
+                                </a>
+                                <p style="font-size:0.7rem; color:var(--text-dim); margin-top:5px;">(For mobile users)</p>
+                            </div>
+        
+                            <div style="margin: 20px 0; border-top: 1px solid #333; padding-top: 20px;">
+                                <p style="color:var(--text-dim); margin-bottom:10px;">- OR SCAN QR CODE -</p>
+                                <div style="background:white; padding:15px; border-radius:15px; display:inline-block;">
+                                    <img src="${qrUrl}" alt="Swish QR" style="width:180px;">
+                                </div>
+                            </div>
+        
+                            <div style="margin-top:20px;">
+                                <button onclick="location.reload()" class="back-btn">RETURN TO SHOP</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    showPage('success');
+                    // ... (rest of your cleanup code)
 
         renderShop();
     </script>
 </body>
 </html>
+
 
 
 
