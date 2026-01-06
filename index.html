@@ -702,7 +702,8 @@
 
             const templateParams = {
                 order_number: orderNum, customer_name: name, customer_email: email, customer_phone: "+46 " + phone,
-                delivery_address: address1, item_list: cart.map(i => `${i.quantity}x ${i.name}`).join(", "),
+                delivery_address: address1,
+                item_list: cart.map(i => `${i.quantity}x ${i.name} (${i.variant})`).join(", "),
                 total_price: (subtotal + shipping) + " kr"
             };
 
@@ -713,9 +714,13 @@
 
                     // 2. Generate the Item List for the success page
                     const successList = document.getElementById('success-item-list');
+                   // Further down in the .then() block of processOrder:
+
                     successList.innerHTML = cart.map(i => `
                         <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:8px;">
-                            <span style="color:var(--text-dim);">${i.quantity}x ${i.name}</span>
+                            <span style="color:var(--text-dim);">
+                                ${i.quantity}x ${i.name} <small>(${i.variant})</small>
+                            </span>
                             <span>${i.price * i.quantity} kr</span>
                         </div>
                     `).join('');
@@ -737,6 +742,7 @@
     </script>
 </body>
 </html>
+
 
 
 
