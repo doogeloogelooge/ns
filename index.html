@@ -446,7 +446,21 @@
         const products = [
             { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", desc: "Premium oversized link chain for ultimate presence.", colors: ["Silver"] },
             { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium2.png", desc: "Balanced gauge chain for daily deployment.", colors: ["Silver"] },
-            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small2.png", desc: "Low-profile precision chain for subtle detail.", colors: ["Silver"] }
+            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small2.png", desc: "Low-profile precision chain for subtle detail.", colors: ["Silver"] },
+           { 
+                id: 4, 
+                name: "HÅRD MONO TAFS", 
+                price: 29, // Default starting price
+                img: "Small2.png", 
+                desc: "Tough monoline leader ready to tie on.", 
+                colors: ["20cm", "30cm", "40cm"],
+                // Add this new object:
+                variantPrices: {
+                    "20cm": 29,
+                    "30cm": 35,
+                    "40cm": 40
+                }
+            }
         ];
 
         let cart = [];
@@ -513,19 +527,53 @@
             input.value = val;
         }
 
-        function selectVariant(btn) { btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+       function selectVariant(btn) {
+            // 1. Handle visual active state
+            btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        
+            // 2. Dynamic Price Logic
+            const variantName = btn.innerText;
+            // We get the product ID from the "Add to Cart" button which is nearby in the DOM
+            const productId = parseInt(btn.closest('.product-view').querySelector('button[onclick*="addToCart"]').getAttribute('onclick').match(/\d+/)[0]);
+            const product = products.find(p => p.id === productId);
+        
+            if (product.variantPrices && product.variantPrices[variantName]) {
+                const newPrice = product.variantPrices[variantName];
+                // Update the price shown on the detail page
+                document.querySelector('.price').innerText = newPrice + " kr";
+            }
+        }
 
         function addToCart(e, id, isQuickAdd = false) {
             const item = products.find(p => p.id === id);
-            let variant = "Silver"; let quantity = 1;
+            let variant = "Silver"; 
+            let quantity = 1;
+            let currentPrice = item.price; // Default price
+        
             if (!isQuickAdd) {
                 const activeBtn = document.querySelector('.option-btn.active');
-                variant = activeBtn ? activeBtn.innerText : "Silver";
+                variant = activeBtn ? activeBtn.innerText : (item.colors[0] || "Silver");
                 quantity = parseInt(document.getElementById('detail-qty').value);
+                
+                // Grab the price currently displayed on the detail page
+                const priceText = document.querySelector('.price').innerText;
+                currentPrice = parseInt(priceText.replace(' kr', ''));
             }
+        
             const existing = cart.find(i => i.id === id && i.variant === variant);
-            if (existing) { existing.quantity += quantity; } else { cart.push({ ...item, variant, quantity }); }
-            showToast(); createParticle(e.clientX, e.clientY); updateCartCount();
+            
+            if (existing) { 
+                existing.quantity += quantity; 
+            } else { 
+                // Pass the currentPrice here so the cart remembers the variant price
+                cart.push({ ...item, variant, quantity, price: currentPrice }); 
+            }
+        
+            showToast(); 
+            createParticle(e.clientX, e.clientY); 
+            updateCartCount();
+            
             const bar = document.getElementById('product-shipping-bar');
             if(bar) bar.innerHTML = getProgressBarHTML();
         }
@@ -666,6 +714,7 @@
     </script>
 </body>
 </html>
+
 
 
 
