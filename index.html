@@ -968,13 +968,13 @@
                 total_price: total + " kr"
             };
         
-            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
                 .then(() => {
                     const qrUrl = getSwishQRCode(total, orderID);
                     
                     // Generate the mobile-friendly deep link
                     const swishData = {
-                        pa: "07XXXXXXXX", // Your Swish number
+                        pa: "0720018254", // Your Swish number
                         am: total,
                         cu: "SEK",
                         msg: "Order " + orderID
@@ -1025,6 +1025,7 @@
     </script>
 </body>
 </html>
+
 
 
 
