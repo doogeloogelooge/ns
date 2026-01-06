@@ -938,53 +938,53 @@
         
         // 2. Helper to build the Swish QR Code URL
         function getSwishQRCode(amount, orderID) {
-            const swishNumber = "07XXXXXXXX"; // REPLACE WITH YOUR NUMBER
+            const swishNumber = "0720018254"; // <--- MAKE SURE THIS IS YOUR REAL NUMBER
             const paymentData = {
-                pa: swishNumber,
-                am: amount,
-                cu: "SEK",
-                msg: "Order " + orderID
+                version: 1,
+                payee: { value: swishNumber },
+                amount: { value: amount },
+                message: { value: "Order " + orderID },
+                editable: false
             };
+            // The API expects the JSON string to be encoded
             const encodedData = encodeURIComponent(JSON.stringify(paymentData));
             return `https://mpay.swish.nu/swish-qr-code-generator/v1/payment?data=${encodedData}&size=300&format=png`;
         }
         
         // 3. Updated processOrder Function
-// 3. Updated processOrder Function
+        // 3. Updated processOrder Function
         function processOrder() {
-            const orderID = generateOrderNumber(); // Create the ID first
-            
-            // Calculate totals
+            const orderID = generateOrderNumber();
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            const shipping = subtotal < 500 ? 59 : 0;
+            const shipping = subtotal < 299 ? 59 : 0; // Updated to match your banner threshold
             const total = subtotal + shipping;
         
-            // Prepare parameters for EmailJS
+            // 1. Get Phone and Address from the form
+            const phone = document.getElementById('form-phone').value;
+            const address = document.getElementById('form-address-1').value + " " + document.getElementById('form-address-2').value;
+        
             const templateParams = {
                 order_id: orderID,
                 from_name: document.getElementById('form-name').value,
                 customer_email: document.getElementById('form-email').value,
-                
-                // ADD THESE TWO LINES:
-                customer_phone: document.getElementById('form-phone').value,
-                customer_address: document.getElementById('form-address-1').value + " " + document.getElementById('form-address-2').value,
-                
+                customer_phone: phone,      // Added phone
+                customer_address: address,  // Added address
                 order_details: cart.map(item => `${item.quantity}x ${item.name} (${item.variant})`).join('\n'),
                 total_price: total + " kr"
             };
         
-            emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
+            // Use your actual EmailJS IDs here
+            emailjs.send('SNHMq5OA-QeKnbrNJ', 'template_6e4wubp', templateParams)
                 .then(() => {
                     const qrUrl = getSwishQRCode(total, orderID);
                     
-                    // Generate the mobile-friendly deep link
-                    const swishData = {
-                        pa: "0720018254", // Your Swish number
-                        am: total,
-                        cu: "SEK",
-                        msg: "Order " + orderID
-                    };
-                    const swishLink = `swish://payment?data=${encodeURIComponent(JSON.stringify(swishData))}`;
+                    // Generate the mobile deep link
+                    const swishLink = `swish://payment?data=${encodeURIComponent(JSON.stringify({
+                        version: 1,
+                        payee: { value: "07XXXXXXXX" }, // YOUR REAL NUMBER
+                        amount: { value: total },
+                        message: { value: "Order " + orderID }
+                    }))}`;
         
                     document.getElementById('success-page').innerHTML = `
                         <div class="container" style="text-align:center; padding-top: 50px;">
@@ -992,31 +992,28 @@
                             <p>Order Number: <strong>${orderID}</strong></p>
                             <p>Total to pay: <strong>${total} kr</strong></p>
                             
-                            <div style="margin: 20px 0;">
-                                <a href="${swishLink}" class="btn-large" style="background:#28a745; text-decoration:none; display:inline-block; width:100%; max-width:300px;">
+                            <div style="margin: 30px 0;">
+                                <a href="${swishLink}" class="btn-large" style="background:#28a745; text-decoration:none; display:inline-block; width:100%; max-width:300px; color:white;">
                                     OPEN SWISH APP & PAY
                                 </a>
-                                <p style="font-size:0.7rem; color:var(--text-dim); margin-top:5px;">(For mobile users)</p>
                             </div>
         
                             <div style="margin: 20px 0; border-top: 1px solid #333; padding-top: 20px;">
-                                <p style="color:var(--text-dim); margin-bottom:10px;">- OR SCAN QR CODE -</p>
-                                <div style="background:white; padding:15px; border-radius:15px; display:inline-block;">
-                                    <img src="${qrUrl}" alt="Swish QR" style="width:180px;">
+                                <p style="color:var(--text-dim); margin-bottom:15px; font-size:0.8rem;">- OR SCAN QR CODE -</p>
+                                <div style="background:white; padding:15px; border-radius:15px; display:inline-block; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                                    <img src="${qrUrl}" alt="Swish QR" style="width:200px; height:200px; display:block;">
                                 </div>
                             </div>
         
-                            <div style="margin-top:20px;">
+                            <div style="margin-top:40px;">
                                 <button onclick="location.reload()" class="back-btn">RETURN TO SHOP</button>
                             </div>
                         </div>
                     `;
                     
                     showPage('success');
-                    
-                    // Cleanup: Clear the cart and sync with storage
                     cart = [];
-                    if (typeof syncStorage === "function") syncStorage();
+                    syncStorage();
                     updateCartCount();
         
                 }, (error) => {
@@ -1030,6 +1027,7 @@
     </script>
 </body>
 </html>
+
 
 
 
