@@ -6,6 +6,7 @@
     <title>Northern Stingers</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.jpg" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
       (function(){
@@ -140,6 +141,100 @@
         .logo-placeholder { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .logo-placeholder img { width: 100%; height: 100%; object-fit: cover; }
         .logo-text { font-size: 1rem; font-weight: 700; letter-spacing: 5px; }
+
+        /* --- Footer Styles --- */
+        .site-footer {
+            background-color: var(--surface);
+            padding: 50px 0 30px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        /* Social Icons Layout */
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: white; /* Matches the white circles in your image */
+            color: var(--dark-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.3s var(--transition), background 0.3s;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px);
+            background: var(--accent);
+        }
+        
+        /* Navigation Links */
+        .footer-nav {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-nav button {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s, color 0.3s;
+        }
+        
+        .footer-nav button:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+        
+        /* Bottom Bar */
+        .footer-bottom {
+            width: 100%;
+            text-align: center;
+            padding-top: 25px;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.2); /* Slightly darker bar like the image */
+        }
+        
+        .footer-bottom p {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .designer-name {
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Mobile Adjustment */
+        @media (max-width: 768px) {
+            .footer-nav { gap: 15px; }
+            .footer-nav button { font-size: 0.75rem; }
+        }
 
        .nav-link {
             background: none;
@@ -763,6 +858,7 @@
     </script>
 </body>
 </html>
+
 
 
 
