@@ -961,9 +961,14 @@
         
             // Prepare parameters for EmailJS
             const templateParams = {
-                order_id: orderID, // Use {{order_id}} in your EmailJS template
+                order_id: orderID,
                 from_name: document.getElementById('form-name').value,
                 customer_email: document.getElementById('form-email').value,
+                
+                // ADD THESE TWO LINES:
+                customer_phone: document.getElementById('form-phone').value,
+                customer_address: document.getElementById('form-address-1').value + " " + document.getElementById('form-address-2').value,
+                
                 order_details: cart.map(item => `${item.quantity}x ${item.name} (${item.variant})`).join('\n'),
                 total_price: total + " kr"
             };
@@ -1025,6 +1030,7 @@
     </script>
 </body>
 </html>
+
 
 
 
