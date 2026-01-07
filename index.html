@@ -124,6 +124,81 @@
             transform: scale(0.98);
         }
 
+        /* Team Section Styles */
+        .team-section {
+            padding: 60px 20px;
+            background-color: #f9f9f9; /* Or match your site's dark/light theme */
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .team-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover; /* Keeps photos from looking stretched */
+            filter: grayscale(100%); /* Optional: Gives a cool, unified look */
+        }
+        
+        .team-card:hover .member-image img {
+            filter: grayscale(0%);
+        }
+        
+        .member-info {
+            padding: 20px;
+        }
+        
+        .member-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.25rem;
+        }
+        
+        .member-info span {
+            display: block;
+            color: #e63946; /* Use your brand accent color here */
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .member-info p {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
        /* --- Improved Quantity Selector --- */
         .qty-selector {
             display: flex;
@@ -525,6 +600,32 @@
             </button>
         </nav>
     </header>
+
+    <section id="our-team" class="team-section">
+        <div class="container">
+            <h2 class="section-title">The Crew</h2>
+            <p class="section-subtitle">The stingers behind the brand.</p>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="member-info">
+                        <h3>Carl-Johan Wahlund</h3>
+                        <span>Co-Founder / Lead Design</span>
+                        <p>Website designer and head of marketing. Ensures you get your order on time!</p>
+                    </div>
+                </div>
+    
+                <div class="team-card">
+                    <div class="member-info">
+                        <h3>Subhan Hasanov</h3>
+                        <span>Co-Founder / Order Management</span>
+                        <p>Makes sure you are satisfied with our products and handles everything logistical.</p>
+                    </div>
+                </div>
+    
+                </div>
+        </div>
+    </section>
 
     <div id="shop-page">
         <section class="hero">
@@ -1025,6 +1126,7 @@
     </script>
 </body>
 </html>
+
 
 
 
