@@ -715,7 +715,7 @@
                 <button onclick="showPage('shop')">Home</button>
                 <button onclick="/* Add function */">News</button>
                 <button onclick="/* Add function */">Contact Us</button>
-                <button onclick="/* Add function */">Our Team</button>
+                <button onclick="showPage('team')">Our Team</button>
                 <button onclick="showPage('legal')">Terms & Privacy</button>
             </nav>
     
@@ -764,7 +764,7 @@
         // Update your showPage function to include the legal page
         function showPage(id) {
             // Make sure 'legal' is added to this list
-            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal']; 
+            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal', 'team']; 
             
             pages.forEach(p => {
                 const el = document.getElementById(p + '-page');
@@ -1131,6 +1131,7 @@
     </script>
 </body>
 </html>
+
 
 
 
