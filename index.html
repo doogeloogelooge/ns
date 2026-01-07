@@ -665,6 +665,49 @@
             </section>
         </div>
     </div>
+
+    <div id="contact-page" class="container hidden">
+        <button onclick="showPage('shop')" class="back-btn">← BACK TO SHOP</button>
+        
+        <div class="contact-content" style="line-height: 1.6; color: var(--text-dim);">
+            <h1 style="color: var(--text); letter-spacing: 5px; text-transform: uppercase;">Contact Us</h1>
+            <hr style="border: 0; border-top: 1px solid #222; margin: 20px 0;">
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; margin-top: 20px;">
+                
+                <section>
+                    <h2 style="color: var(--accent); letter-spacing: 2px;">GET IN TOUCH</h2>
+                    <p>Have questions about Northern Stingers gear or an existing order? Reach out to the crew and we will get back to you as soon as possible.</p>
+                    
+                    <div style="margin-top: 30px; border-left: 2px solid var(--accent); padding-left: 20px;">
+                        <p style="margin: 0; font-weight: bold; color: var(--text);">OFFICIAL EMAIL</p>
+                        <a href="mailto:northernstingersuf@gmail.com" style="color: var(--accent); text-decoration: none; font-size: 1.1rem;">
+                            northernstingersuf@gmail.com
+                        </a>
+                    </div>
+                </section>
+    
+                <section>
+                    <form id="contact-form" style="display: flex; flex-direction: column; gap: 15px;">
+                        <input type="text" name="from_name" placeholder="NAME" required 
+                            style="background: #0a0a0a; border: 1px solid #222; color: var(--text); padding: 15px; font-family: inherit; outline: none;">
+                        
+                        <input type="email" name="reply_to" placeholder="EMAIL" required 
+                            style="background: #0a0a0a; border: 1px solid #222; color: var(--text); padding: 15px; font-family: inherit; outline: none;">
+                        
+                        <textarea name="message" placeholder="MESSAGE" rows="6" required 
+                            style="background: #0a0a0a; border: 1px solid #222; color: var(--text); padding: 15px; font-family: inherit; outline: none; resize: vertical;"></textarea>
+                        
+                        <button type="submit" class="back-btn" style="margin: 0; width: 100%; cursor: pointer; background: var(--text); color: var(--bg); font-weight: bold;">
+                            SEND MESSAGE
+                        </button>
+                    </form>
+                    <div id="contact-status" style="margin-top: 20px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;"></div>
+                </section>
+    
+            </div>
+        </div>
+    </div>
     
     <div id="checkout-page" class="container hidden">
         <h2 style="font-weight: 300; letter-spacing: 5px; margin-bottom: 40px;">SECURE CHECKOUT</h2>
@@ -708,7 +751,7 @@
             <nav class="footer-nav">
                 <button onclick="showPage('shop')">Home</button>
                 <button onclick="/* Add function */">News</button>
-                <button onclick="/* Add function */">Contact Us</button>
+                <button onclick="showPage('contact')">Contact Us</button>
                 <button onclick="showPage('team')">Our Team</button>
                 <button onclick="showPage('legal')">Terms & Privacy</button>
             </nav>
@@ -758,7 +801,7 @@
         // Update your showPage function to include the legal page
         function showPage(id) {
             // Make sure 'legal' is added to this list
-            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal', 'team']; 
+            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal', 'team', 'contact']; 
             
             pages.forEach(p => {
                 const el = document.getElementById(p + '-page');
@@ -1125,6 +1168,7 @@
     </script>
 </body>
 </html>
+
 
 
 
