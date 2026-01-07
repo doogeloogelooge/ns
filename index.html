@@ -601,35 +601,29 @@
         </nav>
     </header>
 
-    <div id="team" class="page" style="display:none;">
-        <section class="team-section">
-            <div class="container">
-                <h2 class="section-title">The Crew</h2>
-                <p class="section-subtitle">The stingers behind the brand.</p>
-                
-                <div class="team-grid">
-                    <div class="team-card">
-                        <div class="member-info">
-                            <h3>Carl-Johan Wahlund</h3>
-                            <span class="role-badge">Co-Founder / Lead Design</span>
-                            <p>Website designer and head of marketing. Ensures you get your order on time!</p>
-                        </div>
-                    </div>
+    <div id="team-page" class="container hidden">
+        <button onclick="showPage('shop')" class="back-btn">← BACK TO SHOP</button>
         
-                    <div class="team-card">
-                        <div class="member-info">
-                            <h3>Subhan Hasanov</h3>
-                            <span class="role-badge">Co-Founder / Order Management</span>
-                            <p>Makes sure you are satisfied with our products and handles everything logistical.</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="team-content" style="line-height: 1.6; color: var(--text-dim);">
+            <h1 style="color: var(--text); letter-spacing: 5px; text-transform: uppercase;">The Crew</h1>
+            <hr style="border: 0; border-top: 1px solid #222; margin: 20px 0;">
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 40px;">
+                
+                <section id="member-carl">
+                    <h2 style="color: var(--accent); margin-bottom: 5px;">CARL-JOHAN WAHLUND</h2>
+                    <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--text); font-weight: bold;">Co-Founder / Lead Design</p>
+                    <p>Website designer and head of marketing. Carl-Johan ensures the digital front of Northern Stingers stays sharp and ensures you get your order on time!</p>
+                </section>
     
-                <div style="margin-top: 40px;">
-                    <button onclick="showPage('home')" class="back-button">Return to Shop</button>
-                </div>
+                <section id="member-subhan">
+                    <h2 style="color: var(--accent); margin-bottom: 5px;">SUBHAN HASANOV</h2>
+                    <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--text); font-weight: bold;">Co-Founder / Order Management</p>
+                    <p>Handles the backbone of the operation. Subhan makes sure you are satisfied with our products and oversees all logistical movements.</p>
+                </section>
+    
             </div>
-        </section>
+        </div>
     </div>
 
     <div id="shop-page">
@@ -1131,6 +1125,7 @@
     </script>
 </body>
 </html>
+
 
 
 
