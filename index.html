@@ -74,31 +74,42 @@
         }
         
         /* Make the Send button stand out from the Back button */
-      .contact-submit-btn {
-            background: #0a0a0a; /* Solid white or light grey */
-            color: white;       /* Black text */
-            border: 2px solid var(--text);
-            padding: 18px;          /* Thicker, more substantial feel */
-            font-weight: 900;       /* Extra bold */
-            letter-spacing: 4px;    /* Wide letter spacing for that premium look */
-            cursor: pointer;
+        #contact-submit-btn {
+            /* Resetting default styles */
+            -webkit-appearance: none;
+            text-decoration: none;
+            outline: none;
+            border: none;
+            
+            /* Layout */
+            width: 100%;
+            margin-top: 20px;
+            padding: 16px;
+            display: block;
+            
+            /* Typography - This kills the blue/underline */
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 900;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); /* Smooth "luxury" transition */
-            margin-top: 10px;
-            position: relative;
-            overflow: hidden;
+            text-align: center;
+            
+            /* Colors */
+            background-color: #ffffff; /* Solid White */
+            color: #000000 !important; /* Forces Black text */
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
         }
         
-        /* Hover Effect: Inverts the colors */
-        .contact-submit-btn:hover {
-            background: transparent;
-            color: var(--accent);   /* Turns Gold/Yellow on hover */
-            border-color: var(--accent);
+        #contact-submit-btn:hover {
+            background-color: var(--accent, #ffd700); /* Gold on hover */
+            color: #000000 !important;
+            transform: translateY(-2px);
         }
         
-        /* Active Effect: Subtle click animation */
-        .contact-submit-btn:active {
-            transform: scale(0.96);
+        #contact-submit-btn:active {
+            transform: translateY(0);
         }
         
         /* Disabled state when sending */
@@ -1264,6 +1275,7 @@
     </script>
 </body>
 </html>
+
 
 
 
