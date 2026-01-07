@@ -53,6 +53,62 @@
             animation: pulse 3s infinite;
         }
 
+        /* Contact Page Specific Styles */
+        #contact-page input, 
+        #contact-page textarea {
+            background: #0a0a0a; /* Deep black for input fields */
+            border: 1px solid #222; /* Subtle dark border */
+            color: var(--text);
+            padding: 15px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* Focus state - when user clicks into the field */
+        #contact-page input:focus, 
+        #contact-page textarea:focus {
+            border-color: var(--accent); /* Yellow/Gold glow */
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+        }
+        
+        /* Make the Send button stand out from the Back button */
+        #contact-page .submit-btn {
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s, transform 0.1s;
+        }
+        
+        #contact-page .submit-btn:hover {
+            background: var(--accent);
+            color: #000;
+        }
+        
+        #contact-page .submit-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Status message styling */
+        #contact-status {
+            font-family: monospace;
+            font-weight: bold;
+        }
+        
+        /* Responsive Grid adjustment */
+        @media (max-width: 768px) {
+            #contact-page .contact-content h1 {
+                font-size: 1.5rem;
+                letter-spacing: 3px;
+            }
+        }
+
         /* --- Progress Bar Styles --- */
         .progress-container {
             background: #222;
@@ -1162,12 +1218,38 @@
                     alert("Something went wrong. Please try again.");
                 });
         }
+
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const status = document.getElementById('contact-status');
+            const btn = this.querySelector('button');
+            
+            btn.innerText = "SENDING...";
+            btn.disabled = true;
+        
+            // Use your Service and Template IDs from your EmailJS Dashboard
+            emailjs.sendForm('service_p2imeim', 'template_digk38u', this)
+                .then(function() {
+                    status.innerText = "SUCCESS: MESSAGE SENT.";
+                    status.style.color = "var(--accent)";
+                    document.getElementById('contact-form').reset();
+                    btn.innerText = "SEND MESSAGE";
+                    btn.disabled = false;
+                }, function(error) {
+                    status.innerText = "ERROR: FAILED TO SEND.";
+                    status.style.color = "#ff4444";
+                    btn.innerText = "SEND MESSAGE";
+                    btn.disabled = false;
+                });
+        });
         
         // Ensure the shop renders when the script finishes loading
         renderShop();
     </script>
 </body>
 </html>
+
 
 
 
