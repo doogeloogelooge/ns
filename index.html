@@ -791,33 +791,34 @@
         </div>
     </div>
     
-    <div id="checkout-page" class="container hidden">
-        <h2 style="font-weight: 300; letter-spacing: 5px; margin-bottom: 40px;">SECURE CHECKOUT</h2>
-        <div class="checkout-grid">
-            <div class="checkout-form">
-                <h3 style="font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 20px;">I. DEPLOYMENT INFO</h3>
-                <div class="form-group"><label>Full Name</label><input type="text" id="form-name" placeholder="Erik Vandermeer"></div>
-                <div class="form-group"><label>Phone Number</label>
-                    <div style="display: flex; gap: 10px;">
-                        <span style="background: #222; padding: 12px; border: 1px solid #333; color: var(--accent);">+46</span>
-                        <input type="tel" id="form-phone" placeholder="70 123 45 67" style="flex: 1;">
-                    </div>
-                </div>
-                <div class="form-group"><label>Main Address</label><input type="text" id="form-address-1" placeholder="Storgatan 1, Stockholm, 111 22"></div>
-                <div class="form-group"><label>Apartment / Floor (Optional)</label><input type="text" id="form-address-2" placeholder="Apt 4B"></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="form-email" placeholder="erik@gmail.com"></div>
-            </div>
-            <div class="summary-box">
-                <h3 style="font-size: 0.8rem; letter-spacing: 2px;">SUMMARY</h3>
-                <div id="checkout-list"></div>
-                <div style="margin-top: 20px; border-top: 1px solid #222; padding-top: 10px;">
-                    <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: var(--text-dim);"><span>Subtotal</span><span id="checkout-subtotal">0 kr</span></div>
-                    <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: var(--text-dim); margin: 5px 0;"><span>Shipping</span><span id="checkout-shipping">0 kr</span></div>
-                    <div style="display:flex; justify-content:space-between; font-weight: 700; font-size: 1.1rem; margin-top: 10px;"><span>TOTAL</span><span id="checkout-total">0 kr</span></div>
-                </div>
-                <button class="btn-large" onclick="processOrder()">Complete Order</button>
+    <div class="checkout-form">
+        <h3 style="font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 20px;">I. DEPLOYMENT INFO</h3>
+        <div class="form-group"><label>Full Name</label><input type="text" id="form-name" placeholder="Erik Vandermeer"></div>
+        
+        <div class="form-group"><label>Phone Number</label>
+            <div style="display: flex; gap: 10px;">
+                <span style="background: #222; padding: 12px; border: 1px solid #333; color: var(--accent);">+46</span>
+                <input type="tel" id="form-phone" placeholder="70 123 45 67" style="flex: 1;">
             </div>
         </div>
+    
+        <div class="form-group">
+            <label>Street & Number</label>
+            <input type="text" id="form-street" placeholder="Storgatan 1">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px;">
+            <div class="form-group">
+                <label>Postcode</label>
+                <input type="text" id="form-postcode" placeholder="111 22">
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" id="form-city" placeholder="Stockholm">
+            </div>
+        </div>
+    
+        <div class="form-group"><label>Email Address</label><input type="email" id="form-email" placeholder="erik@gmail.com"></div>
     </div>
 
     <div id="success-page" class="container hidden"></div>
@@ -1181,16 +1182,21 @@
             const shipping = subtotal < 299 ? 59 : 0; // Updated to match your banner threshold
             const total = subtotal + shipping;
         
-            // 1. Get Phone and Address from the form
+            // 1. Get Phone and Structured Address
             const phone = document.getElementById('form-phone').value;
-            const address = document.getElementById('form-address-1').value + " " + document.getElementById('form-address-2').value;
+            const street = document.getElementById('form-street').value;
+            const postcode = document.getElementById('form-postcode').value;
+            const city = document.getElementById('form-city').value;
+            
+            // Combine them for the email template
+            const fullAddress = `${street}, ${postcode} ${city}`;
         
             const templateParams = {
                 order_id: orderID,
                 from_name: document.getElementById('form-name').value,
                 customer_email: document.getElementById('form-email').value,
-                customer_phone: phone,      // Added phone
-                customer_address: address,  // Added address
+                customer_phone: phone,
+                customer_address: fullAddress, // Use the combined string here
                 order_details: cart.map(item => `${item.quantity}x ${item.name} (${item.variant})`).join('\n'),
                 total_price: total + " kr"
             };
@@ -1275,6 +1281,7 @@
     </script>
 </body>
 </html>
+
 
 
 
