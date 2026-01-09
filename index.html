@@ -32,7 +32,7 @@
         :root {
             --dark-bg: #0a0b0d;
             --accent: #a3bac3;
-            --surface: #14161a;
+            --surface: #14159a;
             --text: #ffffff;
             --text-dim: #888;
             --transition: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1101,7 +1101,7 @@
                     </div>`).join('');
                 
                 const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-                const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
+                const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 61 : 0;
                 document.getElementById('cart-summary').innerHTML = `
                     <p style="color:var(--text-dim); font-size:0.8rem;">Subtotal: ${subtotal} kr</p>
                     <p style="color:var(--text-dim); font-size:0.8rem;">Shipping: ${shipping === 0 ? 'FREE' : shipping + ' kr'}</p>
@@ -1149,7 +1149,7 @@
 
         function goCheckout() {
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 59 : 0;
+            const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 61 : 0;
             document.getElementById('checkout-list').innerHTML = cart.map(item => `<div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-top:8px;"><span>${item.quantity}x ${item.name}</span><span>${item.price * item.quantity} kr</span></div>`).join('');
             document.getElementById('checkout-subtotal').innerText = subtotal + " kr";
             document.getElementById('checkout-shipping').innerText = shipping === 0 ? "FREE" : shipping + " kr";
@@ -1179,7 +1179,7 @@
         function processOrder() {
             const orderID = generateOrderNumber();
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            const shipping = subtotal < 299 ? 59 : 0; // Updated to match your banner threshold
+            const shipping = subtotal < 299 ? 61 : 0; // Updated to match your banner threshold
             const total = subtotal + shipping;
         
             // 1. Get Phone and Structured Address
@@ -1281,6 +1281,7 @@
     </script>
 </body>
 </html>
+
 
 
 
