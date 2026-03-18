@@ -1018,40 +1018,54 @@
 
         function renderShop() {
             const list = document.getElementById('product-list');
-            list.innerHTML = products.map(p => {
-                // SAFETY CHECK: Handle both single price and variant prices
+            if (!list) return;
+        
+            let html = "";
+        
+            products.forEach(p => {
+                // 1. Calculate the price display
                 let priceDisplay = "";
                 if (p.variantPrices) {
-                    const priceValues = Object.values(p.variantPrices);
-                    const minPrice = Math.min(...priceValues);
-                    priceDisplay = `From ${minPrice} kr`;
+                    const prices = Object.values(p.variantPrices);
+                    priceDisplay = "From " + Math.min(...prices) + " kr";
                 } else {
-                    priceDisplay = `${p.price} kr`;
+                    priceDisplay = p.price + " kr";
                 }
-                
-                // Sold Out Logic
-                const isOut = p.isSoldOut === true;
-                const soldOutAttr = isOut ? 'disabled style="background:#555; cursor:not-allowed; opacity:0.5;"' : '';
-                const statusLabel = isOut 
-                    ? '<span style="color:#ff4444; font-size:0.7rem; font-weight:bold; display:block; margin-top:5px; letter-spacing:1px;">SOLD OUT</span>' 
-                    : `<p style="color: var(--accent);">${priceDisplay}</p>`;
         
-                return `
-                    <div class="card" style="${isOut ? 'opacity: 0.6;' : ''}">
-                        <button class="quick-add" ${soldOutAttr} onclick="event.stopPropagation(); ${isOut ? '' : `addToCart(event, ${p.id}, true)`}">
-                            ${isOut ? '✕' : '+'}
+                // 2. Setup Sold Out variables
+                const isOut = p.isSoldOut === true;
+                
+                // Visuals
+                const opacity = isOut ? "opacity: 0.6;" : "";
+                const grayscale = isOut ? "filter: grayscale(100%);" : "";
+                const btnChar = isOut ? "✕" : "+";
+                const btnDisabled = isOut ? "disabled" : "";
+                
+                // Only allow clicking "Add" if NOT sold out
+                const clickAction = isOut ? "" : "addToCart(event, " + p.id + ", true)";
+        
+                const priceHTML = isOut 
+                    ? '<span style="color:#ff4444; font-size:0.7rem; font-weight:bold; display:block; margin-top:5px;">SOLD OUT</span>' 
+                    : '<p style="color: var(--accent);">' + priceDisplay + '</p>';
+        
+                // 3. Build the card string
+                html += `
+                    <div class="card" style="${opacity}">
+                        <button class="quick-add" ${btnDisabled} style="${isOut ? 'background:#555;cursor:not-allowed;' : ''}" onclick="event.stopPropagation(); ${clickAction}">
+                            ${btnChar}
                         </button>
                         <div onclick="showProduct(${p.id})">
-                            <img src="${p.img}" style="${isOut ? 'filter: grayscale(100%);' : ''}">
+                            <img src="${p.img}" style="${grayscale}">
                             <div class="card-info">
                                 <h3 style="font-size: 0.8rem; letter-spacing: 2px;">${p.name}</h3>
-                                ${statusLabel}
+                                ${priceHTML}
                             </div>
                         </div>
                     </div>`;
-            }).join('');
+            });
+        
+            list.innerHTML = html;
         }
-
         function showProduct(id) {
             const p = products.find(i => i.id === id);
             document.getElementById('product-content').innerHTML = `
