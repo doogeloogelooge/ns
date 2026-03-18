@@ -1019,20 +1019,33 @@
         function renderShop() {
             const list = document.getElementById('product-list');
             list.innerHTML = products.map(p => {
-                let priceDisplay = p.variantPrices ? `From ${Math.min(...Object.values(p.variantPrices))} kr` : `${p.price} kr`;
+                // SAFETY CHECK: Handle both single price and variant prices
+                let priceDisplay = "";
+                if (p.variantPrices) {
+                    const priceValues = Object.values(p.variantPrices);
+                    const minPrice = Math.min(...priceValues);
+                    priceDisplay = `From ${minPrice} kr`;
+                } else {
+                    priceDisplay = `${p.price} kr`;
+                }
                 
-                // Check if sold out
-                const soldOutAttr = p.isSoldOut ? 'disabled style="background:#555; cursor:not-allowed; opacity:0.8;"' : '';
-                const soldOutLabel = p.isSoldOut ? '<span style="color:#ff4444; font-size:0.7rem; font-weight:bold; display:block; margin-top:5px;">SOLD OUT</span>' : `<p style="color: var(--accent);">${priceDisplay}</p>`;
+                // Sold Out Logic
+                const isOut = p.isSoldOut === true;
+                const soldOutAttr = isOut ? 'disabled style="background:#555; cursor:not-allowed; opacity:0.5;"' : '';
+                const statusLabel = isOut 
+                    ? '<span style="color:#ff4444; font-size:0.7rem; font-weight:bold; display:block; margin-top:5px; letter-spacing:1px;">SOLD OUT</span>' 
+                    : `<p style="color: var(--accent);">${priceDisplay}</p>`;
         
                 return `
-                    <div class="card" style="${p.isSoldOut ? 'opacity: 0.7;' : ''}">
-                        <button class="quick-add" ${soldOutAttr} onclick="event.stopPropagation(); ${p.isSoldOut ? '' : `addToCart(event, ${p.id}, true)`}">${p.isSoldOut ? '✕' : '+'}</button>
+                    <div class="card" style="${isOut ? 'opacity: 0.6;' : ''}">
+                        <button class="quick-add" ${soldOutAttr} onclick="event.stopPropagation(); ${isOut ? '' : `addToCart(event, ${p.id}, true)`}">
+                            ${isOut ? '✕' : '+'}
+                        </button>
                         <div onclick="showProduct(${p.id})">
-                            <img src="${p.img}" style="${p.isSoldOut ? 'filter: grayscale(100%);' : ''}">
+                            <img src="${p.img}" style="${isOut ? 'filter: grayscale(100%);' : ''}">
                             <div class="card-info">
                                 <h3 style="font-size: 0.8rem; letter-spacing: 2px;">${p.name}</h3>
-                                ${soldOutLabel}
+                                ${statusLabel}
                             </div>
                         </div>
                     </div>`;
