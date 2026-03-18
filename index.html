@@ -1079,9 +1079,10 @@
                         <div style="margin: 20px 0;"><span class="variant-label">Selection</span>${p.colors.map((c, i) => `<button class="option-btn ${i===0?'active':''}" onclick="selectVariant(this)">${c}</button>`).join('')}</div>
                         <span class="variant-label">Quantity</span>
                         <div class="qty-selector"><button class="qty-btn" onclick="updateDetailQty(-1)">-</button><input type="number" id="detail-qty" class="qty-input" value="1" min="1"><button class="qty-btn" onclick="updateDetailQty(1)">+</button></div>
-                        const buyBtn = p.isSoldOut 
-                            ? `<button class="btn-large" disabled style="background:#333; color:#666; cursor:not-allowed;">OUT OF STOCK</button>`
-                            : `<button class="btn-large" onclick="addToCart(event, ${p.id})">Add to Cart</button>`;
+                        ${p.isSoldOut 
+                            ? `<button class="btn-large" disabled style="background:#333; color:#666; cursor:not-allowed;">OUT OF STOCK</button>` 
+                            : `<button class="btn-large" onclick="addToCart(event, ${p.id})">Add to Cart</button>`
+                        }
                     </div>
                 </div>`;
             showPage('detail');
