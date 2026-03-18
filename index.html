@@ -955,14 +955,15 @@
         }
         
         const products = [
-            { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", desc: "Premium oversized link chain for ultimate presence. Fits best for rubber baits from 25-29cm", colors: ["Silver"] },
-            { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium2.png", desc: "Balanced gauge chain for daily deployment. Fits best for rubber baits from 20-24cm", colors: ["Silver"] },
-            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small2.png", desc: "Low-profile precision chain for subtle detail. Fits best for rubber baits from 15-19cm", colors: ["Silver"] },
+            { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", isSoldOut: true, desc: "Premium oversized link chain for ultimate presence. Fits best for rubber baits from 25-29cm", colors: ["Silver"] },
+            { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium2.png", isSoldOut: true, desc: "Balanced gauge chain for daily deployment. Fits best for rubber baits from 20-24cm", colors: ["Silver"] },
+            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small2.png", isSoldOut: true, desc: "Low-profile precision chain for subtle detail. Fits best for rubber baits from 15-19cm", colors: ["Silver"] },
             { 
                 id: 4, 
                 name: "HÅRD MONO TAFS", 
                 price: 29, // Default starting price
-                img: "hårdmonotafs.png", 
+                img: "hårdmonotafs.png",
+                isSoldOut: false,
                 desc: "Tough monoline leader ready to tie on.", 
                 colors: ["20cm", "30cm", "40cm"],
                 // Add this new object:
@@ -976,7 +977,8 @@
                 id: 5, 
                 name: "JIGGSKALLAR 4-PACK", 
                 price: 35, // Default starting price
-                img: "jiggskallar.png", 
+                img: "jiggskallar.png",
+                isSoldOut: false,
                 desc: "JIGHEAD 4-PACK Premium heavy-duty heads with chemically sharpened hooks, forged for the toughest Nordic strikes.", 
                 colors: ["7g", "10g"],
                 // Add this new object:
@@ -1017,25 +1019,20 @@
         function renderShop() {
             const list = document.getElementById('product-list');
             list.innerHTML = products.map(p => {
-                // Check if there are multiple prices
-                let priceDisplay = `${p.price} kr`;
+                let priceDisplay = p.variantPrices ? `From ${Math.min(...Object.values(p.variantPrices))} kr` : `${p.price} kr`;
                 
-                if (p.variantPrices) {
-                    // Get all prices as an array: [29, 35, 40]
-                    const priceValues = Object.values(p.variantPrices);
-                    // Find the lowest one
-                    const minPrice = Math.min(...priceValues);
-                    priceDisplay = `From ${minPrice} kr`;
-                }
+                // Check if sold out
+                const soldOutAttr = p.isSoldOut ? 'disabled style="background:#555; cursor:not-allowed; opacity:0.8;"' : '';
+                const soldOutLabel = p.isSoldOut ? '<span style="color:#ff4444; font-size:0.7rem; font-weight:bold; display:block; margin-top:5px;">SOLD OUT</span>' : `<p style="color: var(--accent);">${priceDisplay}</p>`;
         
                 return `
-                    <div class="card">
-                        <button class="quick-add" onclick="event.stopPropagation(); addToCart(event, ${p.id}, true)">+</button>
+                    <div class="card" style="${p.isSoldOut ? 'opacity: 0.7;' : ''}">
+                        <button class="quick-add" ${soldOutAttr} onclick="event.stopPropagation(); ${p.isSoldOut ? '' : `addToCart(event, ${p.id}, true)`}">${p.isSoldOut ? '✕' : '+'}</button>
                         <div onclick="showProduct(${p.id})">
-                            <img src="${p.img}">
+                            <img src="${p.img}" style="${p.isSoldOut ? 'filter: grayscale(100%);' : ''}">
                             <div class="card-info">
                                 <h3 style="font-size: 0.8rem; letter-spacing: 2px;">${p.name}</h3>
-                                <p style="color: var(--accent);">${priceDisplay}</p>
+                                ${soldOutLabel}
                             </div>
                         </div>
                     </div>`;
@@ -1055,7 +1052,9 @@
                         <div style="margin: 20px 0;"><span class="variant-label">Selection</span>${p.colors.map((c, i) => `<button class="option-btn ${i===0?'active':''}" onclick="selectVariant(this)">${c}</button>`).join('')}</div>
                         <span class="variant-label">Quantity</span>
                         <div class="qty-selector"><button class="qty-btn" onclick="updateDetailQty(-1)">-</button><input type="number" id="detail-qty" class="qty-input" value="1" min="1"><button class="qty-btn" onclick="updateDetailQty(1)">+</button></div>
-                        <button class="btn-large" onclick="addToCart(event, ${p.id})">Add to Cart</button>
+                        const buyBtn = p.isSoldOut 
+                            ? `<button class="btn-large" disabled style="background:#333; color:#666; cursor:not-allowed;">OUT OF STOCK</button>`
+                            : `<button class="btn-large" onclick="addToCart(event, ${p.id})">Add to Cart</button>`;
                     </div>
                 </div>`;
             showPage('detail');
