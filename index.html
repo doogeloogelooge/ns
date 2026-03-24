@@ -22,6 +22,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.jpg" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
       (function(){
@@ -910,6 +911,9 @@
     </div>
 
     <script>
+        const _supabaseUrl = 'https://oqhkidahpkhrhayxgeum.supabase.co';
+        const _supabaseAnonKey = 'sb_publishable_X99T3SQDpC5WT3Df8K8V_Q_2zDICoRx';
+        const supabase = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
         // Run this when the site loads
         window.onload = function() {
@@ -1258,30 +1262,56 @@
         
         // 3. Updated processOrder Function
         // 3. Updated processOrder Function
-        function processOrder() {
+        async function processOrder() {
             const orderID = generateOrderNumber();
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            const shipping = subtotal < 299 ? 61 : 0; // Updated to match your banner threshold
+            const shipping = subtotal < 299 ? 61 : 0;
             const total = subtotal + shipping;
         
-            // 1. Get Phone and Structured Address
-            const phone = document.getElementById('form-phone').value;
-            const street = document.getElementById('form-street').value;
-            const postcode = document.getElementById('form-postcode').value;
-            const city = document.getElementById('form-city').value;
-            
-            // Combine them for the email template
-            const fullAddress = `${street}, ${postcode} ${city}`;
-        
-            const templateParams = {
-                order_id: orderID,
-                from_name: document.getElementById('form-name').value,
-                customer_email: document.getElementById('form-email').value,
-                customer_phone: phone,
-                customer_address: fullAddress, // Use the combined string here
-                order_details: cart.map(item => `${item.quantity}x ${item.name} (${item.variant})`).join('\n'),
-                total_price: total + " kr"
+            const customerData = {
+                name: document.getElementById('form-name').value,
+                email: document.getElementById('form-email').value,
+                phone: document.getElementById('form-phone').value,
+                address: `${document.getElementById('form-street').value}, ${document.getElementById('form-postcode').value} ${document.getElementById('form-city').value}`
             };
+        
+            try {
+                // --- STEP 1: Insert into Supabase ---
+                const { data, error } = await supabase
+                    .from('orders')
+                    .insert([{
+                        order_id: orderID,
+                        customer_name: customerData.name,
+                        email: customerData.email,
+                        phone: customerData.phone,
+                        address: customerData.address,
+                        items: cart, // Supabase handles the array/object as JSONB automatically
+                        total_price: total
+                    }]);
+        
+                if (error) throw error;
+        
+                // --- STEP 2: Send Email (Your existing logic) ---
+                const templateParams = {
+                    order_id: orderID,
+                    from_name: customerData.name,
+                    customer_email: customerData.email,
+                    customer_phone: customerData.phone,
+                    customer_address: customerData.address,
+                    order_details: cart.map(item => `${item.quantity}x ${item.name} (${item.variant})`).join('\n'),
+                    total_price: total + " kr"
+                };
+        
+                await emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams);
+        
+                // --- STEP 3: Show Success Page ---
+                renderSuccessPage(total, orderID);
+        
+            } catch (err) {
+                console.error("Order processing failed:", err);
+                showError("Database connection error. Please try again.");
+            }
+        }
         
             // Use your actual EmailJS IDs here
             emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
