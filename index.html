@@ -959,9 +959,36 @@
         }
         
         const products = [
-            { id: 1, name: "LARGE CHAIN STINGER", price: 39, img: "Large2.png", isSoldOut: true, desc: "Premium oversized link chain for ultimate presence. Fits best for rubber baits from 25-29cm", colors: ["Silver"] },
-            { id: 2, name: "MEDIUM CHAIN STINGER", price: 35, img: "Medium2.png", isSoldOut: true, desc: "Balanced gauge chain for daily deployment. Fits best for rubber baits from 20-24cm", colors: ["Silver"] },
-            { id: 3, name: "SMALL CHAIN STINGER", price: 29, img: "Small2.png", isSoldOut: true, desc: "Low-profile precision chain for subtle detail. Fits best for rubber baits from 15-19cm", colors: ["Silver"] },
+            { 
+                id: 1, 
+                name: "LARGE CHAIN STINGER", 
+                price: 39, 
+                img: "Large2.png", 
+                isSoldOut: false, // Changed to false so people can buy them!
+                desc: "Premium oversized link chain for ultimate presence. Fits best for rubber baits from 25-29cm", 
+                colors: ["Standard"], // Using 'Standard' as the variant name
+                variantPrices: { "Standard": 39 }
+            },
+            { 
+                id: 2, 
+                name: "MEDIUM CHAIN STINGER", 
+                price: 35, 
+                img: "Medium2.png", 
+                isSoldOut: false, 
+                desc: "Balanced gauge chain for daily deployment. Fits best for rubber baits from 20-24cm", 
+                colors: ["Standard"],
+                variantPrices: { "Standard": 35 }
+            },
+            { 
+                id: 3, 
+                name: "SMALL CHAIN STINGER", 
+                price: 29, 
+                img: "Small2.png", 
+                isSoldOut: false, 
+                desc: "Low-profile precision chain for subtle detail. Fits best for rubber baits from 15-19cm", 
+                colors: ["Standard"],
+                variantPrices: { "Standard": 29 }
+            },
             { 
                 id: 4, 
                 name: "HÅRD MONO TAFS", 
@@ -1080,7 +1107,10 @@
                         <p class="price">${p.price} kr</p>
                         <p style="color:var(--text-dim); line-height: 1.8; font-size: 0.9rem;">${p.desc}</p>
                         <div id="product-shipping-bar">${getProgressBarHTML()}</div>
-                        <div style="margin: 20px 0;"><span class="variant-label">Selection</span>${p.colors.map((c, i) => `<button class="option-btn ${i===0?'active':''}" onclick="selectVariant(this)">${c}</button>`).join('')}</div>
+                        <div style="margin: 20px 0; ${p.colors.length <= 1 ? 'display:none;' : ''}">
+                            <span class="variant-label">Selection</span>
+                            ${p.colors.map((c, i) => `<button class="option-btn ${i===0?'active':''}" onclick="selectVariant(this)">${c}</button>`).join('')}
+                        </div>
                         <span class="variant-label">Quantity</span>
                         <div class="qty-selector"><button class="qty-btn" onclick="updateDetailQty(-1)">-</button><input type="number" id="detail-qty" class="qty-input" value="1" min="1"><button class="qty-btn" onclick="updateDetailQty(1)">+</button></div>
                         ${p.isSoldOut 
