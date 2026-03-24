@@ -1118,6 +1118,16 @@
 
         async function renderShop() {
             const shopGrid = document.getElementById('shop-grid');
+            
+            // ADD THIS LINE TO FIX DUPLICATES:
+            shopGrid.innerHTML = ''; 
+        
+            // Fetch ALL stock levels from Supabase at once
+            const { data: stockLevels, error } = await supabaseclient
+                .from('products')
+                .select('name, stock_quantity');
+            
+            const shopGrid = document.getElementById('shop-grid');
             shopGrid.innerHTML = '';
         
             // Fetch ALL stock levels from Supabase at once
