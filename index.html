@@ -1276,6 +1276,15 @@
             };
         
             try {
+                // --- Build a cleaner list of items for the database ---
+                const simplifiedItems = cart.map(item => ({
+                    name: item.name,
+                    variant: item.variant,
+                    quantity: item.quantity,
+                    price_each: item.price,
+                    subtotal: item.price * item.quantity
+                }));
+                
                 // --- STEP 1: Insert into Supabase ---
                 const { error: dbError } = await supabaseclient
                     .from('orders')
@@ -1284,13 +1293,10 @@
                         customer_name: customerData.name,
                         email: customerData.email,
                         phone: customerData.phone,
-                        address: customerData.address,
-                        items: cart, 
+                        adress: customerData.address, // Keep 'adress' to match your DB typo
+                        items: simplifiedItems,       // Use the clean list here
                         total_price: total
                     }]);
-        
-                if (dbError) throw dbError;
-        
                 // --- STEP 2: Send Email ---
                 const templateParams = {
                     order_id: orderID,
