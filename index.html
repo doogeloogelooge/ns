@@ -922,6 +922,23 @@
             }
         }
         
+        async function getLiveStock(productName, variantName) {
+            try {
+                const { data, error } = await supabaseclient
+                    .from('products')
+                    .select('stock_quantity')
+                    .eq('name', productName)
+                    .eq('variant', variantName)
+                    .single();
+        
+                if (error) throw error;
+                return data ? data.stock_quantity : 0;
+            } catch (err) {
+                console.error("Stock check failed:", err);
+                return 0; // Assume 0 if there's a connection error to be safe
+            }
+        }
+        
         function acceptCookies() {
             localStorage.setItem('cookiesAccepted', 'true');
             document.getElementById('cookie-banner').style.visibility = 'hidden';
@@ -957,23 +974,6 @@
         function syncStorage() {
                     localStorage.setItem('northern_stingers_cart', JSON.stringify(cart));
                 }
-        
-                async function getLiveStock(productName, variantName) {
-            try {
-                const { data, error } = await supabaseclient
-                    .from('products')
-                    .select('stock_quantity')
-                    .eq('name', productName)
-                    .eq('variant', variantName)
-                    .single();
-        
-                if (error) throw error;
-                return data ? data.stock_quantity : 0;
-            } catch (err) {
-                console.error("Stock check failed:", err);
-                return 0; // Assume 0 if there's a connection error to be safe
-            }
-        }
         
         const products = [
             { 
