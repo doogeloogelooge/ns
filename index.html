@@ -164,6 +164,15 @@
             width: 0%;
             transition: width 0.5s var(--transition);
         }
+        /* Use a comma to apply the same styles to both IDs just in case */
+        #shop-grid, #product-list, .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto; /* This centers the grid on the screen */
+        }
 
         /* Styling the Success Page Swish Section */
         .swish-container {
