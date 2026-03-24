@@ -1277,7 +1277,7 @@
         
             try {
                 // --- STEP 1: Insert into Supabase ---
-                const { data, error } = await supabase
+                const { error: dbError } = await supabase
                     .from('orders')
                     .insert([{
                         order_id: orderID,
@@ -1285,13 +1285,13 @@
                         email: customerData.email,
                         phone: customerData.phone,
                         address: customerData.address,
-                        items: cart, // Supabase handles the array/object as JSONB automatically
+                        items: cart, 
                         total_price: total
                     }]);
         
-                if (error) throw error;
+                if (dbError) throw dbError;
         
-                // --- STEP 2: Send Email (Your existing logic) ---
+                // --- STEP 2: Send Email ---
                 const templateParams = {
                     order_id: orderID,
                     from_name: customerData.name,
@@ -1305,62 +1305,45 @@
                 await emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams);
         
                 // --- STEP 3: Show Success Page ---
-                renderSuccessPage(total, orderID);
+                const qrUrl = getSwishQRCode(total, orderID);
+                const swishLink = `swish://payment?data=${encodeURIComponent(JSON.stringify({
+                    version: 1,
+                    payee: { value: "0720018254" },
+                    amount: { value: total },
+                    message: { value: "Order " + orderID }
+                }))}`;
+        
+                document.getElementById('success-page').innerHTML = `
+                    <div class="container" style="text-align:center; padding-top: 50px;">
+                        <h1 style="color:var(--accent); letter-spacing:3px;">ORDER SENT!</h1>
+                        <p>Order Number: <strong>${orderID}</strong></p>
+                        <p>Total to pay: <strong>${total} kr</strong></p>
+                        <div style="margin: 30px 0;">
+                            <a href="${swishLink}" class="btn-large" style="background:#28a745; text-decoration:none; display:inline-block; width:100%; max-width:300px; color:white;">
+                                OPEN SWISH APP & PAY
+                            </a>
+                        </div>
+                        <div style="margin: 20px 0; border-top: 1px solid #333; padding-top: 20px;">
+                            <p style="color:var(--text-dim); margin-bottom:15px; font-size:0.8rem;">- OR SCAN QR CODE -</p>
+                            <div style="background:white; padding:15px; border-radius:15px; display:inline-block; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                                <img src="${qrUrl}" alt="Swish QR" style="width:200px; height:200px; display:block;">
+                            </div>
+                            <p style="color:var(--text-dim); margin-bottom:15px; font-size:0.8rem;">- 072 001 82 54 -</p>
+                        </div>
+                        <div style="margin-top:40px;">
+                            <button onclick="location.reload()" class="back-btn">RETURN TO SHOP</button>
+                        </div>
+                    </div>`;
+                
+                showPage('success');
+                cart = [];
+                syncStorage();
+                updateCartCount();
         
             } catch (err) {
                 console.error("Order processing failed:", err);
-                showError("Database connection error. Please try again.");
+                showError("Failed to place order. Please check your connection.");
             }
-        }
-        
-            // Use your actual EmailJS IDs here
-            emailjs.send('service_p2imeim', 'template_sc9xssw', templateParams)
-                .then(() => {
-                    const qrUrl = getSwishQRCode(total, orderID);
-                    
-                    // Generate the mobile deep link
-                    const swishLink = `swish://payment?data=${encodeURIComponent(JSON.stringify({
-                        version: 1,
-                        payee: { value: "0720018254" }, // YOUR REAL NUMBER
-                        amount: { value: total },
-                        message: { value: "Order " + orderID }
-                    }))}`;
-        
-                    document.getElementById('success-page').innerHTML = `
-                        <div class="container" style="text-align:center; padding-top: 50px;">
-                            <h1 style="color:var(--accent); letter-spacing:3px;">ORDER SENT!</h1>
-                            <p>Order Number: <strong>${orderID}</strong></p>
-                            <p>Total to pay: <strong>${total} kr</strong></p>
-                            
-                            <div style="margin: 30px 0;">
-                                <a href="${swishLink}" class="btn-large" style="background:#28a745; text-decoration:none; display:inline-block; width:100%; max-width:300px; color:white;">
-                                    OPEN SWISH APP & PAY
-                                </a>
-                            </div>
-        
-                            <div style="margin: 20px 0; border-top: 1px solid #333; padding-top: 20px;">
-                                <p style="color:var(--text-dim); margin-bottom:15px; font-size:0.8rem;">- OR SCAN QR CODE -</p>
-                                <div style="background:white; padding:15px; border-radius:15px; display:inline-block; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-                                    <img src="${qrUrl}" alt="Swish QR" style="width:200px; height:200px; display:block;">
-                                </div>
-                                <p style="color:var(--text-dim); margin-bottom:15px; font-size:0.8rem;">- 072 001 82 54 -</p>
-                            </div>
-        
-                            <div style="margin-top:40px;">
-                                <button onclick="location.reload()" class="back-btn">RETURN TO SHOP</button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    showPage('success');
-                    cart = [];
-                    syncStorage();
-                    updateCartCount();
-        
-                }, (error) => {
-                    console.error("Order failed:", error);
-                    alert("Something went wrong. Please try again.");
-                });
         }
 
         document.getElementById('contact-form').addEventListener('submit', function(event) {
