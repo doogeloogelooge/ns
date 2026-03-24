@@ -1064,56 +1064,42 @@
             return `<div class="progress-container"><div class="progress-text">${message}</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percentage}%"></div></div></div>`;
         }
 
-        function renderShop() {
-            const list = document.getElementById('product-list');
-            if (!list) return;
+        async function renderShop() {
+            const shopGrid = document.getElementById('shop-grid');
+            shopGrid.innerHTML = '';
         
-            let html = "";
+            // Fetch ALL stock levels from Supabase at once
+            const { data: stockLevels, error } = await supabaseclient
+                .from('products')
+                .select('name, stock_quantity');
         
             products.forEach(p => {
-                // 1. Calculate the price display
-                let priceDisplay = "";
-                if (p.variantPrices) {
-                    const prices = Object.values(p.variantPrices);
-                    priceDisplay = "From " + Math.min(...prices) + " kr";
-                } else {
-                    priceDisplay = p.price + " kr";
-                }
+                // Find the total stock for this product name in the database
+                const dbStock = stockLevels
+                    ? stockLevels.filter(s => s.name === p.name).reduce((sum, item) => sum + item.stock_quantity, 0)
+                    : 0;
         
-                // 2. Setup Sold Out variables
-                const isOut = p.isSoldOut === true;
-                
-                // Visuals
-                const opacity = isOut ? "opacity: 0.6;" : "";
-                const grayscale = isOut ? "filter: grayscale(100%);" : "";
-                const btnChar = isOut ? "✕" : "+";
-                const btnDisabled = isOut ? "disabled" : "";
-                
-                // Only allow clicking "Add" if NOT sold out
-                const clickAction = isOut ? "" : "addToCart(event, " + p.id + ", true)";
+                // If stock is 0, we treat it as sold out
+                const soldOut = p.isSoldOut || dbStock <= 0;
         
-                const priceHTML = isOut 
-                    ? '<span style="color:#ff4444; font-size:0.7rem; font-weight:bold; display:block; margin-top:5px;">SOLD OUT</span>' 
-                    : '<p style="color: var(--accent);">' + priceDisplay + '</p>';
+                const card = document.createElement('div');
+                card.className = `product-card ${soldOut ? 'sold-out' : ''}`;
+                card.onclick = () => !soldOut && showProduct(p.id);
         
-                // 3. Build the card string
-                html += `
-                    <div class="card" style="${opacity}">
-                        <button class="quick-add" ${btnDisabled} style="${isOut ? 'background:#555;cursor:not-allowed;' : ''}" onclick="event.stopPropagation(); ${clickAction}">
-                            ${btnChar}
-                        </button>
-                        <div onclick="showProduct(${p.id})">
-                            <img src="${p.img}" style="${grayscale}">
-                            <div class="card-info">
-                                <h3 style="font-size: 0.8rem; letter-spacing: 2px;">${p.name}</h3>
-                                ${priceHTML}
-                            </div>
-                        </div>
-                    </div>`;
+                card.innerHTML = `
+                    ${soldOut ? '<div class="sold-out-badge">OUT OF STOCK</div>' : ''}
+                    <div class="product-img-container">
+                        <img src="${p.img}" alt="${p.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3 style="font-size:0.9rem; margin-bottom:5px;">${p.name}</h3>
+                        <p style="color:var(--accent); font-weight:bold;">${p.price} SEK</p>
+                    </div>
+                `;
+                shopGrid.appendChild(card);
             });
-        
-            list.innerHTML = html;
         }
+        
         function showProduct(id) {
             const p = products.find(i => i.id === id);
             document.getElementById('product-content').innerHTML = `
