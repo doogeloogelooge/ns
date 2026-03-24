@@ -1117,20 +1117,14 @@
         }
 
         async function renderShop() {
+            // Reference the existing element without re-declaring 'const' 
+            // if you already have it globally, or just use it locally:
             const shopGrid = document.getElementById('shop-grid');
             
-            // ADD THIS LINE TO FIX DUPLICATES:
+            // FIX FOR DUPLICATES: Clear the grid before rendering
             shopGrid.innerHTML = ''; 
         
-            // Fetch ALL stock levels from Supabase at once
-            const { data: stockLevels, error } = await supabaseclient
-                .from('products')
-                .select('name, stock_quantity');
-            
-            const shopGrid = document.getElementById('shop-grid');
-            shopGrid.innerHTML = '';
-        
-            // Fetch ALL stock levels from Supabase at once
+            // Fetch stock levels
             const { data: stockLevels, error } = await supabaseclient
                 .from('products')
                 .select('name, stock_quantity');
