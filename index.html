@@ -955,7 +955,24 @@
         }
 
         function syncStorage() {
-            localStorage.setItem('northern_stingers_cart', JSON.stringify(cart));
+                    localStorage.setItem('northern_stingers_cart', JSON.stringify(cart));
+                }
+        
+                async function getLiveStock(productName, variantName) {
+            try {
+                const { data, error } = await supabaseclient
+                    .from('products')
+                    .select('stock_quantity')
+                    .eq('name', productName)
+                    .eq('variant', variantName)
+                    .single();
+        
+                if (error) throw error;
+                return data ? data.stock_quantity : 0;
+            } catch (err) {
+                console.error("Stock check failed:", err);
+                return 0; // Assume 0 if there's a connection error to be safe
+            }
         }
         
         const products = [
@@ -1147,31 +1164,40 @@
             }
         }
 
-        function addToCart(e, id, isQuickAdd = false) {
+        async function addToCart(e, id, isQuickAdd = false) {
             const item = products.find(p => p.id === id);
             let variant = item.colors[0]; 
             let quantity = 1;
-            let finalPrice = item.price;
         
+            // 1. Determine which variant and quantity the user wants
             if (!isQuickAdd) {
                 const activeBtn = document.querySelector('.option-btn.active');
                 variant = activeBtn ? activeBtn.innerText : item.colors[0];
                 quantity = parseInt(document.getElementById('detail-qty').value);
-                finalPrice = parseInt(document.querySelector('.price').innerText);
             }
         
-            const existing = cart.find(i => i.id === id && i.variant === variant);
-            if (existing) {
-                existing.quantity += quantity;
+            // 2. LIVE STOCK CHECK
+            const availableStock = await getLiveStock(item.name, variant);
+            
+            // Check if what's already in the cart + new quantity exceeds stock
+            const inCart = cart.find(i => i.id === id && i.variant === variant);
+            const totalNeeded = (inCart ? inCart.quantity : 0) + quantity;
+        
+            if (totalNeeded > availableStock) {
+                showError(`ONLY ${availableStock} LEFT IN STOCK`);
+                return; // Stop the function here
+            }
+        
+            // 3. Proceed with adding to cart if stock is okay
+            if (inCart) {
+                inCart.quantity += quantity;
             } else {
-                cart.push({ ...item, variant, quantity, price: finalPrice });
+                cart.push({ ...item, variant, quantity, price: item.variantPrices[variant] });
             }
         
             showToast();
             createParticle(e.clientX, e.clientY);
             updateCartCount();
-            
-            // SAVE TO LOCALSTORAGE
             syncStorage(); 
         }
 
