@@ -913,7 +913,7 @@
     <script>
         const _supabaseUrl = 'https://oqhkidahpkhrhayxgeum.supabase.co';
         const _supabaseAnonKey = 'sb_publishable_X99T3SQDpC5WT3Df8K8V_Q_2zDICoRx';
-        const supabaseclients = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+        const supabaseclient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
         // Run this when the site loads
         window.onload = function() {
@@ -1277,7 +1277,7 @@
         
             try {
                 // --- STEP 1: Insert into Supabase ---
-                const { error: dbError } = await supabase
+                const { error: dbError } = await supabaseclient
                     .from('orders')
                     .insert([{
                         order_id: orderID,
