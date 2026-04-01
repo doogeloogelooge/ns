@@ -304,6 +304,30 @@
             box-shadow: 0 0 15px #bd00ff;
             z-index: 30;
         }
+
+        /* Special Styling for the UV Selection Button */
+        .uv-button {
+            border-color: #bd00ff !important; /* Neon Purple */
+            color: #bd00ff !important;
+            text-shadow: 0 0 8px #bd00ff;
+            box-shadow: 0 0 10px rgba(189, 0, 255, 0.2);
+            font-weight: 800;
+            transition: all 0.3s ease;
+            animation: uv-glow-pulse 2s infinite ease-in-out;
+        }
+        
+        /* When the UV button is selected/active */
+        .uv-button.active {
+            background: rgba(189, 0, 255, 0.2) !important;
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.5);
+            transform: scale(1.05);
+        }
+        
+        @keyframes uv-glow-pulse {
+            0% { box-shadow: 0 0 5px rgba(189, 0, 255, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(189, 0, 255, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(189, 0, 255, 0.2); }
+        }
         
         .team-card {
             background: #fff;
@@ -1293,12 +1317,25 @@
                         <p class="price">${p.price} kr</p>
                         <p style="color:var(--text-dim); line-height: 1.8; font-size: 0.9rem;">${p.desc}</p>
                         <div id="product-shipping-bar">${getProgressBarHTML()}</div>
+                        
                         <div style="margin: 20px 0; ${p.colors.length <= 1 ? 'display:none;' : ''}">
                             <span class="variant-label">Selection</span>
-                            ${p.colors.map((c, i) => `<button class="option-btn ${i===0?'active':''}" onclick="selectVariant(this)">${c}</button>`).join('')}
+                            ${p.colors.map((c, i) => {
+                                // Check if this specific option is "UV"
+                                const isUV = c === 'UV';
+                                return `<button 
+                                    class="option-btn ${i===0?'active':''} ${isUV ? 'uv-button' : ''}" 
+                                    onclick="selectVariant(this)">${c}</button>`;
+                            }).join('')}
                         </div>
+        
                         <span class="variant-label">Quantity</span>
-                        <div class="qty-selector"><button class="qty-btn" onclick="updateDetailQty(-1)">-</button><input type="number" id="detail-qty" class="qty-input" value="1" min="1"><button class="qty-btn" onclick="updateDetailQty(1)">+</button></div>
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick="updateDetailQty(-1)">-</button>
+                            <input type="number" id="detail-qty" class="qty-input" value="1" min="1">
+                            <button class="qty-btn" onclick="updateDetailQty(1)">+</button>
+                        </div>
+                        
                         ${p.isSoldOut 
                             ? `<button class="btn-large" disabled style="background:#333; color:#666; cursor:not-allowed;">OUT OF STOCK</button>` 
                             : `<button class="btn-large" onclick="addToCart(event, ${p.id})">Add to Cart</button>`
