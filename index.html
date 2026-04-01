@@ -1202,26 +1202,22 @@
         }
 
         async function renderShop() {
-            // Reference the existing element without re-declaring 'const' 
-            // if you already have it globally, or just use it locally:
             const shopGrid = document.getElementById('shop-grid');
-            
-            // FIX FOR DUPLICATES: Clear the grid before rendering
             shopGrid.innerHTML = ''; 
         
-            // Fetch stock levels
             const { data: stockLevels, error } = await supabaseclient
                 .from('products')
                 .select('name, stock_quantity');
         
             products.forEach(p => {
-                // Find the total stock for this product name in the database
                 const dbStock = stockLevels
                     ? stockLevels.filter(s => s.name === p.name).reduce((sum, item) => sum + item.stock_quantity, 0)
                     : 0;
         
-                // If stock is 0, we treat it as sold out
                 const soldOut = p.isSoldOut || dbStock <= 0;
+                
+                // CHECK: Does this product have a UV variant?
+                const hasUV = p.colors && p.colors.includes("UV");
         
                 const card = document.createElement('div');
                 card.className = `product-card ${soldOut ? 'sold-out' : ''}`;
@@ -1234,6 +1230,13 @@
                     </div>
                     <div class="product-info">
                         <h3 style="font-size:0.9rem; margin-bottom:5px;">${p.name}</h3>
+                        
+                        ${hasUV ? `
+                            <div style="font-size: 0.6rem; color: var(--accent); letter-spacing: 1px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase;">
+                                Now available in UV
+                            </div>
+                        ` : ''}
+                        
                         <p style="color:var(--accent); font-weight:bold;">${p.price} SEK</p>
                     </div>
                 `;
