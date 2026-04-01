@@ -1434,7 +1434,7 @@
         function goCheckout() {
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
             const shipping = subtotal < FREE_SHIPPING_THRESHOLD ? 61 : 0;
-            document.getElementById('checkout-list').innerHTML = cart.map(item => `<div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-top:8px;"><span>${item.quantity}x ${item.name}</span><span>${item.price * item.quantity} kr</span></div>`).join('');
+            document.getElementById('checkout-list').innerHTML = cart.map(item => `<div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-top:8px;"><span>${item.quantity}x ${item.name}x ${item.variant}</span><span>${item.price * item.quantity} kr</span></div>`).join('');
             document.getElementById('checkout-subtotal').innerText = subtotal + " kr";
             document.getElementById('checkout-shipping').innerText = shipping === 0 ? "FREE" : shipping + " kr";
             document.getElementById('checkout-total').innerText = (subtotal + shipping) + " kr";
