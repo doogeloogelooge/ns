@@ -1572,6 +1572,7 @@
         // If it finds it, it turns the string back into an array using JSON.parse().
         // If it's empty, it defaults to [].
         let cart = JSON.parse(localStorage.getItem('northern_stingers_cart')) || [];
+        let currentUser = null;
         
         // Trigger an initial count update so the header badge shows the saved items immediately
         window.addEventListener('DOMContentLoaded', () => {
@@ -1981,6 +1982,12 @@
 
         // Authentication Functions
         async function showAccount() {
+            // First check if we have a current user in memory
+            if (currentUser) {
+                showAccountPage(currentUser);
+                return;
+            }
+
             try {
                 // First try getSession
                 let { data: { session } } = await supabaseclient.auth.getSession();
@@ -1990,20 +1997,18 @@
                     const { data } = await supabaseclient.auth.getUser();
                     if (data?.user) {
                         session = { user: data.user };
+                        currentUser = data.user; // Cache for future use
                     }
                 }
 
                 if (session?.user) {
-                    // User is logged in, show account page
-                    showAccountPage(session.user);
+                    currentUser = session.user;
+                    showAccountPage(currentUser);
                 } else {
-                    // User not logged in, show auth modal
                     document.getElementById('auth-modal').style.display = 'flex';
                     document.body.style.overflow = 'hidden';
                 }
             } catch (error) {
-                // Handle authentication errors (403, etc.)
-                console.log('Auth check failed, showing login modal:', error);
                 document.getElementById('auth-modal').style.display = 'flex';
                 document.body.style.overflow = 'hidden';
             }
@@ -2054,9 +2059,10 @@
                 if (error) throw error;
 
                 messageEl.innerHTML = '<span style="color: #4CAF50;">Login successful!</span>';
+                currentUser = data.user;
                 setTimeout(() => {
                     closeAuthModal();
-                    showAccountPage(data.user);
+                    showAccountPage(currentUser);
                 }, 1000);
 
             } catch (error) {
@@ -2191,12 +2197,14 @@
             try {
                 const { error } = await supabaseclient.auth.signOut();
                 if (error) throw error;
-                
+
+                currentUser = null;
                 // Reset account button and show shop
                 showPage('shop');
-                
+
             } catch (error) {
                 console.error('Error logging out:', error);
+                currentUser = null;
                 // Still show shop page even if logout fails
                 showPage('shop');
             }
@@ -2205,14 +2213,16 @@
         // Check auth state on page load
         supabaseclient.auth.onAuthStateChange(async (event, session) => {
             const accountBtn = document.getElementById('account-btn');
-            
+
             try {
                 if (session?.user) {
                     // User is logged in
+                    currentUser = session.user;
                     accountBtn.title = 'My Account';
                     accountBtn.style.color = 'var(--accent)';
                 } else {
                     // User is logged out
+                    currentUser = null;
                     accountBtn.title = 'Sign In';
                     accountBtn.style.color = 'var(--text)';
                 }
