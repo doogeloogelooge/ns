@@ -615,48 +615,6 @@
             background-attachment: fixed; /* Creates a slight parallax effect */
         }
         .hero h1 { font-weight: 300; letter-spacing: 15px; font-size: 3rem; margin: 0; }
-        
-        .card { background: var(--surface); cursor: pointer; transition: all 0.5s var(--transition); border: 1px solid rgba(255,255,255,0.03); position: relative; border-radius: 25px; overflow: hidden; animation: reveal 0.8s var(--transition) both; }
-        .card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; filter: grayscale(30%); transition: transform 0.6s var(--transition), filter 0.5s; display: block; }
-        .card:hover img { filter: grayscale(0%); transform: scale(1.08); }
-
-        .quick-add {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
-            background: var(--accent);
-            color: var(--dark-bg);
-            border-radius: 50%;
-            
-            /* Perfect Centering Logic */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;      /* Resets font-box height */
-            padding: 0;          /* Removes browser defaults */
-            padding-bottom: 2px; /* Optical adjustment: pushes the '+' down slightly */
-            
-            font-size: 1.5rem;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: 0.3s var(--transition);
-            z-index: 10;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        /* Ensure it stays visible and centered when tapped on mobile */
-        @media (max-width: 768px) {
-            .quick-add {
-                opacity: 1;      /* Always show on mobile since there is no 'hover' */
-                transform: translateY(0);
-                width: 44px;     /* Slightly larger for easier tapping */
-                height: 44px;
-            }
-        }
 
         @media (max-width: 480px) {
             #cart-items img {
@@ -678,7 +636,6 @@
             object-fit: cover;
             transition: transform 0.6s var(--transition);
         }
-        .card:hover .quick-add { opacity: 1; transform: translateY(0); }
         .card-info { padding: 20px; }
 
         #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent); color: var(--dark-bg); padding: 12px 25px; border-radius: 25px; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; transition: transform 0.4s var(--transition); z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -713,7 +670,6 @@
         @keyframes reveal { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeSlide { from { opacity: 0; transform: translateX(15px); } to { opacity: 1; transform: translateX(0); } }
         .page-animate { animation: fadeSlide 0.5s var(--transition) forwards; }
-        .card:hover { transform: translateY(-10px); border-color: rgba(163, 186, 195, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 
         @media (max-width: 768px) {
             /* 1. Adjust Hero Text */
@@ -1068,7 +1024,7 @@
     
             <nav class="footer-nav">
                 <button onclick="showPage('shop')">Home</button>
-                <button onclick="/* Add function */">News</button>
+                <button>News</button>
                 <button onclick="showPage('contact')">Contact Us</button>
                 <button onclick="showPage('team')">Our Team</button>
                 <button onclick="showPage('legal')">Terms & Privacy</button>
@@ -1522,7 +1478,6 @@
             return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(swishData)}`;
         }
         
-        // 3. Updated processOrder Function
         // 3. Updated processOrder Function
         async function processOrder() {
             const orderID = generateOrderNumber();
