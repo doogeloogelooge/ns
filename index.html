@@ -812,6 +812,279 @@
             filter: grayscale(1);
             cursor: not-allowed;
         }
+        /* Authentication Modals */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .auth-modal-content {
+            background: var(--surface);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .auth-modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-modal-header h2 {
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin: 0 0 0.5rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background: #111;
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 8px 16px;
+            border: none;
+            background: none;
+            color: var(--text-dim);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth-tab.active {
+            background: var(--accent);
+            color: var(--dark-bg);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .auth-form .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-form .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #222;
+            color: var(--text);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .auth-form .form-group input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(163, 186, 195, 0.3);
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .auth-toggle a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Account Page */
+        .account-page {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .account-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .account-header h1 {
+            font-weight: 300;
+            letter-spacing: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .account-info {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .account-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .account-logout {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid #444;
+            color: var(--text-dim);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
+        .orders-section h2 {
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .user-orders {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .user-order-card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .user-order-card:hover {
+            border-color: var(--accent);
+        }
+
+        .user-order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .user-order-number {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0;
+        }
+
+        .user-order-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-placed .user-status-dot { background: #ffa500; }
+        .status-packaged .user-status-dot { background: #007bff; }
+        .status-shipped .user-status-dot { background: #28a745; }
+        .status-delivered .user-status-dot { background: #6f42c1; }
+        .status-cancelled .user-status-dot { background: #dc3545; }
+
+        .user-order-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .user-order-total {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .user-order-date {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .user-order-items {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .no-orders {
+            text-align: center;
+            color: var(--text-dim);
+            padding: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -834,6 +1107,12 @@
                 </svg>
             </button>
         
+            <button class="nav-link" id="account-btn" onclick="showAccount()" title="Account" style="padding: 5px; display: flex; align-items: center; margin: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+
             <button class="nav-link" id="cart-btn" onclick="showPage('cart')" title="Cart" style="position: relative; padding: 5px; display: flex; align-items: center; margin: 0;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
@@ -1014,6 +1293,89 @@
 
     <div id="success-page" class="container hidden"></div>
 
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-modal-content">
+            <button class="auth-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-modal-header">
+                <h2 id="auth-title">Sign In</h2>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+                <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="auth-btn">Sign In</button>
+            </form>
+
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" required>
+                </div>
+                <button type="submit" class="auth-btn">Create Account</button>
+            </form>
+
+            <div id="auth-message" class="auth-toggle" style="margin-top: 1rem;"></div>
+        </div>
+    </div>
+
+    <!-- Account Page -->
+    <div id="account-page" class="container hidden">
+        <button onclick="showPage('shop')" class="back-btn">← BACK TO SHOP</button>
+
+        <div class="account-page">
+            <div class="account-header">
+                <h1>My Account</h1>
+                <p id="account-email" style="color: var(--text-dim); margin: 0;"></p>
+            </div>
+
+            <div class="account-info">
+                <h3 style="margin: 0 0 1rem; font-weight: 400;">Account Details</h3>
+                <div class="account-details">
+                    <div>
+                        <strong>Name:</strong> <span id="account-name"></span>
+                    </div>
+                    <div>
+                        <strong>Member since:</strong> <span id="account-created"></span>
+                    </div>
+                </div>
+                <div class="account-logout">
+                    <button class="btn-logout" onclick="logout()">Sign Out</button>
+                </div>
+            </div>
+
+            <div class="orders-section">
+                <h2>Order History</h2>
+                <div id="user-orders" class="user-orders">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="site-footer">
         <div class="footer-container">
             <div class="social-icons">
@@ -1095,7 +1457,13 @@
         // Update your showPage function to include the legal page
         function showPage(id) {
             // Make sure 'legal' is added to this list
-            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal', 'team', 'contact']; 
+            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal', 'team', 'contact', 'account']; 
+            
+            // Special handling for account page - require authentication
+            if (id === 'account') {
+                showAccount(); // This will check auth and show account or login modal
+                return; // Don't proceed with normal page showing
+            }
             
             pages.forEach(p => {
                 const el = document.getElementById(p + '-page');
@@ -1493,6 +1861,9 @@
             };
         
             try {
+                // Get current user if logged in
+                const { data: { user }, error } = await supabaseclient.auth.getUser();
+                
                 // --- Build a cleaner list of items for the database ---
                 const simplifiedItems = cart.map(item => ({
                     name: item.name,
@@ -1503,18 +1874,25 @@
                 }));
                 
                 // --- STEP 1: Insert into Supabase ---
+                const orderData = {
+                    order_id: orderID,
+                    customer_name: customerData.name,
+                    email: customerData.email,
+                    phone: customerData.phone,
+                    address: customerData.address, // Keep 'adress' to match your DB typo
+                    items: simplifiedItems,       // Use the clean list here
+                    total_price: total,
+                    order_status: 'Placed'
+                };
+                
+                // Add user_id if user is logged in (and no auth error)
+                if (user && !error) {
+                    orderData.user_id = user.id;
+                }
+                
                 const { error: dbError } = await supabaseclient
                     .from('orders')
-                    .insert([{
-                        order_id: orderID,
-                        customer_name: customerData.name,
-                        email: customerData.email,
-                        phone: customerData.phone,
-                        address: customerData.address, // Keep 'adress' to match your DB typo
-                        items: simplifiedItems,       // Use the clean list here
-                        total_price: total,
-                        order_status: 'Placed'
-                    }]);
+                    .insert([orderData]);
                 // --- STEP 2: Send Email ---
                 const templateParams = {
                     order_id: orderID,
@@ -1594,10 +1972,252 @@
                     btn.disabled = false;
                 });
         });
+
+        // Authentication Functions
+        async function showAccount() {
+            try {
+                const { data: { user }, error } = await supabaseclient.auth.getUser();
+                
+                if (user && !error) {
+                    // User is logged in, show account page
+                    showAccountPage(user);
+                } else {
+                    // User not logged in, show auth modal
+                    document.getElementById('auth-modal').style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+            } catch (error) {
+                // Handle authentication errors (403, etc.)
+                console.log('Auth check failed, showing login modal:', error);
+                document.getElementById('auth-modal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Reset forms
+            document.getElementById('login-form').reset();
+            document.getElementById('signup-form').reset();
+            document.getElementById('auth-message').innerHTML = '';
+        }
+
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const title = document.getElementById('auth-title');
+            const tabs = document.querySelectorAll('.auth-tab');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            document.querySelector(`[onclick="switchAuthTab('${tab}')"]`).classList.add('active');
+
+            if (tab === 'login') {
+                loginForm.classList.add('active');
+                signupForm.classList.remove('active');
+                title.textContent = 'Sign In';
+            } else {
+                signupForm.classList.add('active');
+                loginForm.classList.remove('active');
+                title.textContent = 'Sign Up';
+            }
+        }
+
+        // Login Form Handler
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const messageEl = document.getElementById('auth-message');
+
+            try {
+                const { data, error } = await supabaseclient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) throw error;
+
+                messageEl.innerHTML = '<span style="color: #4CAF50;">Login successful!</span>';
+                setTimeout(() => {
+                    closeAuthModal();
+                    showAccountPage(data.user);
+                }, 1000);
+
+            } catch (error) {
+                messageEl.innerHTML = `<span style="color: #ff4444;">${error.message}</span>`;
+            }
+        });
+
+        // Signup Form Handler
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            const messageEl = document.getElementById('auth-message');
+
+            if (password !== confirmPassword) {
+                messageEl.innerHTML = '<span style="color: #ff4444;">Passwords do not match</span>';
+                return;
+            }
+
+            if (password.length < 6) {
+                messageEl.innerHTML = '<span style="color: #ff4444;">Password must be at least 6 characters</span>';
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseclient.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+
+                if (error) throw error;
+
+                messageEl.innerHTML = '<span style="color: #4CAF50;">Account created! Please check your email to verify your account.</span>';
+
+            } catch (error) {
+                messageEl.innerHTML = `<span style="color: #ff4444;">${error.message}</span>`;
+            }
+        });
+
+        async function showAccountPage(user) {
+            if (!user) {
+                // No user provided, show auth modal
+                document.getElementById('auth-modal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                return;
+            }
+            
+            try {
+                // Update account info
+                document.getElementById('account-email').textContent = user.email || 'Not available';
+                document.getElementById('account-name').textContent = user.user_metadata?.full_name || 'Not provided';
+                document.getElementById('account-created').textContent = user.created_at ? new Date(user.created_at).toLocaleDateString() : 'Unknown';
+
+                // Load user orders
+                await loadUserOrders(user.id);
+
+                // Show account page
+                showPage('account');
+            } catch (error) {
+                console.error('Error showing account page:', error);
+                // Fallback to auth modal
+                document.getElementById('auth-modal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        async function loadUserOrders(userId) {
+            if (!userId) {
+                document.getElementById('user-orders').innerHTML = '<p style="color: var(--text-dim); text-align: center; padding: 2rem;">Unable to load orders. Please try logging in again.</p>';
+                return;
+            }
+            
+            try {
+                const { data: orders, error } = await supabaseclient
+                    .from('orders')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                const ordersContainer = document.getElementById('user-orders');
+                
+                if (!orders || orders.length === 0) {
+                    ordersContainer.innerHTML = '<p style="color: var(--text-dim); text-align: center; padding: 2rem;">No orders found. Start shopping to see your order history!</p>';
+                    return;
+                }
+
+                ordersContainer.innerHTML = orders.map(order => {
+                    const statusColors = {
+                        'Placed': '#ffa500',
+                        'Processing': '#007bff',
+                        'Shipped': '#28a745',
+                        'Delivered': '#6c757d',
+                        'Cancelled': '#dc3545'
+                    };
+
+                    const statusColor = statusColors[order.order_status] || '#888';
+
+                    return `
+                        <div class="user-order-card">
+                            <div class="order-header">
+                                <div class="order-id">Order ${order.order_id}</div>
+                                <div class="order-date">${new Date(order.created_at).toLocaleDateString()}</div>
+                            </div>
+                            <div class="order-status">
+                                <div class="status-dot" style="background-color: ${statusColor};"></div>
+                                <span>${order.order_status}</span>
+                            </div>
+                            <div class="order-items">
+                                ${order.items.map(item => 
+                                    `<div class="order-item">
+                                        <span>${item.quantity}x ${item.name} (${item.variant})</span>
+                                        <span>${item.subtotal} kr</span>
+                                    </div>`
+                                ).join('')}
+                            </div>
+                            <div class="order-total">
+                                <strong>Total: ${order.total_price} kr</strong>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('user-orders').innerHTML = '<p style="color: var(--text-dim); text-align: center; padding: 2rem;">Error loading orders. Please try again later.</p>';
+            }
+        }
+
+        async function logout() {
+            try {
+                const { error } = await supabaseclient.auth.signOut();
+                if (error) throw error;
+                
+                // Reset account button and show shop
+                showPage('shop');
+                
+            } catch (error) {
+                console.error('Error logging out:', error);
+                // Still show shop page even if logout fails
+                showPage('shop');
+            }
+        }
+
+        // Check auth state on page load
+        supabaseclient.auth.onAuthStateChange(async (event, session) => {
+            const accountBtn = document.getElementById('account-btn');
+            
+            try {
+                if (session?.user) {
+                    // User is logged in
+                    accountBtn.title = 'My Account';
+                    accountBtn.style.color = 'var(--accent)';
+                } else {
+                    // User is logged out
+                    accountBtn.title = 'Sign In';
+                    accountBtn.style.color = 'var(--text)';
+                }
+            } catch (error) {
+                // Handle any auth state errors
+                console.log('Auth state change error:', error);
+                accountBtn.title = 'Sign In';
+                accountBtn.style.color = 'var(--text)';
+            }
+        });
     </script>
 </body>
 </html>
-
 
 
 
