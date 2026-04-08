@@ -1982,7 +1982,16 @@
         // Authentication Functions
         async function showAccount() {
             try {
-                const { data: { session }, error } = await supabaseclient.auth.getSession();
+                // First try getSession
+                let { data: { session } } = await supabaseclient.auth.getSession();
+
+                // If no session, try getUser (it may fetch from server)
+                if (!session?.user) {
+                    const { data } = await supabaseclient.auth.getUser();
+                    if (data?.user) {
+                        session = { user: data.user };
+                    }
+                }
 
                 if (session?.user) {
                     // User is logged in, show account page

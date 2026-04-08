@@ -875,6 +875,15 @@
                 return;
             }
 
+            // Check if user has admin role
+            const userRole = data.user?.user_metadata?.role;
+            if (userRole !== 'admin') {
+                await supabase_client.auth.signOut();
+                errorDiv.textContent = 'Access denied. Admin privileges required.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
             if (data.session) {
                 showDashboard();
             } else {
