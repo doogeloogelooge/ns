@@ -439,8 +439,10 @@
         const supabase_client = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
         // Simple authentication (hardcoded for now)
-        const ADMIN_USERNAME = 'admin';
-        const ADMIN_PASSWORD = 'password123';
+        const ADMIN_CREDENTIALS = [
+            { username: 'calle', password: 'NSsubb' },
+            { username: 'Callsubb', password: 'NScallsubb' }
+        ];
 
         // Check if user is logged in on page load
         window.onload = function() {
@@ -459,7 +461,9 @@
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('login-error');
 
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            const isValid = ADMIN_CREDENTIALS.some(cred => cred.username === username && cred.password === password);
+
+            if (isValid) {
                 localStorage.setItem('admin_logged_in', 'true');
                 showDashboard();
             } else {
@@ -494,7 +498,7 @@
             ordersTable.classList.add('hidden');
 
             try {
-                const { data: orders, error } = await supabase
+                const { data: orders, error } = await supabase_client
                     .from('orders')
                     .select('*')
                     .order('created_at', { ascending: false });
@@ -541,7 +545,7 @@
             document.getElementById('order-details-content').innerHTML = '<div class="loading">Loading order details...</div>';
 
             try {
-                const { data: order, error } = await supabase
+                const { data: order, error } = await supabase_client
                     .from('orders')
                     .select('*')
                     .eq('order_id', orderId)
@@ -627,7 +631,7 @@
             const messageContainer = document.getElementById('message-container');
             
             try {
-                const { error } = await supabase
+                const { error } = await supabase_client
                     .from('orders')
                     .update({ order_status: newStatus })
                     .eq('order_id', orderId);
