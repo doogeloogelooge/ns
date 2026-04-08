@@ -153,6 +153,47 @@
             font-family: inherit;
         }
 
+        .admin-panel {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-panel h2 {
+            margin: 0 0 1rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .admin-panel .admin-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .admin-panel .form-group label {
+            color: var(--text-dim);
+        }
+
+        .admin-panel .btn-admin {
+            width: fit-content;
+            padding: 12px 20px;
+            background: var(--accent);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .admin-panel .admin-note {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-top: 0.5rem;
+        }
+
         .date-filter {
             padding: 10px;
             background: #111;
@@ -397,6 +438,26 @@
             <input type="date" class="date-filter" id="date-filter">
         </div>
 
+        <div class="admin-panel">
+            <h2>Create a new admin</h2>
+            <form id="create-admin-form" class="admin-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="new-admin-username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="new-admin-password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm password</label>
+                    <input type="password" id="new-admin-password-confirm" required>
+                </div>
+                <button type="submit" class="btn-admin">Create admin</button>
+                <p class="admin-note">The username becomes an email like <strong>username@northernstingers.com</strong> for Supabase Auth.</p>
+            </form>
+        </div>
+
         <div id="message-container"></div>
 
         <div id="loading" class="loading">Loading orders...</div>
@@ -438,36 +499,57 @@
         const _supabaseAnonKey = 'sb_publishable_X99T3SQDpC5WT3Df8K8V_Q_2zDICoRx';
         const supabase_client = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
-        // Simple authentication (hardcoded for now)
-        const ADMIN_CREDENTIALS = [
-            { username: 'calle', password: 'NSsubb' },
-            { username: 'Callsubb', password: 'NScallsubb' }
-        ];
+        // Supabase auth configuration
+        const ADMIN_EMAIL_DOMAIN = 'northernstingers.com';
 
-        // Check if user is logged in on page load
-        window.onload = function() {
-            if (localStorage.getItem('admin_logged_in') === 'true') {
+        function getAdminEmail(username) {
+            return `${username.trim().toLowerCase()}@${ADMIN_EMAIL_DOMAIN}`;
+        }
+
+        async function checkAuth() {
+            const { data: { session } } = await supabase_client.auth.getSession();
+            if (session) {
                 showDashboard();
             } else {
                 showLogin();
             }
-        };
+        }
+
+        // Check if user is logged in on page load
+        window.onload = checkAuth;
 
         // Login form handler
-        document.getElementById('login-form').addEventListener('submit', function(e) {
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('login-error');
 
-            const isValid = ADMIN_CREDENTIALS.some(cred => cred.username === username && cred.password === password);
+            errorDiv.classList.add('hidden');
 
-            if (isValid) {
-                localStorage.setItem('admin_logged_in', 'true');
+            if (!username || !password) {
+                errorDiv.textContent = 'Please enter both username and password.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            const email = getAdminEmail(username);
+            const { data, error } = await supabase_client.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                errorDiv.textContent = error.message || 'Invalid credentials';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (data.session) {
                 showDashboard();
             } else {
-                errorDiv.textContent = 'Invalid credentials';
+                errorDiv.textContent = 'Unable to sign in. Please try again.';
                 errorDiv.classList.remove('hidden');
             }
         });
@@ -483,10 +565,50 @@
             loadOrders();
         }
 
-        function logout() {
-            localStorage.removeItem('admin_logged_in');
+        async function logout() {
+            await supabase_client.auth.signOut();
             showLogin();
         }
+
+        document.getElementById('create-admin-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('new-admin-username').value.trim();
+            const password = document.getElementById('new-admin-password').value;
+            const confirmPassword = document.getElementById('new-admin-password-confirm').value;
+            const messageContainer = document.getElementById('message-container');
+
+            messageContainer.innerHTML = '';
+
+            if (!username || !password || !confirmPassword) {
+                messageContainer.innerHTML = '<div class="error">Please fill in all fields.</div>';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                messageContainer.innerHTML = '<div class="error">Passwords do not match.</div>';
+                return;
+            }
+
+            const email = getAdminEmail(username);
+            const { data, error } = await supabase_client.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        role: 'admin'
+                    }
+                }
+            });
+
+            if (error) {
+                messageContainer.innerHTML = `<div class="error">${error.message}</div>`;
+                return;
+            }
+
+            document.getElementById('create-admin-form').reset();
+            messageContainer.innerHTML = '<div class="success">Admin user created. Please check email verification if enabled.</div>';
+        });
 
         // Load orders from Supabase
         async function loadOrders() {
