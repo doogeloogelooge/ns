@@ -1976,11 +1976,11 @@
         // Authentication Functions
         async function showAccount() {
             try {
-                const { data: { user }, error } = await supabaseclient.auth.getUser();
-                
-                if (user && !error) {
+                const { data: { session }, error } = await supabaseclient.auth.getSession();
+
+                if (session?.user) {
                     // User is logged in, show account page
-                    showAccountPage(user);
+                    showAccountPage(session.user);
                 } else {
                     // User not logged in, show auth modal
                     document.getElementById('auth-modal').style.display = 'flex';
