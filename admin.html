@@ -159,6 +159,14 @@
             border-radius: 20px;
             padding: 1.5rem;
             margin-bottom: 2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .admin-panel.expanded {
+            max-height: 500px;
+            padding: 1.5rem;
         }
 
         .admin-panel h2 {
@@ -192,6 +200,22 @@
             font-size: 0.85rem;
             line-height: 1.4;
             margin-top: 0.5rem;
+        }
+
+        .admin-toggle {
+            background: none;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .admin-toggle:hover {
+            background: var(--accent);
+            color: var(--dark-bg);
         }
 
         .date-filter {
@@ -438,7 +462,9 @@
             <input type="date" class="date-filter" id="date-filter">
         </div>
 
-        <div class="admin-panel">
+        <button class="admin-toggle" id="admin-toggle-btn" onclick="toggleAdminPanel()">Manage Admins</button>
+
+        <div class="admin-panel" id="admin-panel">
             <h2>Create a new admin</h2>
             <form id="create-admin-form" class="admin-form">
                 <div class="form-group">
@@ -568,6 +594,19 @@
         async function logout() {
             await supabase_client.auth.signOut();
             showLogin();
+        }
+
+        function toggleAdminPanel() {
+            const panel = document.getElementById('admin-panel');
+            const button = document.getElementById('admin-toggle-btn');
+
+            if (panel.classList.contains('expanded')) {
+                panel.classList.remove('expanded');
+                button.textContent = 'Manage Admins';
+            } else {
+                panel.classList.add('expanded');
+                button.textContent = 'Hide Admin Panel';
+            }
         }
 
         document.getElementById('create-admin-form').addEventListener('submit', async function(e) {
