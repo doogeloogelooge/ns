@@ -1527,7 +1527,7 @@
         async function processOrder() {
             const orderID = generateOrderNumber();
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            const shipping = subtotal < 299 ? 61 : 0;
+            const shipping = subtotal < 399 ? 61 : 0;
             const total = subtotal + shipping;
         
             const customerData = {
