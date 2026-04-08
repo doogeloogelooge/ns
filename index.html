@@ -1512,7 +1512,8 @@
                         phone: customerData.phone,
                         address: customerData.address, // Keep 'adress' to match your DB typo
                         items: simplifiedItems,       // Use the clean list here
-                        total_price: total
+                        total_price: total,
+                        order_status: 'Placed'
                     }]);
                 // --- STEP 2: Send Email ---
                 const templateParams = {
