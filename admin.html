@@ -153,55 +153,6 @@
             font-family: inherit;
         }
 
-        .admin-panel {
-            background: #111;
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-        }
-
-        .admin-panel.expanded {
-            max-height: 500px;
-            padding: 1.5rem;
-        }
-
-        .admin-panel h2 {
-            margin: 0 0 1rem;
-            font-weight: 400;
-            letter-spacing: 2px;
-        }
-
-        .admin-panel .admin-form {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .admin-panel .form-group label {
-            color: var(--text-dim);
-        }
-
-        .admin-panel .btn-admin {
-            width: fit-content;
-            padding: 12px 20px;
-            background: var(--accent);
-            color: var(--dark-bg);
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .admin-panel .admin-note {
-            color: var(--text-dim);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-top: 0.5rem;
-        }
-
         .admin-toggle {
             background: none;
             border: 1px solid var(--accent);
@@ -218,6 +169,105 @@
             color: var(--dark-bg);
         }
 
+        /* Admin Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .admin-modal-content {
+            background: var(--surface);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .admin-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .admin-modal-header h2 {
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+
+        .admin-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .admin-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .admin-form .form-group label {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-form .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #222;
+            color: var(--text);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .admin-form .form-group input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .btn-admin {
+            width: fit-content;
+            padding: 12px 20px;
+            background: var(--accent);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(163, 186, 195, 0.3);
+        }
+
+        .admin-note {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-top: 0.5rem;
+        }
+
         .date-filter {
             padding: 10px;
             background: #111;
@@ -226,58 +276,185 @@
             border-radius: 10px;
         }
 
-        /* Orders Table */
-        .orders-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Orders List */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .order-row {
             background: var(--surface);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .orders-table th,
-        .orders-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .order-row:hover {
+            border-color: var(--accent);
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(163, 186, 195, 0.1);
         }
 
-        .orders-table th {
-            background: #111;
+        .order-main-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .status-placed .status-dot { color: #ffa500; }
+        .status-packaged .status-dot { color: #007bff; }
+        .status-shipped .status-dot { color: #28a745; }
+        .status-delivered .status-dot { color: #6f42c1; }
+        .status-cancelled .status-dot { color: #dc3545; }
+
+        .order-number {
+            font-size: 1.1rem;
             font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .orders-table tr:hover {
-            background: rgba(255,255,255,0.02);
-        }
-
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .status-placed { background: #ffa500; color: #000; }
-        .status-packaged { background: #007bff; color: #fff; }
-        .status-shipped { background: #28a745; color: #fff; }
-        .status-delivered { background: #6f42c1; color: #fff; }
-        .status-cancelled { background: #dc3545; color: #fff; }
-
-        .order-link {
             color: var(--accent);
-            text-decoration: none;
+            margin: 0;
+        }
+
+        .order-customer {
+            flex: 1;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .customer-email {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .order-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .order-total {
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
-        .order-link:hover {
-            text-decoration: underline;
+        .order-date {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        .order-items-count {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        .order-actions {
+            margin-left: 1rem;
+        }
+
+        .btn-view {
+            background: var(--accent);
+            color: var(--dark-bg);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(163, 186, 195, 0.3);
+        }
+
+        /* Enhanced Filters */
+        .filters-section {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .filters-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-input {
+            padding: 12px;
+            background: #111;
+            border: 1px solid #222;
+            color: var(--text);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .filter-input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .btn-clear-filters {
+            background: none;
+            border: 1px solid #444;
+            color: var(--text-dim);
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-clear-filters:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         /* Order Detail Modal */
@@ -295,12 +472,13 @@
 
         .modal-content {
             background: var(--surface);
-            margin: 5% auto;
-            padding: 2rem;
+            margin: 2% auto;
             border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
+            width: 95%;
+            max-width: 900px;
             border: 1px solid rgba(255,255,255,0.03);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -308,13 +486,15 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
+            padding: 2rem 2rem 1rem;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .modal-header h2 {
             font-weight: 300;
             letter-spacing: 3px;
+            margin: 0;
+            font-size: 1.5rem;
         }
 
         .close-btn {
@@ -323,51 +503,157 @@
             color: var(--text-dim);
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
-        .order-details {
+        .close-btn:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .order-details-content {
+            padding: 0 2rem 2rem;
+        }
+
+        .order-summary {
+            background: #111;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 2rem;
         }
 
-        .detail-section h3 {
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .summary-item {
+            text-align: center;
         }
 
-        .detail-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .detail-label {
+        .summary-label {
             color: var(--text-dim);
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 0.5rem;
         }
 
-        .status-select {
-            padding: 8px;
+        .summary-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .order-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .section-card {
             background: #111;
-            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        .status-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-dropdown {
+            padding: 8px 12px;
+            background: #0a0b0d;
+            border: 1px solid #333;
             color: var(--text);
-            border-radius: 5px;
+            border-radius: 6px;
             font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .status-dropdown:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .items-section {
+            grid-column: 1 / -1;
         }
 
         .items-list {
-            margin-top: 1rem;
+            display: grid;
+            gap: 1rem;
         }
 
-        .item-row {
+        .item-card {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .item-details h4 {
+            margin: 0 0 0.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .item-meta {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        .item-price {
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         /* Loading and Error States */
@@ -457,15 +743,66 @@
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
 
-        <div class="filters">
-            <input type="text" class="search-input" placeholder="Search by customer name..." id="search-input">
-            <input type="date" class="date-filter" id="date-filter">
+        <div class="filters-section">
+            <div class="filters-header">
+                <h2 class="filters-title">Orders</h2>
+                <button class="admin-toggle" onclick="openAdminModal()">Manage Admins</button>
+            </div>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>Search orders</label>
+                    <input type="text" class="filter-input" placeholder="Search by customer name, order ID..." id="search-input">
+                </div>
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select class="filter-input" id="status-filter">
+                        <option value="">All statuses</option>
+                        <option value="Placed">Placed</option>
+                        <option value="Packaged">Packaged</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Date</label>
+                    <input type="date" class="filter-input" id="date-filter">
+                </div>
+                <button class="btn-clear-filters" onclick="clearFilters()">Clear</button>
+            </div>
         </div>
 
-        <button class="admin-toggle" id="admin-toggle-btn" onclick="toggleAdminPanel()">Manage Admins</button>
+        <div id="message-container"></div>
 
-        <div class="admin-panel" id="admin-panel">
-            <h2>Create a new admin</h2>
+        <div id="loading" class="loading">Loading orders...</div>
+
+        <div class="orders-list" id="orders-list">
+            <!-- Orders will be populated here as list items -->
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Order Details</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div id="order-details-content" class="order-details-content">
+                <!-- Order details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="admin-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2>Create a new admin</h2>
+                <button class="admin-close-btn" onclick="closeAdminModal()">&times;</button>
+            </div>
+
             <form id="create-admin-form" class="admin-form">
                 <div class="form-group">
                     <label>Username</label>
@@ -482,40 +819,6 @@
                 <button type="submit" class="btn-admin">Create admin</button>
                 <p class="admin-note">The username becomes an email like <strong>username@northernstingers.com</strong> for Supabase Auth.</p>
             </form>
-        </div>
-
-        <div id="message-container"></div>
-
-        <div id="loading" class="loading">Loading orders...</div>
-
-        <table class="orders-table" id="orders-table">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="orders-body">
-                <!-- Orders will be populated here -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Order Detail Modal -->
-    <div id="order-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title">Order Details</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
-            </div>
-
-            <div id="order-details-content">
-                <!-- Order details will be populated here -->
-            </div>
         </div>
     </div>
 
@@ -596,17 +899,12 @@
             showLogin();
         }
 
-        function toggleAdminPanel() {
-            const panel = document.getElementById('admin-panel');
-            const button = document.getElementById('admin-toggle-btn');
+        function openAdminModal() {
+            document.getElementById('admin-modal').style.display = 'block';
+        }
 
-            if (panel.classList.contains('expanded')) {
-                panel.classList.remove('expanded');
-                button.textContent = 'Manage Admins';
-            } else {
-                panel.classList.add('expanded');
-                button.textContent = 'Hide Admin Panel';
-            }
+        function closeAdminModal() {
+            document.getElementById('admin-modal').style.display = 'none';
         }
 
         document.getElementById('create-admin-form').addEventListener('submit', async function(e) {
@@ -652,11 +950,10 @@
         // Load orders from Supabase
         async function loadOrders() {
             const loadingDiv = document.getElementById('loading');
-            const ordersTable = document.getElementById('orders-table');
-            const ordersBody = document.getElementById('orders-body');
+            const ordersList = document.getElementById('orders-list');
 
             loadingDiv.classList.remove('hidden');
-            ordersTable.classList.add('hidden');
+            ordersList.classList.add('hidden');
 
             try {
                 const { data: orders, error } = await supabase_client
@@ -667,7 +964,7 @@
                 if (error) throw error;
 
                 loadingDiv.classList.add('hidden');
-                ordersTable.classList.remove('hidden');
+                ordersList.classList.remove('hidden');
 
                 displayOrders(orders);
             } catch (error) {
@@ -676,26 +973,50 @@
             }
         }
 
-        // Display orders in table
+        // Display orders in list layout
         function displayOrders(orders) {
-            const ordersBody = document.getElementById('orders-body');
-            ordersBody.innerHTML = '';
+            const ordersList = document.getElementById('orders-list');
+            ordersList.innerHTML = '';
+
+            if (orders.length === 0) {
+                ordersList.innerHTML = '<div style="text-align: center; color: var(--text-dim); padding: 2rem;">No orders found</div>';
+                return;
+            }
 
             orders.forEach(order => {
-                const row = document.createElement('tr');
-
                 const statusClass = `status-${order.order_status.toLowerCase()}`;
+                const itemsCount = order.items.length;
+                const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+                const itemsText = totalItems === 1 ? '1 item' : `${totalItems} items`;
+
+                const row = document.createElement('div');
+                row.className = 'order-row';
+                row.onclick = () => showOrderDetails(order.order_id);
 
                 row.innerHTML = `
-                    <td><a href="#" class="order-link" onclick="showOrderDetails('${order.order_id}')">${order.order_id}</a></td>
-                    <td>${order.customer_name}</td>
-                    <td>${order.total_price} kr</td>
-                    <td><span class="status-badge ${statusClass}">${order.order_status}</span></td>
-                    <td>${new Date(order.created_at).toLocaleDateString()}</td>
-                    <td><button onclick="showOrderDetails('${order.order_id}')" style="background: var(--accent); color: var(--dark-bg); border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer;">View</button></td>
+                    <div class="order-main-info">
+                        <div class="${statusClass}">
+                            <div class="status-dot"></div>
+                        </div>
+                        <div>
+                            <h3 class="order-number">#${order.order_id}</h3>
+                            <div class="order-items-count">${itemsText}</div>
+                        </div>
+                        <div class="order-customer">
+                            <div class="customer-name">${order.customer_name}</div>
+                            <div class="customer-email">${order.email}</div>
+                        </div>
+                    </div>
+                    <div class="order-meta">
+                        <div class="order-total">${order.total_price} kr</div>
+                        <div class="order-date">${new Date(order.created_at).toLocaleDateString()}</div>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn-view" onclick="event.stopPropagation(); showOrderDetails('${order.order_id}')">View</button>
+                    </div>
                 `;
 
-                ordersBody.appendChild(row);
+                ordersList.appendChild(row);
             });
         }
 
@@ -726,60 +1047,93 @@
             const statusOptions = ['Placed', 'Packaged', 'Shipped', 'Delivered', 'Cancelled'];
             const currentStatus = order.order_status;
 
+            // Calculate order summary
+            const itemsCount = order.items.length;
+            const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+
             let itemsHtml = '';
             order.items.forEach(item => {
                 itemsHtml += `
-                    <div class="item-row">
-                        <span>${item.quantity}x ${item.name} (${item.variant})</span>
-                        <span>${item.subtotal} kr</span>
+                    <div class="item-card">
+                        <div class="item-info">
+                            <div class="item-details">
+                                <h4>${item.name}</h4>
+                                <div class="item-meta">${item.variant} × ${item.quantity}</div>
+                            </div>
+                        </div>
+                        <div class="item-price">${item.subtotal} kr</div>
                     </div>
                 `;
             });
 
             const detailsHtml = `
-                <div class="order-details">
-                    <div class="detail-section">
-                        <h3>Customer Information</h3>
-                        <div class="detail-item">
-                            <span class="detail-label">Name:</span> ${order.customer_name}
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Email:</span> ${order.email}
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Phone:</span> ${order.phone}
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Address:</span> ${order.address}
-                        </div>
+                <div class="order-summary">
+                    <div class="summary-item">
+                        <div class="summary-label">Order</div>
+                        <div class="summary-value">#${order.order_id}</div>
                     </div>
-
-                    <div class="detail-section">
-                        <h3>Order Information</h3>
-                        <div class="detail-item">
-                            <span class="detail-label">Order ID:</span> ${order.order_id}
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Date:</span> ${new Date(order.created_at).toLocaleString()}
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Status:</span>
-                            <select class="status-select" id="status-select" onchange="updateOrderStatus('${order.order_id}', this.value)">
-                                ${statusOptions.map(status => 
-                                    `<option value="${status}" ${status === currentStatus ? 'selected' : ''}>${status}</option>`
-                                ).join('')}
-                            </select>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Total:</span> ${order.total_price} kr
-                        </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Date</div>
+                        <div class="summary-value">${new Date(order.created_at).toLocaleDateString()}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Total</div>
+                        <div class="summary-value">${order.total_price} kr</div>
                     </div>
                 </div>
 
-                <div class="detail-section" style="grid-column: 1 / -1;">
-                    <h3>Items</h3>
-                    <div class="items-list">
-                        ${itemsHtml}
+                <div class="order-sections">
+                    <div class="section-card">
+                        <h3 class="section-title">Customer Information</h3>
+                        <div class="info-grid">
+                            <div class="info-row">
+                                <span class="info-label">Name</span>
+                                <span class="info-value">${order.customer_name}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">${order.email}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value">${order.phone}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Address</span>
+                                <span class="info-value">${order.address}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <h3 class="section-title">Order Status</h3>
+                        <div class="info-grid">
+                            <div class="info-row">
+                                <span class="info-label">Current Status</span>
+                                <div class="status-selector">
+                                    <select class="status-dropdown" id="status-select" onchange="updateOrderStatus('${order.order_id}', this.value)">
+                                        ${statusOptions.map(status =>
+                                            `<option value="${status}" ${status === currentStatus ? 'selected' : ''}>${status}</option>`
+                                        ).join('')}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Items</span>
+                                <span class="info-value">${totalItems} (${itemsCount} type${itemsCount > 1 ? 's' : ''})</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Total Amount</span>
+                                <span class="info-value">${order.total_price} kr</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card items-section">
+                        <h3 class="section-title">Order Items</h3>
+                        <div class="items-list">
+                            ${itemsHtml}
+                        </div>
                     </div>
                 </div>
             `;
@@ -817,40 +1171,48 @@
             document.getElementById('order-modal').style.display = 'none';
         }
 
-        // Search functionality (basic implementation)
-        document.getElementById('search-input').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#orders-body tr');
+        // Search and filter functionality
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const dateFilter = document.getElementById('date-filter').value;
+
+            const rows = document.querySelectorAll('.order-row');
 
             rows.forEach(row => {
-                const customerName = row.cells[1].textContent.toLowerCase();
-                if (customerName.includes(searchTerm)) {
+                const orderNumber = row.querySelector('.order-number').textContent.toLowerCase();
+                const customerName = row.querySelector('.customer-name').textContent.toLowerCase();
+                const customerEmail = row.querySelector('.customer-email').textContent.toLowerCase();
+                const date = row.querySelector('.order-date').textContent;
+
+                const matchesSearch = !searchTerm ||
+                    orderNumber.includes(searchTerm) ||
+                    customerName.includes(searchTerm) ||
+                    customerEmail.includes(searchTerm);
+
+                const matchesStatus = !statusFilter || row.querySelector('.status-dot').parentElement.classList.contains(`status-${statusFilter.toLowerCase()}`);
+
+                const matchesDate = !dateFilter || date === new Date(dateFilter).toLocaleDateString();
+
+                if (matchesSearch && matchesStatus && matchesDate) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
                 }
             });
-        });
+        }
 
-        // Date filter (basic implementation)
-        document.getElementById('date-filter').addEventListener('change', function() {
-            const selectedDate = this.value;
-            const rows = document.querySelectorAll('#orders-body tr');
+        function clearFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('status-filter').value = '';
+            document.getElementById('date-filter').value = '';
+            applyFilters();
+        }
 
-            if (!selectedDate) {
-                rows.forEach(row => row.style.display = '');
-                return;
-            }
-
-            rows.forEach(row => {
-                const orderDate = row.cells[4].textContent;
-                if (orderDate === new Date(selectedDate).toLocaleDateString()) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
+        // Event listeners for filters
+        document.getElementById('search-input').addEventListener('input', applyFilters);
+        document.getElementById('status-filter').addEventListener('change', applyFilters);
+        document.getElementById('date-filter').addEventListener('change', applyFilters);
     </script>
 </body>
 </html>
