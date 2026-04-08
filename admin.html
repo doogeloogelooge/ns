@@ -838,7 +838,19 @@
         async function checkAuth() {
             const { data: { session } } = await supabase_client.auth.getSession();
             if (session) {
-                showDashboard();
+                // Verify admin role
+                const userRole = session.user?.user_metadata?.role;
+                const userEmail = session.user?.email || '';
+                const isAdmin = userRole === 'admin' || userEmail.endsWith('@northernstingers.com');
+
+                if (isAdmin) {
+                    showDashboard();
+                } else {
+                    await supabase_client.auth.signOut();
+                    showLogin();
+                    document.getElementById('login-error').textContent = 'Access denied. Admin privileges required.';
+                    document.getElementById('login-error').classList.remove('hidden');
+                }
             } else {
                 showLogin();
             }
