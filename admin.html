@@ -875,9 +875,12 @@
                 return;
             }
 
-            // Check if user has admin role
+            // Check if user has admin role OR email ends with @northernstingers.com
             const userRole = data.user?.user_metadata?.role;
-            if (userRole !== 'admin') {
+            const userEmail = data.user?.email || '';
+            const isAdmin = userRole === 'admin' || userEmail.endsWith('@northernstingers.com');
+
+            if (!isAdmin) {
                 await supabase_client.auth.signOut();
                 errorDiv.textContent = 'Access denied. Admin privileges required.';
                 errorDiv.classList.remove('hidden');

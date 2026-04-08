@@ -2117,6 +2117,22 @@
                 return;
             }
 
+            // Hide all other pages
+            const pages = ['shop', 'detail', 'cart', 'checkout', 'success', 'legal', 'team', 'contact'];
+            pages.forEach(p => {
+                const el = document.getElementById(p + '-page');
+                if (el) {
+                    el.classList.add('hidden');
+                    el.classList.remove('page-animate');
+                }
+            });
+
+            // Show account page directly
+            const accountPage = document.getElementById('account-page');
+            if (accountPage) {
+                accountPage.classList.remove('hidden');
+            }
+
             // Update account info
             document.getElementById('account-email').textContent = user.email || 'Not available';
             document.getElementById('account-name').textContent = user.user_metadata?.full_name || 'Not provided';
@@ -2124,9 +2140,6 @@
 
             // Load user orders
             loadUserOrders(user.id);
-
-            // Show account page
-            showPage('account');
         }
 
         async function loadUserOrders(userId) {
