@@ -1442,7 +1442,7 @@
         async function getLiveStock(productName, variantName) {
             try {
                 const { data, error } = await supabaseclient
-                    .from('products')
+                    .from('products1')
                     .select('stock_quantity')
                     .eq('name', productName)
                     .eq('variant', variantName)
@@ -1659,7 +1659,7 @@
             shopGrid.innerHTML = ''; 
         
             const { data: stockLevels, error } = await supabaseclient
-                .from('products')
+                .from('products1')
                 .select('name, stock_quantity');
         
             products.forEach(p => {
