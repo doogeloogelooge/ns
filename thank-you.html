@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tack för din order! - Northern Stingers</title><link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="/css/skeleton.css">
+  <link rel="stylesheet" href="/css/checkout.css">
+  <script src="/js/script.js"></script>
+  <script src="/js/cart.js"></script>
+  <script type="module" src="/js/main.js"></script>
+  <style>
+    /* Stilunika anpassningar för just tack-boxen */
+    .thank-you-container {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+    .thank-you-container h1 {
+      color: #111;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+    .swish-instruction-box {
+      background: #f4fbf4;
+      border: 2px dashed #12b50a;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 30px 0;
+      text-align: left;
+    }
+    .swish-instruction-box h3 {
+      margin-top: 0;
+      color: #12b50a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+    }
+    .swish-row {
+      margin: 12px 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+    .swish-value {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .swish-highlight {
+      background: #e1f5fe;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #0277bd;
+    }
+    .back-to-shop-btn {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.2s;
+      margin-top: 15px;
+    }
+    .back-to-shop-btn:hover {
+      background: #333;
+      color: #fff;
+    }
+    /* Mobilanpassad Swish-knapp */
+    .open-swish-btn {
+      display: none;
+      background: #00cdc7;
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-top: 15px;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .open-swish-btn {
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <div class="announcement-stack">
+        <div id="promo-notice-prime">SUMMER 10! 10% off all products!</div>
+                <div id="logistic-notice-sub">Free shipping for all orders over 399 kr! <br> <i class="fa fa-exclamation-triangle"></i> Earliest shipping for new orders 7 July. <i class="fa fa-exclamation-triangle"></i></div>
+    </div>
+    
+    <header id="boutique-navigation-hub">
+      <div class="brand-anchorage">
+        <a id="brand-link" href="/homepage">
+          <img id="brand-logo-media" src="/images/logo.png" alt="Logo">
+        </a>
+      </div>
+    
+      <nav class="client-utility-bar">
+        <button id="client-profile-trigger" class="utility-action-node">
+          <img src="/images/user.png" alt="Konto">
+        </button>
+            
+        <button id="search-btn" class="utility-action-node">
+          <img src="/images/search.png" alt="Sök">
+        </button>
+
+        <button id="favorites-btn" class="utility-action-node">
+          <img src="/images/heart.png" alt="">
+        </button>
+          
+        <a href="/cart/" id="bag-status-gate" class="utility-action-node">
+          <img src="/images/shopping-cart.png" alt="Varukorg">
+        </a>
+      </nav>
+
+      <div id="search-bar" class="search-overlay-drawer">
+          <div class="search-inner-container">
+              <input type="text" id="search-input" placeholder="Search">
+              <button id="search-submit-action">
+                  <img src="/images/search.png" alt="Sök">
+              </button>
+          </div>
+      </div>
+  </header> 
+  
+  <nav class="nav-bar">
+      <ul class="nav-links" id="nav-links"></ul>
+  </nav>
+
+  <div class="thank-you-container">
+    <h1><i class="fa fa-check-circle" style="color: #12b50a;"></i> Tack för din beställning!</h1>
+    <p>Vi har registrerat din order och lagt undan dina produkter i lagret.</p>
+
+    <div class="swish-instruction-box" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+  
+      <div style="flex: 1; min-width: 280px;">
+        <h3>
+          <img src="/images/swish.png" alt="Swish" style="height: 24px; vertical-align: middle;">
+          Slutför din betalning med Swish
+        </h3>
+        <p style="margin-bottom: 20px; color: #555;">Skanna QR-koden med Swish-appen eller gör en manuell betalning med uppgifterna nedan:</p>
+        
+        <div class="swish-row">
+          Belopp att betala: <span id="display-total" class="swish-value" style="color: #12b50a;">--- kr</span>
+        </div>
+        <div class="swish-row">
+          Swish-nummer: <span class="swish-value" id="display-number">072-001 8254</span>
+        </div>
+        <div class="swish-row">
+          Meddelande: <span id="display-order-id" class="swish-value swish-highlight">---</span>
+        </div>
+        
+        <a id="open-swish-btn" href="#" class="open-swish-btn">Öppna Swish-appen</a>
+      </div>
+    
+      <div style="text-align: center; margin: 0 auto;">
+        <div id="qr-loading" style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">Genererar QR-kod...</div>
+        <div id="qrcode"></div>
+      </div>
+      
+    </div>
+
+    <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">
+      Vi packar och skickar din order så fort vi har kontrollerat och verifierat att din Swish-betalning har kommit in.
+    </p>
+    
+    <a href="/homepage" class="back-to-shop-btn">Tillbaka till butiken</a>
+  </div>
+
+  <footer>
+    <article class="site-footer">
+        <div class="footer-logo"><img src="/images/logo.png" alt="Northern Stingers Logo"></div>
+        <div class="footer-links-grid">
+            <div class="link-column">
+                <a href="/cookiepolicy">Cookiepolicy</a>
+                <a href="/nyhetsbrev-signup">Nyhetsbrev</a>
+                <a href="/tillganglighetsredogorelse">Tillgänglighetsredogörelse</a>
+            </div>
+            <div class="link-column">
+                <a href="/jobba-hos-oss">Jobba hos oss</a>
+                <a href="/vart-mal">Om oss</a>
+            </div>
+            <div class="link-column">
+                <a href="/kop-och-leveransvillkor">Köp- och leveransvillkor</a>
+                <a href="/privacy-policy">Privacy policy</a>
+            </div>
+            <div class="link-column">
+                <a href="/kundservice">Kundservice</a>
+            </div>
+            <div class="info-column">
+                <h4>Northern Stingers</h4>
+                <p>Butik: Coming soon...</p>
+                <p><strong>Sveriges mest prisvärda fiskebutik</strong><br><a href="#" style="text-decoration: underline;">www.northernstingers.store</a></p>
+            </div>
+        </div>
+        <div class="social-row">
+            <a href="https://www.instagram.com/northernstingers/" class="social-circle"><img src="/images/instagram.png" alt="instagram"></a>
+            <a href="https://www.tiktok.com/@northernstingers" class="social-circle"><img src="/images/tik-tok.png" alt="tiktok"></a>
+            <a href="https://discord.gg/rxwCHHrxPk" class="social-circle"><img src="/images/discord.png" alt="discord"></a>
+        </div>
+
+        <div class="payment-options">
+            <a href="https://www.swish.nu" class="payment-option"><img src="/images/swish.png" alt="swish"></a>
+        </div>
+    </article>
+  </footer>
+
+  <script>
+    // 1. DITT REALA SWISH-NUMMER (Används i QR-koden)
+    const mySwishNumber = "0720018254"; 
+
+    function generateSwishQR(total, orderID) {
+        // Rensa bort eventuella dubbla NS- om det hängde med från kassans omdirigering
+        let cleanOrderID = orderID;
+        if (cleanOrderID.startsWith('NS-NS-')) {
+            cleanOrderID = cleanOrderID.replace('NS-NS-', 'NS-');
+        } else if (!cleanOrderID.startsWith('NS-')) {
+            cleanOrderID = 'NS-' + cleanOrderID;
+        }
+
+        // Bygg objektet som Swish-appen kräver
+        const swishData = {
+            version: 1,
+            payee: { value: mySwishNumber },
+            amount: { value: parseInt(total) },
+            message: { value: "Order " + cleanOrderID, editable: false }
+        };
+
+        // Skapa den officiella djuplänken för mobiler
+        const swishLink = `swish://payment?data=${encodeURIComponent(JSON.stringify(swishData))}`;
+
+        // Generera QR-koden lokalt i din div med id="qrcode"
+        const qrContainer = document.getElementById('qrcode');
+        const qrLoading = document.getElementById('qr-loading');
+        
+        if (qrContainer) {
+            qrContainer.innerHTML = ''; // Töm gamla element
+            if (qrLoading) qrLoading.style.display = 'none'; // Dölj laddtexten
+
+            new QRCode(qrContainer, {
+                text: swishLink,
+                width: 220,
+                height: 220,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        }
+
+        // Koppla djuplänken till knappen för mobila användare
+        const swishBtn = document.getElementById('open-swish-btn');
+        if (swishBtn) {
+            swishBtn.href = swishLink;
+        }
+    }
+
+    // Kör igång allting när DOM-strukturen är redo
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        const total = urlParams.get('total');
+
+        // Formatera telefonnumret snyggt för skärmtexten
+        document.getElementById('display-number').textContent = "072-001 8254";
+
+        if (orderId && total) {
+            // Generera QR-koden lokalt på skärmen 🚀
+            generateSwishQR(total, orderId);
+            
+            // Städa och visa texten för ordernummer på skärmen
+            let displayId = orderId.includes('NS-NS-') ? orderId.replace('NS-NS-', 'NS-') : orderId;
+            document.getElementById('display-order-id').textContent = displayId;
+            
+            // Visa totalsumman på skärmen
+            document.getElementById('display-total').textContent = total + ' kr';
+        }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase.js"></script>
+  <script src="/js/search.js"></script>
+</body>
+</html>
