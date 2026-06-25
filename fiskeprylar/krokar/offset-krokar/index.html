@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
+  <script src="/js/script.js"></script>
+  <script type="module" src="/js/main.js"></script>
+  <title>Northern Stingers</title><link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
+</head>
+<body>
+  <div class="announcement-stack">
+    <div id="promo-notice-prime">SUMMER 10! 10% off all products!</div>
+            <div id="logistic-notice-sub">Free shipping for all orders over 399 kr! <br> <i class="fa fa-exclamation-triangle"></i> Earliest shipping for new orders 7 July. <i class="fa fa-exclamation-triangle"></i></div>
+  </div>
+
+  <header id="boutique-navigation-hub">
+      <div class="brand-anchorage">
+          <a id="brand-link" href="/homepage">
+              <img id="brand-logo-media" src="/images/logo.png" alt="Logo">
+          </a>
+      </div>
+
+      <nav class="client-utility-bar">
+          <button id="client-profile-trigger" class="utility-action-node">
+              <img src="/images/user.png" alt="Konto">
+          </button>
+          
+          <button id="search-btn" class="utility-action-node">
+              <img src="/images/search.png" alt="Sök">
+          </button>
+
+          <button id="favorites-btn" class="utility-action-node">
+              <img src="/images/heart.png" alt="">
+          </button>
+          
+          <a href="/cart/" id="bag-status-gate" class="utility-action-node">
+              <img src="/images/shopping-cart.png" alt="Varukorg">
+          </a>
+      </nav>
+
+      <div id="search-bar" class="search-overlay-drawer">
+          <div class="search-inner-container">
+              <input type="text" id="search-input" placeholder="Search">
+              <button id="search-submit-action">
+                  <img src="/images/search.png" alt="Sök">
+              </button>
+          </div>
+      </div>
+  </header> 
+
+  <nav class="nav-bar">
+      <ul class="nav-links" id="nav-links"></ul>
+  </nav>
+
+  <main>
+    <article>
+        <div class="shop-container">
+            <!-- 1. LEFT SIDEBAR -->
+            <aside id="category-sidebar"></aside>
+
+            <!-- 2. MAIN CONTENT AREA -->
+            <main class="main-content">
+                <header class="category-header">
+
+                    <div id="breadcrumbs"></div>
+                
+                    <div class="category-header-block">
+                        <h1 id="category-title" class="category-main-title">Laddar...</h1>
+                        
+                        <div class="description-wrapper">
+                            <p id="category-description" class="category-sub-desc"></p>
+                            <button id="toggle-desc-btn" class="toggle-desc-btn" style="display: none;">
+                                Visa mer <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+
+                        <div id="mobile-subcategory-container"></div>
+                    </div>
+                
+                </header>
+
+                <!-- Filter & Sort Bar -->
+                <div class="filter-bar">
+                     <div class="filters">
+                      
+                      <div class="custom-dropdown-container" id="sort-dropdown-wrapper">
+                        <button type="button" id="sort-dropdown-toggle" class="dropdown-trigger-btn">
+                          Sortera efter (Standard) <i class="fa fa-chevron-down"></i>
+                        </button>
+                        
+                        <div id="sort-menu-panel" class="dropdown-menu-panel">
+                          <button type="button" class="sort-pill active-pill" data-sort="default">Standard</button>
+                          <button type="button" class="sort-pill" data-sort="price-asc">Pris: Lågt till högt</button>
+                          <button type="button" class="sort-pill" data-sort="price-desc">Pris: Högt till lågt</button>
+                          <button type="button" class="sort-pill" data-sort="title-asc">Namn: A-Ö</button>
+                        </div>
+                      </div>
+                      
+                      <div class="custom-dropdown-container" id="campaign-dropdown-wrapper">
+                        <button type="button" id="campaign-dropdown-toggle" class="dropdown-trigger-btn">
+                          Kampanjer <i class="fa fa-chevron-down"></i>
+                        </button>
+                        
+                        <div id="campaign-menu-panel" class="dropdown-menu-panel">
+                          <button type="button" class="campaign-pill active-pill" data-campaign="all">Visa alla</button>
+                          <button type="button" class="campaign-pill" data-campaign="Midsummer Madness!">Midsummer Madness!</button>
+                          <button type="button" class="campaign-pill" data-campaign="Outlet">Outlet</button>
+                          <button type="button" class="campaign-pill" data-campaign="SUPERDEAL!">SUPERDEAL!</button>
+                          <button type="button" class="campaign-pill" data-campaign="Sommar Deals">Sommar Deals</button>
+                        </div>
+                      </div>
+                  
+                    </div>
+                    <span class="product-count" id="product-counter">? Produkter</span>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="product-grid" id="products-grid"></div>
+            </main>
+         </div>
+    </article>
+  </main>
+
+  <footer>
+    <article class="site-footer">
+        <div class="footer-logo"><img src="/images/logo.png" alt="Northern Stingers Logo"></div>
+        <div class="footer-links-grid">
+            <div class="link-column">
+                <a href="/cookiepolicy">Cookiepolicy</a>
+                <a href="/nyhetsbrev-signup">Nyhetsbrev</a>
+                <a href="/tillganglighetsredogorelse">Tillgänglighetsredogörelse</a>
+            </div>
+            <div class="link-column">
+                <a href="/jobba-hos-oss">Jobba hos oss</a>
+                <a href="/vart-mal">Om oss</a>
+            </div>
+            <div class="link-column">
+                <a href="/kop-och-leveransvillkor">Köp- och leveransvillkor</a>
+                <a href="/privacy-policy">Privacy policy</a>
+            </div>
+            <div class="link-column">
+                <a href="/kundservice">Kundservice</a>
+            </div>
+            <div class="info-column">
+                <h4>Northern Stingers</h4>
+                <p>Butik: Coming soon...</p>
+                <p><strong>Sveriges mest prisvärda fiskebutik</strong><br><a href="#" style="text-decoration: underline;">www.northernstingers.store</a></p>
+                <!-- <p>Kampanj: <a href="#" style="text-decoration: underline;">Black Friday rea på fiske</a></p> -->
+            </div>
+        </div>
+        <div class="social-row">
+            <a href="https://www.instagram.com/northernstingers/" class="social-circle"><img src="/images/instagram.png" alt="instagram"></a>
+            <a href="https://www.tiktok.com/@northernstingers" class="social-circle"><img src="/images/tik-tok.png" alt="tiktok"></a>
+            <a href="https://discord.gg/rxwCHHrxPk" class="social-circle"><img src="/images/discord.png" alt="discord"></a>
+        </div>
+
+        <div class="payment-options">
+            <a href="https://www.swish.nu" class="payment-option"><img src="/images/swish.png" alt="swish"></a>
+        </div>
+    </article>
+  </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="/js/category-page.js"></script>
+</body>
+</html>

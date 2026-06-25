@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https:/cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/productpage.css">
+  <script src="/js/script.js"></script>
+  <script src="/js/productpage.js"></script>
+  <script src="/js/cart.js"></script>
+  <title>Northern Stingers</title>
+</head>
+<body>
+  <header id="hero-banner">
+      <strong>Free shipping for all orders over 399 kr!</strong>
+  </header>
+  <header id="main-header">
+      <a id="logo-button" href="/homepage">
+            <img id="logo-button-img" src="/images/logo.png" alt="logo">
+        </a>
+      <div id="search-bar">
+          <input type="text" placeholder="Follow your heart..."></input>
+          <button><img src="/images/search.png" alt=""></button>
+      </div>
+      <nav id="header-nav">
+          <button id="favorites-btn"><img src="/images/heart.png" alt=""></button>
+          <button id="account-btn"><img src="/images/user.png" alt=""></button>
+          <button id="cart-btn"><img src="/images/shopping-cart.png" alt=""></button>
+      </nav>
+  </header>
+
+  <nav class="nav-bar">
+      <ul class="nav-links">
+
+          <li><a href="/fiskeprylar">Fishing Gear</a>
+              <ul class="dropdown">
+                  <p>Product Range</p>
+                  <li>
+                      <a href="/fiskeprylar/stingers">Stingers</a>
+                  </li>
+                  <li>
+                      <a href="/fiskeprylar/tafsar">Leaders</a>
+                  </li>
+                  <li>
+                      <a href="/fiskeprylar/jiggskallar">Jig Heads</a>
+                  </li>
+                  <li>
+                      <a href="/fiskeprylar/krokar">Hooks</a>
+                  </li>
+                  <li>
+                      <a href="/fiskeprylar/smaplock">Småplock</a>
+                  </li>
+              </ul>
+          </li>
+
+          <li><a href="/elektronik">Electronics</a>
+              <ul class="dropdown">
+                  <li>
+                      <a href="/elektronik/vagar">Scales</a>
+                  </li>
+              </ul>
+          </li>
+
+          <li><a href="/nyheter">News</a>
+              <ul class="dropdown">
+                  <li>
+                      <a href="/nyheter/senaste">Latest</a>
+                  </li>
+                  <li>
+                      <a href="/nyheter/comingsoon">Up and Coming</a>
+                  </li>
+              </ul>
+          </li>
+
+          <li class="deals"><a href="/rabatter">Deals</a>
+              <ul class="dropdown">
+                  <li>
+                      <a href="/rabatter/pågående-rabatter">Ongoing Deals</a>
+                  </li>
+              </ul>
+          </li>
+
+      </ul>
+  </nav>
+
+  <main>
+    <div class="product-page-scope">
+
+        <main class="product-container">
+            
+            <section class="product-gallery">
+                <div class="main-image">
+                    <img id="product-main-img" src="/images/products/jiggskallar.png" alt="NS Runda Jiggskallar" class="active-image">
+                    <button class="wishlist-btn" aria-label="Add to wishlist"><i class="fa fa-star-o"></i></button>
+                </div>
+                <div class="thumbnail-gallery">
+                    <img id="product-thumb-img" src="/images/products/jiggskallar.png" alt="NS Runda Jiggskallar" class="active-thumb">
+                </div>
+            </section>
+
+            <section class="product-details">
+                
+                <nav class="breadcrumbs">
+                    <a href="/fiskeprylar">Fiskeprylar</a> / <a href="/fiskeprylar/jiggskallar">Jiggskallar</a> / <a href="/fiskeprylar/jiggskallar/runda-jiggskallar">Runda Jiggskallar</a> / <span class="current">NS Runda Jiggskallar 4-Pack</span>
+                </nav>
+
+                <div class="product-meta">
+                    <span class="brand">NS</span> | <span class="art-nr">Artnr: NS-JI-01A</span>
+                </div>
+
+                <h1 class="product-title">NS Runda Jiggskallar 4-Pack</h1>
+                <!-- <div class="rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span> 
+                    <span class="rating-text">4.9 (12)</span>
+                    <a href="#" class="reviews-link">Recensioner (2)</a>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="size-select" class="visually-hidden">Välj storlek</label>
+                    <select id="size-select" class="variant-dropdown">
+                        <option value="10g" data-price="39 kr" data-image="/images/products/jiggskallar.png" data-alt="NS Runda Jiggskallar">10g</option>
+                        <option value="7g" data-price="35 kr" data-image="/images/products/jiggskallar.png" data-alt="NS Runda Jiggskallar">7g</option>
+                    </select>
+                </div>
+
+                <div class="addons-section">
+                    <p class="section-title">Tillval:</p>
+                    <div class="addon-card">
+                        <a href="/fiskeprylar/tafsar/mono-tafsar/ns-mono-tafs-1/?variant=30cm">
+                            <img src="/images/products/mono-tafs.png" alt="NS Mono Tafs" class="addon-img">
+                        </a>
+                        <div class="addon-info">
+                            <a href="/fiskeprylar/tafsar/mono-tafsar/ns-mono-tafs-1/?variant=30cm">
+                                <span class="addon-name">NS Mono Tafs 2-Pack 30cm</span>
+                            </a>
+                            <span class="addon-price">35 kr</span>
+                        </div>
+                        <input type="checkbox" id="addon-checkbox" class="addon-checkbox">
+                    </div>
+                </div>
+
+                <div class="product-price">
+                    <span id="price-display" class="current-price">39 kr</span>
+                </div>
+
+                <div class="purchase-actions">
+                    <div class="quantity-selector">
+                        <button type="button" class="qty-btn minus">-</button>
+                        <input type="number" value="1" min="1" class="qty-input" aria-label="Kvantitet">
+                        <button type="button" class="qty-btn plus">+</button>
+                    </div>
+                    <button type="button" 
+                            id="dynamic-buy-btn"
+                            class="buy-button" 
+                            data-base-id="NS-JI-01A"
+                            data-product-title="NS Runda Jiggskallar 4-Pack" 
+                            data-brand="Northern Stingers"
+                            data-url="/fiskeprylar/jiggskallar/runda-jiggskallar/ns-runda-jiggskallar-1">
+                        <i class="fa fa-shopping-cart"></i> Köp nu!
+                    </button>
+                </div>
+
+                <ul class="stock-status">
+                    <li class="in-stock"><i class="fa fa-check-square"></i> 5 i lager</li>
+                    <li class="store-availability"><i class="fa fa-times"></i> Finns inte i butik</li>
+                    <li class="shipping-speed"><i class="fa fa-truck"></i> Omgående leverans</li>
+                </ul>
+
+                <div class="payment-methods">
+                    <a href="https:/www.swish.nu" class="payment-option"><img src="/images/swish.png" alt="swish"></a>
+                </div>
+
+            </section>
+        </main>
+    </div>
+  </main>
+
+  <footer>
+    <article class="site-footer">
+        <div class="footer-logo"><img src="/images/logo.png" alt="Northern Stingers Logo"></div>
+        <div class="footer-links-grid">
+            <div class="link-column">
+                <a href="cookiepolicy.html">Cookiepolicy</a>
+                <a href="/nyhetsbrev-signup">Nyhetsbrev</a>
+                <a href="/tillgänglighetsredogorelse">Tillgänglighetsredogörelse</a>
+            </div>
+            <div class="link-column">
+                <a href="/jobba-hos-oss">Jobba hos oss</a>
+                <a href="/om-oss">Om oss</a>
+            </div>
+            <div class="link-column">
+                <a href="/kop-och-leveransvillkor">Köp- och leveransvillkor</a>
+                <a href="/privacy-policy">Privacy policy</a>
+            </div>
+            <div class="link-column">
+                <a href="/kundservice">Kundservice</a>
+            </div>
+            <div class="info-column">
+                <h4>Northern Stingers</h4>
+                <p>Butik: Coming soon...</p>
+                <p><strong>Sveriges mest prisvärda fiskebutik</strong><br><a href="#" style="text-decoration: underline;">www.northernstingers.store</a></p>
+                <!-- <p>Kampanj: <a href="#" style="text-decoration: underline;">Black Friday rea på fiske</a></p> -->
+            </div>
+        </div>
+        <div class="social-row">
+            <a href="https:/www.instagram.com/northernstingers/" class="social-circle"><img src="/images/instagram.png" alt="instagram"></a>
+            <a href="https:/www.tiktok.com/@callzonker" class="social-circle"><img src="/images/tik-tok.png" alt="tiktok"></a>
+            <a href="https://discord.gg/rxwCHHrxPk" class="social-circle"><img src="/images/discord.png" alt="discord"></a>
+        </div>
+
+        <div class="payment-options">
+            <a href="https:/www.swish.nu" class="payment-option"><img src="/images/swish.png" alt="swish"></a>
+        </div>
+    </article>
+  </footer>
+</body>
+</html>
