@@ -1,0 +1,178 @@
+.skeleton-card {
+  pointer-events: none;
+}
+
+.skeleton-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #e5e5e5;
+  border-radius: 12px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-title {
+  width: 100%;
+  height: 18px;
+  background: #e5e5e5;
+  border-radius: 6px;
+  margin-top: 12px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-title.short {
+  width: 65%;
+}
+
+.skeleton-price {
+  width: 40%;
+  height: 18px;
+  background: #e5e5e5;
+  border-radius: 6px;
+  margin-top: 14px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+
+  0% {
+      opacity: 1;
+  }
+
+  50% {
+      opacity: 0.45;
+  }
+
+  100% {
+      opacity: 1;
+  }
+}
+
+#breadcrumbs a.active {
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+/* --- Shimmer Animation Base --- */
+.product-page-scope.loading .active-image,
+.product-page-scope.loading .active-thumb,
+.product-page-scope.loading .breadcrumbs,
+.product-page-scope.loading .product-meta,
+.product-page-scope.loading .product-title,
+.product-page-scope.loading .variant-dropdown,
+.product-page-scope.loading .addons-section,
+.product-page-scope.loading .product-price,
+.product-page-scope.loading .purchase-actions {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: product-shimmer 1.5s infinite linear;
+  color: transparent !important;
+  border: none !important;
+  border-radius: 4px;
+}
+
+/* Prevent child elements or icons from showing during load */
+.product-page-scope.loading * {
+  visibility: hidden !important;
+}
+
+/* Re-enable visibility specifically for the container bars that run the animation */
+.product-page-scope.loading .product-gallery,
+.product-page-scope.loading .main-image,
+.product-page-scope.loading .thumbnail-gallery,
+.product-page-scope.loading .product-details,
+.product-page-scope.loading .breadcrumbs,
+.product-page-scope.loading .product-meta,
+.product-page-scope.loading .product-title,
+.product-page-scope.loading .variant-dropdown,
+.product-page-scope.loading .addons-section,
+.product-page-scope.loading .product-price,
+.product-page-scope.loading .purchase-actions {
+  visibility: visible !important;
+}
+
+/* --- Layout Modifications During Loading State --- */
+.product-page-scope.loading .active-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.product-page-scope.loading .active-thumb {
+  display: block;
+  width: 80px;
+  height: 80px;
+}
+
+.product-page-scope.loading .breadcrumbs {
+  width: 40%;
+  height: 18px;
+  margin-bottom: 10px;
+}
+
+.product-page-scope.loading .product-meta {
+  width: 25%;
+  height: 16px;
+  margin-bottom: 15px;
+}
+
+.product-page-scope.loading .product-title {
+  width: 75%;
+  height: 36px;
+  margin-bottom: 25px;
+}
+
+.product-page-scope.loading .variant-dropdown {
+  width: 100%;
+  height: 45px;
+  margin-bottom: 20px;
+}
+
+.product-page-scope.loading .addons-section {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.product-page-scope.loading .product-price {
+  width: 30%;
+  height: 32px;
+  margin-bottom: 25px;
+}
+
+.product-page-scope.loading .purchase-actions {
+  width: 100%;
+  height: 50px;
+}
+
+/* Keyframes */
+@keyframes product-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ==========================================
+   MOBILANPASSNING FÖR SKELETON (SKÄRMAR < 768px)
+   ========================================== */
+   @media (max-width: 768px) {
+  
+    /* Gör text-placeholders bredare på mobil så det ser mer naturligt ut på en smal skärm */
+    .product-page-scope.loading .breadcrumbs {
+      width: 75%; /* Höj tillsynes från 40% */
+    }
+    
+    .product-page-scope.loading .product-meta {
+      width: 50%; /* Höj tillsynes från 25% */
+    }
+    
+    .product-page-scope.loading .product-price {
+      width: 45%; /* Höj tillsynes från 30% */
+    }
+  
+    /* Krymp de laddande tumnaglarna något så de garanterat får plats i bredd på mobilen */
+    .product-page-scope.loading .active-thumb {
+      width: 60px;
+      height: 60px;
+    }
+  }

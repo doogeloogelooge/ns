@@ -1,0 +1,434 @@
+/* ==========================================================================
+   Namespaced Product Page Styles (Won't affect your existing CSS)
+   ========================================================================== */
+
+/* Layout Container */
+.product-page-scope .product-container {
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+    max-width: 1100px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #333333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.product-page-scope .product-container * {
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .product-page-scope .product-container {
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+
+/* Left Column: Product Gallery */
+.product-page-scope .product-gallery {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-page-scope .main-image {
+    position: relative;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    min-height: 400px;
+}
+
+.product-page-scope .main-image img {
+    max-width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+}
+
+.product-page-scope .wishlist-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.product-page-scope .wishlist-btn:hover {
+    transform: scale(1.05);
+}
+
+.product-page-scope .thumbnail-gallery {
+    display: flex;
+    gap: 12px;
+}
+
+.product-page-scope .thumbnail-gallery img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    background-color: #f5f5f5;
+    border: 1px solid transparent;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.product-page-scope .thumbnail-gallery img.active-thumb {
+    border-color: #333333;
+}
+
+/* Right Column: Product Details */
+.product-page-scope .product-details {
+    flex: 0.9;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-page-scope .breadcrumbs {
+    font-size: 12px;
+    color: #666666;
+    margin-bottom: 16px;
+}
+
+.product-page-scope .breadcrumbs a {
+    color: #666666;
+    text-decoration: none;
+}
+
+.product-page-scope .breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.product-page-scope .breadcrumbs .current {
+    color: #111111;
+    font-weight: 600;
+}
+
+.product-page-scope .product-meta {
+    font-size: 13px;
+    color: #666666;
+    margin-bottom: 12px;
+}
+
+.product-page-scope .product-meta .brand {
+    font-weight: 600;
+}
+
+.product-page-scope .product-title {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #111111;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    margin-left: -4px;
+}
+
+.product-page-scope .rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin-bottom: 24px;
+}
+
+.product-page-scope .rating-text {
+    color: #666666;
+}
+
+.product-page-scope .reviews-link {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.product-page-scope .reviews-link:hover {
+    text-decoration: underline;
+}
+
+.product-page-scope .form-group {
+    margin-bottom: 24px;
+}
+
+.product-page-scope .variant-dropdown {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+/* Addons Section */
+.product-page-scope .addons-section {
+    margin-bottom: 24px;
+}
+
+.product-page-scope .addons-section .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #494949;
+}
+
+.product-page-scope .addon-card {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 12px 16px;
+    border-radius: 4px;
+    gap: 16px;
+}
+
+.product-page-scope .addon-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.product-page-scope .addon-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+}
+
+.product-page-scope .addon-name {
+    font-weight: 500;
+}
+
+.product-page-scope .addon-price {
+    font-weight: bold;
+    color: #cc0000;
+}
+
+.product-page-scope .addon-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Pricing & Buy Elements */
+.product-page-scope .product-price {
+    margin-bottom: 20px;
+}
+
+.product-page-scope .current-price {
+    font-size: 32px;
+    font-weight: 800;
+    color: #d10000;
+}
+
+.product-page-scope .purchase-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.product-page-scope .quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.product-page-scope .qty-btn {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 48px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666666;
+}
+
+.product-page-scope .qty-btn:hover {
+    background-color: #eee;
+}
+
+.product-page-scope .qty-input {
+    width: 40px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    -moz-appearance: textfield;
+}
+
+.product-page-scope .qty-input::-webkit-outer-spin-button,
+.product-page-scope .qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.product-page-scope .buy-button {
+    flex-grow: 1;
+    background-color: #3cb346;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.product-page-scope .buy-button:hover {
+    background-color: #33993c;
+}
+
+/* Trust Elements & Badges */
+.product-page-scope .stock-status {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 8px 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #444444;
+    margin-bottom: 24px;
+    justify-content: space-evenly;
+}
+
+.product-page-scope .payment-methods {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.product-page-scope .payment-methods img {
+    height: 22px;
+    width: auto;
+    object-fit: contain;
+}
+
+.variant-dropdown {
+    margin-top: 6px;
+}   
+
+/* Sets structural constraints so position: absolute sticks inside the image area */
+.main-image-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Badge Layout Container Row alignment */
+.product-badge-row {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+/* Red Campaign pill label */
+.badge-campaign-name {
+  background-color: #e53935;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Dark Counter Percentage badge element */
+.badge-percentage {
+  background-color: #222222;
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ==========================================
+   MOBILANPASSNING FÖR PRODUKTSIDAN (< 768px)
+   ========================================== */
+   @media (max-width: 768px) {
+  
+    /* 1. Gör produktbilden mer kompakt så användaren slipper scrolla i evigheter */
+    .product-page-scope .main-image {
+      min-height: 280px !important; /* Sänk från 400px */
+      padding: 15px !important;     /* Mer yta till själva bilden */
+    }
+  
+    /* 2. Centrera tumnaglarna och låt dem bryta rad om det finns många bilder */
+    .product-page-scope .thumbnail-gallery {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  
+    /* 3. Justera textstorleken på produkttiteln så den inte tar upp halva skärmen */
+    .product-page-scope .product-title {
+      font-size: 1.6rem !important; /* Blir snyggare än fasta 20pt på mobil */
+    }
+  
+    /* 4. Skapa en stor och "tum-vänlig" köpknapp genom att stapla dem vertikalt */
+    .product-page-scope .purchase-actions {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .product-page-scope .quantity-selector {
+      width: 100%; /* Gör antalsväljaren fullbredd */
+      justify-content: space-between;
+    }
+  
+    .product-page-scope .qty-btn {
+      flex: 1; /* Gör plus/minus-knapparna mycket lättare att träffa med tummen */
+      height: 44px;
+    }
+  
+    .product-page-scope .buy-button {
+      width: 100%;
+      padding: 14px; /* Gör knappen lite tjockare och lyxigare på mobil */
+      height: 48px;
+    }
+    
+    /* 5. Ge tillvals-bannern (addons) lite mer andningsrum */
+    .product-page-scope .addon-card {
+      padding: 10px;
+      gap: 12px;
+    }
+  }
