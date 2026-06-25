@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           const geoData = await response.json();
           
           // Om landskoden INTE är "SE" (Sverige), visa popupen
-          if (geoData.country_code == 'SE') {
+          if (geoData.country_code !== 'SE') {
               swedenPopup.classList.remove('hidden');
           }
       } catch (error) {
